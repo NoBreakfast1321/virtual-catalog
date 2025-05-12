@@ -1,4 +1,4 @@
-module TimestampScopes
+module FilterableByTimestamp
   extend ActiveSupport::Concern
 
   included do

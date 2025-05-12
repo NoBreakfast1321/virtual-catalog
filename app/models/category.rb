@@ -1,6 +1,6 @@
 class Category < ApplicationRecord
-  include TimestampScopes
-  include VisibilityScopes
+  include FilterableByTimestamp
+  include FilterableByVisibility
 
   belongs_to :user
 
