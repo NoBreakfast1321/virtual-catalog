@@ -1,6 +1,7 @@
 class Category < ApplicationRecord
   include FilterableByTimestamp
   include FilterableByVisibility
+  include OrderableByTimestamp
 
   belongs_to :user
 
