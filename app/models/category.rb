@@ -7,8 +7,8 @@ class Category < ApplicationRecord
   validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :user_id }
   validates :description, length: { maximum: 150 }, allow_nil: true
 
-  scope :visible, -> { where(is_visible: true) }
-  scope :invisible, -> { where(is_visible: false) }
+  scope :visible, -> { where(visible: true) }
+  scope :invisible, -> { where(visible: false) }
 
   private
 
