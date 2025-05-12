@@ -1,4 +1,5 @@
 class Category < ApplicationRecord
+  include TimestampScopes
   include VisibilityScopes
 
   belongs_to :user
