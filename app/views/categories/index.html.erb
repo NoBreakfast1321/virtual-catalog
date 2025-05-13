@@ -2,14 +2,27 @@
 
 <h1>Categories</h1>
 
-<div id="categories">
-  <% @categories.each do |category| %>
-    <%= render category %>
-
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
-  <% end %>
-</div>
+<table id="categories">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Visible?</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= category.id %></td>
+        <td><%= category.visible? ? "Yes" : "No" %></td>
+        <td><%= category.name %></td>
+        <td><%= category.description %></td>
+        <td><%= link_to "Show this category", category %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to "New category", new_category_path %>
