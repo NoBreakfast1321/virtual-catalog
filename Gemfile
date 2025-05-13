@@ -63,5 +63,7 @@ group :test do
 end
 
 gem "devise", "~> 4.9"
+gem "pagy", "~> 9.3"
+gem "ransack"
 gem "tailwindcss-rails", "~> 4.2"
 gem "tailwindcss-ruby", "~> 4.1"

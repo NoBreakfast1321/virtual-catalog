@@ -1,9 +1,12 @@
 class CategoriesController < ApplicationController
+  include Pagy::Backend
+
   before_action :set_category, only: %i[ show edit update destroy ]
 
   # GET /categories
   def index
-    @categories = current_user.categories
+    @q = current_user.categories.ransack(params[:q])
+    @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
   # GET /categories/1

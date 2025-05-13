@@ -11,6 +11,10 @@ class Category < ApplicationRecord
   validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :user_id }
   validates :description, length: { maximum: 150 }, allow_nil: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[ visible name description created_at updated_at ]
+  end
+
   private
 
   def normalize_name
