@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visible: false
+  name: MyString
+  description: MyText
+  user: one
+
+two:
+  visible: false
+  name: MyString
+  description: MyText
+  user: two
