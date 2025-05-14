@@ -11,17 +11,23 @@ class CreateCategories < ActiveRecord::Migration[8.0]
 
     add_index :categories, %i[ user_id name ], unique: true
 
-    add_check_constraint :categories,
+    add_check_constraint(
+      :categories,
       "visible IN (0, 1)",
       name: "check_categories_visible_boolean"
+    )
 
-    add_check_constraint :categories,
+    add_check_constraint(
+      :categories,
       "length(name) <= 30",
       name: "check_categories_name_length"
+    )
 
-    add_check_constraint :categories,
+    add_check_constraint(
+      :categories,
       "description IS NULL OR length(description) <= 150",
       name: "check_categories_description_length"
+    )
 
     reversible do |dir|
       dir.down do
