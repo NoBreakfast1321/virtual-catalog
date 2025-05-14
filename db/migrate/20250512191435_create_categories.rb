@@ -20,7 +20,7 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       name: "check_categories_name_length"
 
     add_check_constraint :categories,
-      "length(description) <= 150",
+      "description IS NULL OR length(description) <= 150",
       name: "check_categories_description_length"
 
     reversible do |dir|
