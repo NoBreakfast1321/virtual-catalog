@@ -1,0 +1,56 @@
+<div id="<%= dom_id product %>">
+  <p>
+    <strong>Visible:</strong>
+    <%= product.visible? ? "Yes" : "No" %>
+  </p>
+
+  <p>
+    <strong>Featured:</strong>
+    <%= product.featured? ? "Yes" : "No" %>
+  </p>
+
+  <p>
+    <strong>Code:</strong>
+    <%= product.code %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= product.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= product.description %>
+  </p>
+
+  <p>
+    <strong>Price:</strong>
+    <%= product.price %>
+  </p>
+
+  <p>
+    <strong>Sale price:</strong>
+    <%= product.sale_price %>
+  </p>
+
+  <p>
+    <strong>Sale starts at:</strong>
+    <%= product.sale_starts_at %>
+  </p>
+
+  <p>
+    <strong>Sale ends at:</strong>
+    <%= product.sale_ends_at %>
+  </p>
+
+  <p>
+    <strong>Available from:</strong>
+    <%= product.available_from %>
+  </p>
+
+  <p>
+    <strong>Available until:</strong>
+    <%= product.available_until %>
+  </p>
+</div>

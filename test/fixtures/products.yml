@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  visible: false
+  featured: false
+  code: MyString
+  name: MyString
+  description: MyString
+  price: 2
+  sale_price: 1
+  sale_starts_at: 2025-05-14 18:23:41
+  sale_ends_at: 2025-05-15 18:23:41
+  available_from: 2025-05-14 18:23:41
+  available_until: 2025-05-15 18:23:41
+  user: one
+
+two:
+  visible: false
+  featured: false
+  code: MyString
+  name: MyString
+  description: MyString
+  price: 2
+  sale_price: 1
+  sale_starts_at: 2025-05-14 18:23:41
+  sale_ends_at: 2025-05-15 18:23:41
+  available_from: 2025-05-14 18:23:41
+  available_until: 2025-05-15 18:23:41
+  user: two

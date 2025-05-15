@@ -1,0 +1,26 @@
+class Product < ApplicationRecord
+  include FilterableByTimestamp
+  include FilterableByVisibility
+  include NameNormalizable
+  include OrderableByTimestamp
+
+  belongs_to :user
+
+  monetize :price_cents
+  monetize :sale_price_cents, allow_nil: true
+
+  validates :visible, inclusion: { in: [ true, false ] }
+  validates :featured, inclusion: { in: [ true, false ] }
+  validates :code, length: { maximum: 50 }, uniqueness: { scope: :user_id }, allow_nil: true
+  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :user_id }
+  validates :description, length: { maximum: 5000 }, allow_nil: true
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
+  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }
+  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.blank? }
+  validates :available_until, absence: true, if: -> { available_from.blank? }
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[ visible featured code name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
+  end
+end
