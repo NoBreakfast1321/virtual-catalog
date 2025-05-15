@@ -18,7 +18,9 @@ class Product < ApplicationRecord
   validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
   validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }
   validates :sale_ends_at, absence: true, if: -> { sale_starts_at.blank? }
+  validates :sale_ends_at, comparison: { greater_than: :sale_starts_at }, allow_nil: true
   validates :available_until, absence: true, if: -> { available_from.blank? }
+  validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
 
   def self.ransackable_attributes(auth_object = nil)
     %w[ visible featured code name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
