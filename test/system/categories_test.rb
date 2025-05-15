@@ -34,7 +34,7 @@ class CategoriesTest < ApplicationSystemTestCase
     assert_text "Category was successfully updated."
   end
 
-  test "should destroy Category" do
+  test "should destroy category" do
     visit category_url(@category)
     click_on "Destroy this category"
     assert_text "Category was successfully destroyed."
