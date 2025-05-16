@@ -19,7 +19,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.datetime :sale_ends_at
       t.datetime :available_from
       t.datetime :available_until
-      t.references :user, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
 
       t.timestamps
     end
