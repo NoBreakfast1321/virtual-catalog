@@ -1,86 +1,16 @@
-<%= form_with(model: product) do |form| %>
-  <% if product.errors.any? %>
-    <div style="color: red;">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
-      <ul>
-        <% product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-
-  <div class="field">
-    <%= form.label :category_ids, "Categorias" %><br>
-    <%= form.collection_check_boxes :category_ids,
-                                 current_user.categories,
-                                 :id,
-                                 :name do |cb| %>
-      <div class="checkbox">
-        <%= cb.check_box %>
-        <%= cb.label %>
-      </div>
-    <% end %>
-  </div>
-
-  <div>
-    <%= form.label :visible, style: "display: block;" %>
-    <%= form.checkbox :visible %>
-  </div>
-
-  <div>
-    <%= form.label :featured, style: "display: block;" %>
-    <%= form.checkbox :featured %>
-  </div>
-
-  <div>
-    <%= form.label :code, style: "display: block;" %>
-    <%= form.text_field :code %>
-  </div>
-
-  <div>
-    <%= form.label :name, style: "display: block;" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :description, style: "display: block;" %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :price, style: "display: block;" %>
-    <%= form.number_field :price %>
-  </div>
-
-  <div>
-    <%= form.label :sale_price, style: "display: block;" %>
-    <%= form.number_field :sale_price %>
-  </div>
-
-  <div>
-    <%= form.label :sale_starts_at, style: "display: block;" %>
-    <%= form.datetime_field :sale_starts_at %>
-  </div>
-
-  <div>
-    <%= form.label :sale_ends_at, style: "display: block;" %>
-    <%= form.datetime_field :sale_ends_at %>
-  </div>
-
-  <div>
-    <%= form.label :available_from, style: "display: block;" %>
-    <%= form.datetime_field :available_from %>
-  </div>
-
-  <div>
-    <%= form.label :available_until, style: "display: block;" %>
-    <%= form.datetime_field :available_until %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+<%= simple_form_for product do |f| %>
+  <%= f.association :categories, collection: current_user.categories, label: "Categories" %>
+  <%= f.input :visible %>
+  <%= f.input :featured %>
+  <%= f.input :code %>
+  <%= f.input :name %>
+  <%= f.input :description %>
+  <%= f.input :price %>
+  <%= f.input :sale_price %>
+  <%= f.input :sale_starts_at, html5: true %>
+  <%= f.input :sale_ends_at, html5: true %>
+  <%= f.input :available_from, html5: true %>
+  <%= f.input :available_until, html5: true %>
+  <%= f.submit %>
 <% end %>
+
