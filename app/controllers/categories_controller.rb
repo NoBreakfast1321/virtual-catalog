@@ -48,10 +48,12 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1
   def destroy
-    @category.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to categories_path, status: :see_other, notice: "Category was successfully destroyed." }
+    if @category.destroy
+      respond_to do |format|
+        format.html { redirect_to categories_path, status: :see_other, notice: "Category was successfully destroyed." }
+      end
+    else
+      redirect_to @category, alert: @category.errors.full_messages.to_sentence
     end
   end
 

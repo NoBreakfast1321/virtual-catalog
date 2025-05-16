@@ -13,14 +13,13 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
       t.monetize :sale_price,
                   amount: { null: true, default: nil },
-                  currency: { null: true, default: nil }
+                  currency: { null: true, default: Money.default_currency.iso_code }
 
       t.datetime :sale_starts_at
       t.datetime :sale_ends_at
       t.datetime :available_from
       t.datetime :available_until
       t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
-
       t.timestamps
     end
 

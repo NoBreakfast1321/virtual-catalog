@@ -5,7 +5,6 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       t.string :name, null: false, limit: 30
       t.text :description, limit: 150
       t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
-
       t.timestamps
     end
 

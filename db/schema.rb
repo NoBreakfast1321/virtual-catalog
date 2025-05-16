@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_14_212341) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_16_001802) do
   create_table "categories", force: :cascade do |t|
     t.boolean "visible", default: true, null: false
     t.string "name", limit: 30, null: false
@@ -20,9 +20,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_212341) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "name"], name: "index_categories_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_categories_on_user_id"
-    t.check_constraint "length(description) <= 150", name: "check_categories_description_length"
+    t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_categories_description_length"
     t.check_constraint "length(name) <= 30", name: "check_categories_name_length"
     t.check_constraint "visible IN (0, 1)", name: "check_categories_visible_boolean"
+  end
+
+  create_table "product_categories", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.integer "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id", "product_id"], name: "index_product_categories_on_category_id_and_product_id"
+    t.index ["category_id"], name: "index_product_categories_on_category_id"
+    t.index ["product_id", "category_id"], name: "index_product_categories_on_product_id_and_category_id", unique: true
+    t.index ["product_id"], name: "index_product_categories_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -34,7 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_212341) do
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.integer "sale_price_cents"
-    t.string "sale_price_currency"
+    t.string "sale_price_currency", default: "USD"
     t.datetime "sale_starts_at"
     t.datetime "sale_ends_at"
     t.datetime "available_from"
@@ -70,5 +81,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_212341) do
   end
 
   add_foreign_key "categories", "users", on_delete: :cascade
+  add_foreign_key "product_categories", "categories", on_delete: :restrict
+  add_foreign_key "product_categories", "products", on_delete: :cascade
   add_foreign_key "products", "users", on_delete: :cascade
 end

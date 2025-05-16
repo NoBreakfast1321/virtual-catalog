@@ -75,7 +75,8 @@ class ProductsController < ApplicationController
       :sale_starts_at,
       :sale_ends_at,
       :available_from,
-      :available_until
+      :available_until,
+      category_ids: []
     ])
   end
 end

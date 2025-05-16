@@ -11,6 +11,20 @@
     </div>
   <% end %>
 
+
+  <div class="field">
+    <%= form.label :category_ids, "Categorias" %><br>
+    <%= form.collection_check_boxes :category_ids,
+                                 current_user.categories,
+                                 :id,
+                                 :name do |cb| %>
+      <div class="checkbox">
+        <%= cb.check_box %>
+        <%= cb.label %>
+      </div>
+    <% end %>
+  </div>
+
   <div>
     <%= form.label :visible, style: "display: block;" %>
     <%= form.checkbox :visible %>
