@@ -55,6 +55,6 @@ class Product < ApplicationRecord
   private
 
   def normalize_code
-    self.code = code.strip if code.present?
+    self.code = code&.strip&.presence
   end
 end
