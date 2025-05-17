@@ -53,4 +53,15 @@
     <strong>Available until:</strong>
     <%= product.available_until %>
   </p>
+
+  <p>
+    <strong>Categories:</strong>
+    <nav>
+      <ul>
+        <% @product.categories.each do |category| %>
+          <li><%= link_to category.name, category %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </p>
 </div>

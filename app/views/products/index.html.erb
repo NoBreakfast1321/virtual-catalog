@@ -30,6 +30,9 @@
   <%= f.label :updated_at_gteq %>
   <%= f.date_field :updated_at_gteq %>
 
+  <%= f.label :categories_name_in, "Categories" %>
+  <%= f.collection_select :categories_name_in, current_user.categories.order(:name), :name, :name, { multiple: true } %>
+
   <%= f.submit %>
   <%= link_to "Reset", products_path %>
 <% end %>
@@ -51,6 +54,7 @@
       <th><%= sort_link(@q, :available_until, "Available until") %></th>
       <th><%= sort_link(@q, :created_at, "Created at") %></th>
       <th><%= sort_link(@q, :updated_at, "Updated at") %></th>
+      <th>Categories</th>
       <th></th>
     </tr>
   </thead>
@@ -69,6 +73,17 @@
         <td><%= product.sale_ends_at %></td>
         <td><%= product.available_from %></td>
         <td><%= product.available_until %></td>
+        <td><%= product.created_at %></td>
+        <td><%= product.updated_at %></td>
+        <td>
+          <nav>
+            <ul>
+              <% product.categories.each do |category| %>
+                <li><%= link_to category.name, category %></li>
+              <% end %>
+            </ul>
+          </nav>
+        </td>
         <td><%= link_to "Show this product", product %></td>
       </tr>
     <% end %>

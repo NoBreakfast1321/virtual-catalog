@@ -13,4 +13,15 @@
     <strong>Description:</strong>
     <%= category.description %>
   </p>
+
+  <p>
+    <strong>Products:</strong>
+    <nav>
+      <ul>
+        <% category.products.each do |product| %>
+          <li><%= link_to product.name, product %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </p>
 </div>

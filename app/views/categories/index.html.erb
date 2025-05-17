@@ -28,6 +28,7 @@
       <th><%= sort_link(@q, :description, "Description") %></th>
       <th><%= sort_link(@q, :created_at, "Created at") %></th>
       <th><%= sort_link(@q, :updated_at, "Updated at") %></th>
+      <th>Products count</th>
       <th></th>
     </tr>
   </thead>
@@ -40,6 +41,7 @@
         <td><%= category.description %></td>
         <td><%= category.created_at %></td>
         <td><%= category.updated_at %></td>
+        <td><%= category.products.count %></td>
         <td><%= link_to "Show this category", category %></td>
       </tr>
     <% end %>

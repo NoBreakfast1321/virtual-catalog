@@ -42,6 +42,10 @@ class Product < ApplicationRecord
     %w[ visible featured code name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
   end
 
+  def self.ransackable_associations(auth_object = nil)
+    %w[ categories ]
+  end
+
   def active?
     visible &&
       (available_from.nil? || available_from <= Time.current) &&
