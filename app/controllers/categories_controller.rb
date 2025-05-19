@@ -9,13 +9,13 @@ class CategoriesController < ApplicationController
     @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
-  # GET /categories/1
-  def show
-  end
-
   # GET /categories/new
   def new
     @category = current_user.categories.build
+  end
+
+  # GET /categories/1
+  def show
   end
 
   # GET /categories/1/edit

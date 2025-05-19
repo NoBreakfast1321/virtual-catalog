@@ -9,13 +9,13 @@ class ProductsController < ApplicationController
     @pagy, @products = pagy(@q.result(distinct: true))
   end
 
-  # GET /products/1
-  def show
-  end
-
   # GET /products/new
   def new
     @product = current_user.products.build
+  end
+
+  # GET /products/1
+  def show
   end
 
   # GET /products/1/edit
