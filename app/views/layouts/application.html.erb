@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%# https://rsms.me/inter/#usage %>
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-
     <title><%= content_for(:title) || "Virtual Catalog" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,11 +20,19 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <%# https://rsms.me/inter/#usage %>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
+    <%# https://alpinejs.dev/start-here %>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
   <body>
-    <p class="alert" style="color: red;"><%= alert %></p>
-    <p class="notice" style="color: green;"><%= notice %></p>
+    <div id="flash_toaster">
+      <%= render "layouts/flash_toast" %>
+    </div>
 
     <%= yield %>
   </body>

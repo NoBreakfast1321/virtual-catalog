@@ -1,0 +1,13 @@
+<% flash.each do |flash_type, message| %>
+  <div
+    style="color: <%= flash_type == "notice" ? "green" : "red" %>;"
+    x-init="
+      setTimeout(() => {
+        $el.remove();
+      }, 5000);
+    "
+  >
+    <%= message %>
+    <button @click="$el.parentElement.remove()">x</button>
+  </div>
+<% end %>

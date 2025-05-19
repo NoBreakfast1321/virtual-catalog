@@ -17,10 +17,7 @@ class OptionTypesController < ApplicationController
 
     respond_to do |format|
       if @option_type.save
-        flash.now[:notice] = "Option type was successfully created."
-
-        format.html { redirect_to @product }
-        format.turbo_stream
+        format.turbo_stream { flash.now[:notice] = "Option type was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -31,9 +28,7 @@ class OptionTypesController < ApplicationController
   def update
     respond_to do |format|
       if @option_type.update(option_type_params)
-        flash.now[:notice] = "Option type was successfully updated."
-
-        format.html { redirect_to @product }
+        format.turbo_stream { flash.now[:notice] = "Option type was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -45,9 +40,7 @@ class OptionTypesController < ApplicationController
     @option_type.destroy!
 
     respond_to do |format|
-      flash.now[:notice] = "Option type was successfully destroyed."
-
-      format.html { redirect_to @product, status: :see_other }
+      format.turbo_stream { flash.now[:notice] = "Option type was successfully destroyed." }
     end
   end
 
