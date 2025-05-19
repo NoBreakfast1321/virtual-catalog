@@ -6,6 +6,8 @@ class Product < ApplicationRecord
 
   belongs_to :user
 
+  default_scope { where(user: User.current) }
+
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
 

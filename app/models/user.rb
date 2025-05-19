@@ -6,4 +6,14 @@ class User < ApplicationRecord
 
   has_many :categories, dependent: :destroy
   has_many :products, dependent: :destroy
+
+  class << self
+    def current
+      Thread.current[:current_user]
+    end
+
+    def current=(user)
+      Thread.current[:current_user] = user
+    end
+  end
 end
