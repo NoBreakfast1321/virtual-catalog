@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_16_001802) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_18_231151) do
   create_table "categories", force: :cascade do |t|
     t.boolean "visible", default: true, null: false
     t.string "name", limit: 30, null: false
@@ -23,6 +23,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_001802) do
     t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_categories_description_length"
     t.check_constraint "length(name) <= 30", name: "check_categories_name_length"
     t.check_constraint "visible IN (0, 1)", name: "check_categories_visible_boolean"
+  end
+
+  create_table "option_types", force: :cascade do |t|
+    t.boolean "visible", default: true, null: false
+    t.string "name", limit: 30, null: false
+    t.integer "min_choices", default: 1, null: false
+    t.integer "max_choices"
+    t.integer "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "name"], name: "index_option_types_on_product_id_and_name", unique: true
+    t.index ["product_id"], name: "index_option_types_on_product_id"
+    t.check_constraint "length(name) <= 30", name: "check_option_types_name_length"
+    t.check_constraint "max_choices IS NULL OR max_choices >= min_choices", name: "check_option_types_max_choices_gte_min_choices"
+    t.check_constraint "min_choices >= 1", name: "check_option_types_min_choices_gte_1"
+    t.check_constraint "visible IN (0, 1)", name: "check_option_types_visible_boolean"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -81,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_001802) do
   end
 
   add_foreign_key "categories", "users", on_delete: :cascade
+  add_foreign_key "option_types", "products", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
   add_foreign_key "products", "users", on_delete: :cascade

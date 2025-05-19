@@ -1,0 +1,7 @@
+<%= simple_form_for [@product, option_type] do |f| %>
+  <%= f.input :visible %>
+  <%= f.input :name %>
+  <%= f.input :min_choices %>
+  <%= f.input :max_choices %>
+  <%= f.submit %>
+<% end %>

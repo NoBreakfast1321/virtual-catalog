@@ -11,7 +11,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/new
   def new
-    @category = current_user.categories.build
+    @category = current_user.categories.new
   end
 
   # GET /categories/1
@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
 
   # POST /categories
   def create
-    @category = current_user.categories.build(category_params)
+    @category = current_user.categories.new(category_params)
 
     respond_to do |format|
       if @category.save

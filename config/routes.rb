@@ -14,5 +14,7 @@ Rails.application.routes.draw do
   root "categories#index"
 
   resources :categories
-  resources :products
+  resources :products do
+    resources :option_types, only: %i[ new edit create update destroy ]
+  end
 end

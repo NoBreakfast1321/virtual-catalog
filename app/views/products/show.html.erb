@@ -1,5 +1,15 @@
 <%= render @product %>
 
+<%= turbo_frame_tag OptionType.new do %>
+  <%= link_to "New option type", new_product_option_type_path(@product), data: { turbo_frame: dom_id(OptionType.new) } %>
+<% end %>
+
+<%= turbo_frame_tag :option_types do %>
+  <% @product.option_types.each do |option_type| %>
+    <%= render option_type %>
+  <% end %>
+<% end %>
+
 <div>
   <%= link_to "Edit this product", edit_product_path(@product) %>
   <%= link_to "Back to products", products_path %>
