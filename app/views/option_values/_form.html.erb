@@ -1,0 +1,6 @@
+<%= simple_form_for [@product, @option_type, option_value] do |f| %>
+  <%= f.input :visible %>
+  <%= f.input :name %>
+  <%= f.input :price_variation %>
+  <%= f.submit %>
+<% end %>

@@ -1,0 +1,9 @@
+<%= turbo_frame_tag @option_value do %>
+  <%= render "form", option_value: @option_value %>
+
+  <br>
+
+  <div>
+    <%= link_to "Cancel", @product %>
+  </div>
+<% end %>

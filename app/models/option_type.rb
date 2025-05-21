@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: option_types
+#
+#  id          :integer          not null, primary key
+#  max_choices :integer
+#  min_choices :integer          default(1), not null
+#  name        :string(30)       not null
+#  visible     :boolean          default(TRUE), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  product_id  :integer          not null
+#
+# Indexes
+#
+#  index_option_types_on_product_id           (product_id)
+#  index_option_types_on_product_id_and_name  (product_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  product_id  (product_id => products.id) ON DELETE => cascade
+#
 class OptionType < ApplicationRecord
   include FilterableByTimestamp
   include FilterableByVisibility
@@ -5,6 +27,8 @@ class OptionType < ApplicationRecord
   include OrderableByTimestamp
 
   belongs_to :product
+
+  has_many :option_values, dependent: :destroy
 
   validates :visible, inclusion: { in: [ true, false ] }
   validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }
