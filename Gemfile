@@ -66,6 +66,7 @@ end
 gem "devise", "~> 4.9"
 gem "money-rails", "~> 1.12"
 gem "pagy", "~> 9.3"
+gem "pry", "~> 0.15.0"
 gem "ransack"
 gem "simple_form"
 gem "tailwindcss-rails", "~> 4.2"
