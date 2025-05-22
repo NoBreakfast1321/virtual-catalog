@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: option_types
+# Table name: option_groups
 #
 #  id          :integer          not null, primary key
 #  max_choices :integer
@@ -13,14 +13,14 @@
 #
 # Indexes
 #
-#  index_option_types_on_product_id           (product_id)
-#  index_option_types_on_product_id_and_name  (product_id,name) UNIQUE
+#  index_option_groups_on_product_id           (product_id)
+#  index_option_groups_on_product_id_and_name  (product_id,name) UNIQUE
 #
 # Foreign Keys
 #
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
-class OptionType < ApplicationRecord
+class OptionGroup < ApplicationRecord
   include FilterableByTimestamp
   include FilterableByVisibility
   include NameNormalizable
@@ -28,7 +28,7 @@ class OptionType < ApplicationRecord
 
   belongs_to :product
 
-  has_many :option_values, dependent: :destroy
+  has_many :options, dependent: :destroy
 
   validates :visible, inclusion: { in: [ true, false ] }
   validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }

@@ -1,12 +1,12 @@
 <%= render @product %>
 
-<%= turbo_frame_tag OptionType.new do %>
-  <%= link_to "New option type", new_product_option_type_path(@product), data: { turbo_frame: dom_id(OptionType.new) } %>
+<%= turbo_frame_tag OptionGroup.new do %>
+  <%= link_to "New option group", new_product_option_group_path(@product), data: { turbo_frame: dom_id(OptionGroup.new) } %>
 <% end %>
 
-<%= turbo_frame_tag :option_types do %>
-  <% @product.option_types.each do |option_type| %>
-    <%= render option_type %>
+<%= turbo_frame_tag :option_groups do %>
+  <% @product.option_groups.each do |option_group| %>
+    <%= render option_group %>
   <% end %>
 <% end %>
 

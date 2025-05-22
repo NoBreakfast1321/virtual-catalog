@@ -1,0 +1,19 @@
+<%= turbo_frame_tag option do %>
+  <p>
+    <strong>Visible:</strong>
+    <%= option.visible? ? "Yes" : "No" %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= option.name %>
+  </p>
+
+  <p>
+    <strong>Price variation:</strong>
+    <%= option.price_variation %>
+  </p>
+
+  <%= link_to "Edit", edit_product_option_group_option_path(@product, option.option_group, option), data: { turbo_frame: dom_id(option) } %>
+  <%= button_to "Destroy", product_option_group_option_path(@product, option.option_group, option), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<% end %>

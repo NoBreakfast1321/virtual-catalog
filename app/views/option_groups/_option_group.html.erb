@@ -1,0 +1,40 @@
+<hr>
+
+<%= turbo_frame_tag option_group do %>
+  <p>
+    <strong>Visible:</strong>
+    <%= option_group.visible? ? "Yes" : "No" %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= option_group.name %>
+  </p>
+
+  <p>
+    <strong>Min choices:</strong>
+    <%= option_group.min_choices %>
+  </p>
+
+  <p>
+    <strong>Max choices:</strong>
+    <%= option_group.max_choices %>
+  </p>
+
+  <%= turbo_frame_tag Option.new do %>
+    <%= link_to "New option", new_product_option_group_option_path(@product, option_group), data: { turbo_frame: dom_id(Option.new) } %>
+  <% end %>
+
+  <%= turbo_frame_tag :options do %>
+    <% option_group.options.each do |option| %>
+      <%= render option %>
+    <% end %>
+  <% end %>
+
+  <br>
+
+  <%= link_to "Edit", edit_product_option_group_path(@product, option_group), data: { turbo_frame: dom_id(option_group) } %>
+  <%= button_to "Destroy", product_option_group_path(@product, option_group), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<% end %>
+
+<hr>

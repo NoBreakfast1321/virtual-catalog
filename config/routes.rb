@@ -27,22 +27,22 @@
 #                                          PATCH  /categories/:id(.:format)                                                                         categories#update
 #                                          PUT    /categories/:id(.:format)                                                                         categories#update
 #                                          DELETE /categories/:id(.:format)                                                                         categories#destroy
-#        product_option_type_option_values GET    /products/:product_id/option_types/:option_type_id/option_values(.:format)                        option_values#index
-#                                          POST   /products/:product_id/option_types/:option_type_id/option_values(.:format)                        option_values#create
-#     new_product_option_type_option_value GET    /products/:product_id/option_types/:option_type_id/option_values/new(.:format)                    option_values#new
-#    edit_product_option_type_option_value GET    /products/:product_id/option_types/:option_type_id/option_values/:id/edit(.:format)               option_values#edit
-#         product_option_type_option_value GET    /products/:product_id/option_types/:option_type_id/option_values/:id(.:format)                    option_values#show
-#                                          PATCH  /products/:product_id/option_types/:option_type_id/option_values/:id(.:format)                    option_values#update
-#                                          PUT    /products/:product_id/option_types/:option_type_id/option_values/:id(.:format)                    option_values#update
-#                                          DELETE /products/:product_id/option_types/:option_type_id/option_values/:id(.:format)                    option_values#destroy
-#                     product_option_types GET    /products/:product_id/option_types(.:format)                                                      option_types#index
-#                                          POST   /products/:product_id/option_types(.:format)                                                      option_types#create
-#                  new_product_option_type GET    /products/:product_id/option_types/new(.:format)                                                  option_types#new
-#                 edit_product_option_type GET    /products/:product_id/option_types/:id/edit(.:format)                                             option_types#edit
-#                      product_option_type GET    /products/:product_id/option_types/:id(.:format)                                                  option_types#show
-#                                          PATCH  /products/:product_id/option_types/:id(.:format)                                                  option_types#update
-#                                          PUT    /products/:product_id/option_types/:id(.:format)                                                  option_types#update
-#                                          DELETE /products/:product_id/option_types/:id(.:format)                                                  option_types#destroy
+#             product_option_group_options GET    /products/:product_id/option_groups/:option_group_id/options(.:format)                            options#index
+#                                          POST   /products/:product_id/option_groups/:option_group_id/options(.:format)                            options#create
+#          new_product_option_group_option GET    /products/:product_id/option_groups/:option_group_id/options/new(.:format)                        options#new
+#         edit_product_option_group_option GET    /products/:product_id/option_groups/:option_group_id/options/:id/edit(.:format)                   options#edit
+#              product_option_group_option GET    /products/:product_id/option_groups/:option_group_id/options/:id(.:format)                        options#show
+#                                          PATCH  /products/:product_id/option_groups/:option_group_id/options/:id(.:format)                        options#update
+#                                          PUT    /products/:product_id/option_groups/:option_group_id/options/:id(.:format)                        options#update
+#                                          DELETE /products/:product_id/option_groups/:option_group_id/options/:id(.:format)                        options#destroy
+#                    product_option_groups GET    /products/:product_id/option_groups(.:format)                                                     option_groups#index
+#                                          POST   /products/:product_id/option_groups(.:format)                                                     option_groups#create
+#                 new_product_option_group GET    /products/:product_id/option_groups/new(.:format)                                                 option_groups#new
+#                edit_product_option_group GET    /products/:product_id/option_groups/:id/edit(.:format)                                            option_groups#edit
+#                     product_option_group GET    /products/:product_id/option_groups/:id(.:format)                                                 option_groups#show
+#                                          PATCH  /products/:product_id/option_groups/:id(.:format)                                                 option_groups#update
+#                                          PUT    /products/:product_id/option_groups/:id(.:format)                                                 option_groups#update
+#                                          DELETE /products/:product_id/option_groups/:id(.:format)                                                 option_groups#destroy
 #                                 products GET    /products(.:format)                                                                               products#index
 #                                          POST   /products(.:format)                                                                               products#create
 #                              new_product GET    /products/new(.:format)                                                                           products#new
@@ -95,8 +95,8 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :products do
-    resources :option_types do
-      resources :option_values
+    resources :option_groups do
+      resources :options
     end
   end
 end

@@ -13,7 +13,7 @@
 #  price_currency      :string           default("USD"), not null
 #  sale_ends_at        :datetime
 #  sale_price_cents    :integer
-#  sale_price_currency :string           default("USD")
+#  sale_price_currency :string
 #  sale_starts_at      :datetime
 #  visible             :boolean          default(TRUE), not null
 #  created_at          :datetime         not null
@@ -40,7 +40,7 @@ class Product < ApplicationRecord
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
-  has_many :option_types, dependent: :destroy
+  has_many :option_groups, dependent: :destroy
 
   before_validation :normalize_code
 

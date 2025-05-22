@@ -1,7 +1,0 @@
-<%= turbo_stream.append :option_types, partial: "option_types/option_type", locals: { option_type: @option_type } %>
-
-<%= turbo_stream.update OptionType.new do %>
-  <%= link_to "New option type", new_product_option_type_path(@product), data: { turbo_frame: dom_id(OptionType.new) } %>
-<% end %>
-
-<%= render_flash_toast %>

@@ -14,11 +14,11 @@ class CategoriesController < ApplicationController
     @category = current_user.categories.new
   end
 
-  # GET /categories/1
+  # GET /categories/:id
   def show
   end
 
-  # GET /categories/1/edit
+  # GET /categories/:id/edit
   def edit
   end
 
@@ -35,7 +35,7 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /categories/1
+  # PATCH/PUT /categories/:id
   def update
     respond_to do |format|
       if @category.update(category_params)
@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /categories/1
+  # DELETE /categories/:id
   def destroy
     if @category.destroy
       respond_to do |format|

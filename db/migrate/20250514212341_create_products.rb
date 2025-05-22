@@ -13,7 +13,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
       t.monetize :sale_price,
                   amount: { null: true, default: nil },
-                  currency: { null: true, default: Money.default_currency.iso_code }
+                  currency: { null: true, default: nil }
 
       t.datetime :sale_starts_at
       t.datetime :sale_ends_at

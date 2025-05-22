@@ -14,11 +14,11 @@ class ProductsController < ApplicationController
     @product = current_user.products.new
   end
 
-  # GET /products/1
+  # GET /products/:id
   def show
   end
 
-  # GET /products/1/edit
+  # GET /products/:id/edit
   def edit
   end
 
@@ -35,7 +35,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /products/1
+  # PATCH/PUT /products/:id
   def update
     respond_to do |format|
       if @product.update(product_params)
@@ -46,7 +46,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  # DELETE /products/1
+  # DELETE /products/:id
   def destroy
     @product.destroy!
 

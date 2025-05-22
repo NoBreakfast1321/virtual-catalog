@@ -1,35 +1,35 @@
 # == Schema Information
 #
-# Table name: option_values
+# Table name: options
 #
 #  id                       :integer          not null, primary key
 #  name                     :string(50)       not null
 #  price_variation_cents    :integer
-#  price_variation_currency :string           default("USD")
+#  price_variation_currency :string
 #  visible                  :boolean          default(TRUE), not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  option_type_id           :integer          not null
+#  option_group_id          :integer          not null
 #
 # Indexes
 #
-#  index_option_values_on_option_type_id           (option_type_id)
-#  index_option_values_on_option_type_id_and_name  (option_type_id,name) UNIQUE
+#  index_options_on_option_group_id           (option_group_id)
+#  index_options_on_option_group_id_and_name  (option_group_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  option_type_id  (option_type_id => option_types.id) ON DELETE => cascade
+#  option_group_id  (option_group_id => option_groups.id) ON DELETE => cascade
 #
-class OptionValue < ApplicationRecord
+class Option < ApplicationRecord
   include FilterableByTimestamp
   include FilterableByVisibility
   include NameNormalizable
   include OrderableByTimestamp
 
-  belongs_to :option_type
+  belongs_to :option_group
 
   monetize :price_variation_cents, allow_nil: true
 
   validates :visible, inclusion: { in: [ true, false ] }
-  validates :name, length: { maximum: 50 }, presence: true, uniqueness: { scope: :option_type }
+  validates :name, length: { maximum: 50 }, presence: true, uniqueness: { scope: :option_group }
 end
