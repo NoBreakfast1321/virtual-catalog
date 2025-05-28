@@ -1,67 +1,100 @@
-<div id="<%= dom_id product %>">
-  <p>
-    <strong>Visible:</strong>
-    <%= product.visible? ? "Yes" : "No" %>
-  </p>
+<dl id="<%= dom_id product %>" class="description-list">
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Visible?
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.visible? ? "Yes" : "No" %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Featured:</strong>
-    <%= product.featured? ? "Yes" : "No" %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Featured?
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.featured? ? "Yes" : "No" %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Code:</strong>
-    <%= product.code %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Code
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.code %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= product.name %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Name
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.name %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Description:</strong>
-    <%= product.description %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Description
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.description %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Price:</strong>
-    <%= product.price %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Price
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.price %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Sale price:</strong>
-    <%= product.sale_price %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Sale price
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.sale_price %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Sale starts at:</strong>
-    <%= product.sale_starts_at %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Sale starts at
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.sale_starts_at %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Sale ends at:</strong>
-    <%= product.sale_ends_at %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Available from
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.available_from %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Available from:</strong>
-    <%= product.available_from %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Available until
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.available_until %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Available until:</strong>
-    <%= product.available_until %>
-  </p>
-
-  <p>
-    <strong>Categories:</strong>
-    <nav>
-      <ul>
-        <% @product.categories.each do |category| %>
-          <li><%= link_to category.name, category %></li>
-        <% end %>
-      </ul>
-    </nav>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Categories
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.categories.map { |category| link_to category.name, category }.join(", ").html_safe %>
+    </dd>
+  </div>
 </div>

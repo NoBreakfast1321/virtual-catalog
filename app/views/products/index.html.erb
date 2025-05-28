@@ -1,94 +1,142 @@
 <% content_for :title, "Products" %>
 
-<h1>Products</h1>
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">
+      Product Filters
+    </h2>
+    <p class="card__description">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+    </p>
+  </header>
 
-<%= search_form_for @q do |f| %>
-  <%= f.label :code_start %>
-  <%= f.search_field :code_start %>
+  <div class="card__body">
+    <%= search_form_for @q, html: { class: "form" } do |f| %>
+      <div class="form__group">
+        <%= f.label :code_start, class: "form__label" %>
+        <%= f.search_field :code_start, class: "form__input" %>
+      </div>
 
-  <%= f.label :name_start %>
-  <%= f.search_field :name_start %>
+      <div class="form__group">
+        <%= f.label :name_start, class: "form__label" %>
+        <%= f.search_field :name_start, class: "form__input" %>
+      </div>
 
-  <%= f.label :description_start %>
-  <%= f.search_field :description_start %>
+      <div class="form__group">
+        <%= f.label :description_start, class: "form__label" %>
+        <%= f.search_field :description_start, class: "form__input" %>
+      </div>
 
-  <%= f.label :sale_starts_at_gteq %>
-  <%= f.date_field :sale_starts_at_gteq %>
+      <div class="form__group">
+        <%= f.label :sale_starts_at_gteq, class: "form__label" %>
+        <%= f.date_field :sale_starts_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :sale_ends_at_gteq %>
-  <%= f.date_field :sale_ends_at_gteq %>
+      <div class="form__group">
+        <%= f.label :sale_ends_at_gteq, class: "form__label" %>
+        <%= f.date_field :sale_ends_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :available_from_gteq %>
-  <%= f.date_field :available_from_gteq %>
+      <div class="form__group">
+        <%= f.label :available_from_gteq, class: "form__label" %>
+        <%= f.date_field :available_from_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :available_until_gteq %>
-  <%= f.date_field :available_until_gteq %>
+      <div class="form__group">
+        <%= f.label :available_until_gteq, class: "form__label" %>
+        <%= f.date_field :available_until_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :created_at_gteq %>
-  <%= f.date_field :created_at_gteq %>
+      <div class="form__group">
+        <%= f.label :created_at_gteq, class: "form__label" %>
+        <%= f.date_field :created_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :updated_at_gteq %>
-  <%= f.date_field :updated_at_gteq %>
+      <div class="form__group">
+        <%= f.label :updated_at_gteq, class: "form__label" %>
+        <%= f.date_field :updated_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :categories_name_in, "Categories" %>
-  <%= f.collection_select :categories_name_in, current_user.categories.order(:name), :name, :name, { multiple: true } %>
+      <div class="form__group">
+        <%= f.label :categories_name_in, "Categories", class: "form__label" %>
+        <%= f.collection_select :categories_name_in, current_user.categories.order(:name), :name, :name, { multiple: true }, class: "form__input" %>
+      </div>
 
-  <%= f.submit %>
-  <%= link_to "Reset", products_path %>
-<% end %>
-
-<table id="products">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th><%= sort_link(@q, :visible, "Visible?") %></th>
-      <th><%= sort_link(@q, :featured, "Featured?") %></th>
-      <th><%= sort_link(@q, :code, "Code") %></th>
-      <th><%= sort_link(@q, :name, "Name") %></th>
-      <th><%= sort_link(@q, :description, "Description") %></th>
-      <th><%= sort_link(@q, :price, "Price") %></th>
-      <th><%= sort_link(@q, :sale_price, "Sale price") %></th>
-      <th><%= sort_link(@q, :sale_starts_at, "Sale starts at") %></th>
-      <th><%= sort_link(@q, :sale_ends_at, "Sale ends at") %></th>
-      <th><%= sort_link(@q, :available_from, "Available from") %></th>
-      <th><%= sort_link(@q, :available_until, "Available until") %></th>
-      <th><%= sort_link(@q, :created_at, "Created at") %></th>
-      <th><%= sort_link(@q, :updated_at, "Updated at") %></th>
-      <th>Categories</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.id %></td>
-        <td><%= product.visible? ? "Yes" : "No" %></td>
-        <td><%= product.featured? ? "Yes" : "No" %></td>
-        <td><%= product.code %></td>
-        <td><%= product.name %></td>
-        <td><%= product.description %></td>
-        <td><%= product.price %></td>
-        <td><%= product.sale_price %></td>
-        <td><%= product.sale_starts_at %></td>
-        <td><%= product.sale_ends_at %></td>
-        <td><%= product.available_from %></td>
-        <td><%= product.available_until %></td>
-        <td><%= product.created_at %></td>
-        <td><%= product.updated_at %></td>
-        <td>
-          <nav>
-            <ul>
-              <% product.categories.each do |category| %>
-                <li><%= link_to category.name, category %></li>
-              <% end %>
-            </ul>
-          </nav>
-        </td>
-        <td><%= link_to "Show this product", product %></td>
-      </tr>
+      <footer class="form__footer">
+        <%= link_to "Reset filters", products_path, class: "button" %>
+        <%= f.submit "Filter products", class: "button button--action" %>
+      </footer>
     <% end %>
-  </tbody>
-</table>
-<%== pagy_nav(@pagy) %>
+  </div>
+</section>
 
-<%= link_to "New product", new_product_path %>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Products
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "New product", new_product_path, class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <div class="table__wrapper">
+      <table id="products" class="table">
+        <thead>
+          <tr class="table__head-row">
+            <th class="table__head-cell">ID</th>
+            <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :featured, "Featured?", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :code, "Code", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :price, "Price", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :sale_price, "Sale price", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :sale_starts_at, "Sale starts at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :sale_ends_at, "Sale ends at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :available_from, "Available from", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :available_until, "Available until", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :updated_at, "Updated at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell">Categories</th>
+            <th class="table__head-cell"></th>
+          </tr>
+        </thead>
+        <tbody class="table__body">
+          <% @products.each do |product| %>
+            <tr class="table__body-row">
+              <td class="table__body-cell table__body-cell--numeric"><%= product.id %></td>
+              <td class="table__body-cell"><%= product.visible? ? "Yes" : "No" %></td>
+              <td class="table__body-cell"><%= product.featured? ? "Yes" : "No" %></td>
+              <td class="table__body-cell"><%= product.code %></td>
+              <td class="table__body-cell"><%= product.name %></td>
+              <td class="table__body-cell"><%= product.description %></td>
+              <td class="table__body-cell table__body-cell--numeric"><%= product.price %></td>
+              <td class="table__body-cell table__body-cell--numeric"><%= product.sale_price %></td>
+              <td class="table__body-cell"><%= product.sale_starts_at %></td>
+              <td class="table__body-cell"><%= product.sale_ends_at %></td>
+              <td class="table__body-cell"><%= product.available_from %></td>
+              <td class="table__body-cell"><%= product.available_until %></td>
+              <td class="table__body-cell"><%= product.created_at %></td>
+              <td class="table__body-cell"><%= product.updated_at %></td>
+              <td class="table__body-cell">
+                <%= product.categories.map { |category| link_to category.name, category }.join(", ").html_safe %>
+              </td>
+              <td class="table__body-cell table__body-cell--actions"><%= link_to "Show product", product %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="card__footer card__footer--end">
+    <%== pagy_nav(@pagy) %>
+  </footer>
+</section>

@@ -1,0 +1,57 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Primary buttons: https://tailwindcss.com/plus/ui-blocks/application-ui/elements/buttons#component-80fd0d5ac7982f1a83b171bb0fb9e116
+ * - Secondary buttons: https://tailwindcss.com/plus/ui-blocks/application-ui/elements/buttons#component-9fc8ac3ded8cb313876bfa01742a0570
+ *
+ * Usage:
+ *
+ * <button class="button"><!-- Content goes here --></button>
+ * <button class="button button--xs"><!-- Content goes here --></button>
+ * <button class="button button--sm"><!-- Content goes here --></button>
+ * <button class="button button--lg"><!-- Content goes here --></button>
+ * <button class="button button--xl"><!-- Content goes here --></button>
+ *
+ * <button class="button button--action"><!-- Content goes here --></button>
+ * <button class="button button--action button--xs"><!-- Content goes here --></button>
+ * <button class="button button--action button--sm"><!-- Content goes here --></button>
+ * <button class="button button--action button--lg"><!-- Content goes here --></button>
+ * <button class="button button--action button--xl"><!-- Content goes here --></button>
+ *
+ * <button class="button button--danger"><!-- Content goes here --></button>
+ * <button class="button button--danger button--xs"><!-- Content goes here --></button>
+ * <button class="button button--danger button--sm"><!-- Content goes here --></button>
+ * <button class="button button--danger button--lg"><!-- Content goes here --></button>
+ * <button class="button button--danger button--xl"><!-- Content goes here --></button>
+ *
+ */
+
+@layer components {
+  .button {
+    @apply rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50;
+  }
+
+  .button--action {
+    @apply rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-0 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  }
+
+  .button--danger {
+    @apply rounded-md bg-red-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-0 hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600;
+  }
+
+  .button--xs {
+    @apply px-2 py-1 text-xs;
+  }
+
+  .button--sm {
+    @apply px-2 py-1 text-sm;
+  }
+
+  .button--lg {
+    @apply px-3 py-2 text-sm;
+  }
+
+  .button--xl {
+    @apply px-3.5 py-2.5 text-sm;
+  }
+}

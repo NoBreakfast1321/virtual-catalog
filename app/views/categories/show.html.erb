@@ -1,8 +1,28 @@
-<%= render @category %>
+<% content_for :title, @category.name %>
 
-<div>
-  <%= link_to "Edit this category", edit_category_path(@category) %>
-  <%= link_to "Back to categories", categories_path %>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Category Details
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "Edit category", edit_category_path(@category), class: "button button--action" %>
+    </div>
+  </header>
 
-  <%= button_to "Destroy this category", @category, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-</div>
+  <div class="card__body">
+    <%= render @category %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Back to categories", categories_path, class: "button" %>
+      <%= button_to "Destroy category", @category, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+    </div>
+  </footer>
+</section>

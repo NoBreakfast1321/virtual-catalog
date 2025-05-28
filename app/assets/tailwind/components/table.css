@@ -1,0 +1,71 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Simple: https://tailwindcss.com/plus/ui-blocks/application-ui/lists/tables#component-3de290cc969415f170748791a9d263a6
+ * - With striped rows: https://tailwindcss.com/plus/ui-blocks/application-ui/lists/tables#component-b9407334ee0ee7eacb27cfbb5c08bb46
+ * - With vertical lines: https://tailwindcss.com/plus/ui-blocks/application-ui/lists/tables#component-7a122c22da40836b00ab778182dd92ef
+ * - With sortable headings: https://tailwindcss.com/plus/ui-blocks/application-ui/lists/tables#component-7b5a46e74e475708d966ca31716f1771
+ *
+ * Usage:
+ *
+ * <div class="table__wrapper">
+ *   <table class="table">
+ *     <thead>
+ *       <tr class="table__head-row">
+ *         <th class="table__head-cell">ID</th>
+ *         <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
+ *         <th class="table__head-cell"></th>
+ *       </tr>
+ *     </thead>
+ *     <tbody class="table__body">
+ *       <tr class="table__body-row">
+ *         <td class="table__body-cell table__body-cell--numeric"><%= model.id %></td>
+ *         <td class="table__body-cell"><%= category.name %></td>
+ *         <td class="table__body-cell table__body-cell--actions"><%= link_to "Show", model %></td>
+ *       </tr>
+ *    </table>
+ * </div>
+ *
+ */
+
+@layer components {
+  .table__wrapper {
+    @apply overflow-x-auto;
+  }
+
+  .table {
+    @apply min-w-full divide-y divide-gray-300;
+  }
+
+  .table__head-row {
+    @apply divide-x divide-gray-200;
+  }
+
+  .table__head-cell {
+    @apply px-3 py-3.5 text-left text-sm font-semibold text-gray-900;
+  }
+
+  .table__head-cell-link {
+    @apply flex flex-nowrap items-center text-inherit hover:text-inherit;
+  }
+
+  .table__body {
+    @apply divide-y divide-gray-200;
+  }
+
+  .table__body-row {
+    @apply divide-x divide-gray-200 even:bg-gray-50 hover:bg-gray-100;
+  }
+
+  .table__body-cell {
+    @apply whitespace-nowrap px-3 py-4 text-sm text-gray-500;
+  }
+
+  .table__body-cell--numeric {
+    @apply text-right tabular-nums;
+  }
+
+  .table__body-cell--actions {
+    @apply text-center;
+  }
+}

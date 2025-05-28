@@ -1,9 +1,7 @@
 <%= turbo_frame_tag @option_group do %>
-  <%= render "form", option_group: @option_group %>
-
-  <br>
-
-  <div>
-    <%= link_to "Cancel", @product %>
+  <div class="card mb-6">
+    <div class="card__body">
+      <%= render "form", option_group: @option_group %>
+    </div>
   </div>
 <% end %>

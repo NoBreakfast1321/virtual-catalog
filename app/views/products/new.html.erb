@@ -1,11 +1,16 @@
-<% content_for :title, "New product" %>
+<% content_for :title, "New Product" %>
 
-<h1>New product</h1>
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">
+      New Product
+    </h2>
+    <p class="card__description">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+    </p>
+  </header>
 
-<%= render "form", product: @product %>
-
-<br>
-
-<div>
-  <%= link_to "Back to products", products_path %>
-</div>
+  <div class="card__body">
+    <%= render "form", product: @product %>
+  </div>
+</section>

@@ -1,0 +1,80 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Card, edge-to-edge on mobile: https://tailwindcss.com/plus/ui-blocks/application-ui/layout/cards#component-5aa8234cc604a3b9398cf028559e4148
+ * - Card with header and footer: https://tailwindcss.com/plus/ui-blocks/application-ui/layout/cards#component-30bb794fd4050766db6928c723ddf5ce
+ * - Card Headings > With description: https://tailwindcss.com/plus/ui-blocks/application-ui/headings/card-headings#component-db063e3ead0c9a42d8b931c920062e56
+ * - Card Headings > With description and action: https://tailwindcss.com/plus/ui-blocks/application-ui/headings/card-headings#component-c8f5fb604fcc6cf6614aab0bfec6a3f2
+ *
+ * Usage:
+ *
+ * <section class="card">
+ *   <header class="card__header">
+ *     <h2><!-- Content goes here --></h2>
+ *     <p><!-- Content goes here --></p>
+ *   </header>
+ *   <div class="card__body">
+ *     <!-- Content goes here -->
+ *   </div>
+ *	 <footer class="card__footer">
+ *     <!-- Content goes here -->
+ *	 </footer>
+ * </section>
+ *
+ * <section class="card">
+ *   <header class="card__header card__header--with-actions">
+ *     <div>
+ *       <h2><!-- Content goes here --></h2>
+ *       <p><!-- Content goes here --></p>
+ *     </div>
+ *     <div class="card__actions">
+ *       <!-- Content goes here -->
+ *     </div>
+ *   </header>
+ *   <div class="card__body">
+ *     <!-- Content goes here -->
+ *   </div>
+ *	 <footer class="card__footer">
+ *     <!-- Content goes here -->
+ *	 </footer>
+ * </section>
+ *
+ */
+
+@layer components {
+  .card {
+    @apply divide-y divide-gray-200 overflow-hidden bg-white shadow sm:rounded-lg;
+  }
+
+  .card__header {
+    @apply px-4 py-5 sm:px-6;
+  }
+
+  .card__header--with-actions {
+    @apply flex items-center justify-between gap-4;
+  }
+
+  .card__heading {
+    @apply text-base font-semibold text-gray-900;
+  }
+
+  .card__description {
+    @apply mt-1 text-sm text-gray-500;
+  }
+
+  .card__actions {
+    @apply flex shrink-0 gap-6;
+  }
+
+  .card__body {
+    @apply px-4 py-5 sm:p-6;
+  }
+
+  .card__footer {
+    @apply px-4 py-4 sm:px-6;
+  }
+
+  .card__footer--end {
+    @apply flex items-center justify-end gap-x-6;
+  }
+}

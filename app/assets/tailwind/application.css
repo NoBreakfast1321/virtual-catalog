@@ -1,7 +1,23 @@
 @import "tailwindcss";
 
-@plugin "@tailwindcss/forms";
-
 @theme {
   --font-sans: InterVariable, sans-serif;
 }
+
+@layer base {
+  main {
+    @apply space-y-6 bg-gray-50 p-4;
+  }
+
+  a {
+    @apply text-sm/6 font-semibold text-indigo-600 hover:text-indigo-500;
+  }
+}
+
+@import "./components/button.css";
+@import "./components/card.css";
+@import "./components/description-list.css";
+@import "./components/form.css";
+@import "./components/pagy.css";
+@import "./components/table.css";
+@import "./components/toast.css";

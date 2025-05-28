@@ -1,9 +1,10 @@
 <%= turbo_frame_tag Option.new do %>
-  <%= render "form", option: @option %>
-
-  <br>
-
-  <div>
-    <%= link_to "Cancel", @product %>
+  <div class="card mb-6">
+    <header class="card__header">
+      <h3 class="card__heading">New Option</h3>
+    </header>
+    <div class="card__body">
+      <%= render "form", option: @option %>
+    </div>
   </div>
 <% end %>

@@ -1,19 +1,42 @@
 <%= turbo_frame_tag option do %>
-  <p>
-    <strong>Visible:</strong>
-    <%= option.visible? ? "Yes" : "No" %>
-  </p>
+  <div class="card mb-6">
+    <header class="card__header">
+      <h3 class="card__heading">Option</h3>
+    </header>
+    <div class="card__body">
+      <dl id="<%= dom_id option %>" class="description-list">
+        <div class="description-list__item">
+          <dt class="description-list__term">
+            Visible?
+          </dt>
+          <dd class="description-list__definition">
+            <%= option.visible? ? "Yes" : "No" %>
+          </dd>
+        </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= option.name %>
-  </p>
+        <div class="description-list__item">
+          <dt class="description-list__term">
+            Name
+          </dt>
+          <dd class="description-list__definition">
+            <%= option.name %>
+          </dd>
+        </div>
 
-  <p>
-    <strong>Price variation:</strong>
-    <%= option.price_variation %>
-  </p>
+        <div class="description-list__item">
+          <dt class="description-list__term">
+            Price variation
+          </dt>
+          <dd class="description-list__definition">
+            <%= option.price_variation %>
+          </dd>
+        </div>
+      </dl>
+    </div>
 
-  <%= link_to "Edit", edit_product_option_group_option_path(@product, option.option_group, option), data: { turbo_frame: dom_id(option) } %>
-  <%= button_to "Destroy", product_option_group_option_path(@product, option.option_group, option), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+    <footer class="card__footer card__footer--end">
+      <%= button_to "Destroy option", product_option_group_option_path(@product, option.option_group, option), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+      <%= link_to "Edit option", edit_product_option_group_option_path(@product, option.option_group, option), data: { turbo_frame: dom_id(option) }, class: "button" %>
+    </footer>
+  </div>
 <% end %>

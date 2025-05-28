@@ -1,16 +1,31 @@
 <%= simple_form_for product do |f| %>
-  <%= f.association :categories, collection: current_user.categories, label: "Categories" %>
   <%= f.input :visible %>
+
   <%= f.input :featured %>
+
   <%= f.input :code %>
+
   <%= f.input :name %>
+
   <%= f.input :description %>
+
   <%= f.input :price %>
+
   <%= f.input :sale_price %>
+
   <%= f.input :sale_starts_at, html5: true %>
+
   <%= f.input :sale_ends_at, html5: true %>
+
   <%= f.input :available_from, html5: true %>
+
   <%= f.input :available_until, html5: true %>
-  <%= f.submit %>
+
+  <%= f.association :categories, collection: current_user.categories, label: "Categories" %>
+
+  <footer class="form__footer">
+    <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>
+    <%= f.submit nil, class: "button button--action" %>
+  </footer>
 <% end %>
 

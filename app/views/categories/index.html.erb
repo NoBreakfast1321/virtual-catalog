@@ -1,52 +1,94 @@
 <% content_for :title, "Categories" %>
 
-<h1>Categories</h1>
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">
+      Category Filters
+    </h2>
+    <p class="card__description">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+    </p>
+  </header>
 
-<%= search_form_for @q do |f| %>
-  <%= f.label :name_start %>
-  <%= f.search_field :name_start %>
+  <div class="card__body">
+    <%= search_form_for @q, html: { class: "form" } do |f| %>
+      <div class="form__group">
+        <%= f.label :name_start, class: "form__label" %>
+        <%= f.search_field :name_start, class: "form__input" %>
+      </div>
 
-  <%= f.label :description_start %>
-  <%= f.search_field :description_start %>
+      <div class="form__group">
+        <%= f.label :description_start, class: "form__label" %>
+        <%= f.search_field :description_start, class: "form__input" %>
+      </div>
 
-  <%= f.label :created_at_gteq %>
-  <%= f.date_field :created_at_gteq %>
+      <div class="form__group">
+        <%= f.label :created_at_gteq, class: "form__label" %>
+        <%= f.date_field :created_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.label :updated_at_gteq %>
-  <%= f.date_field :updated_at_gteq %>
+      <div class="form__group">
+        <%= f.label :updated_at_gteq, class: "form__label" %>
+        <%= f.date_field :updated_at_gteq, class: "form__input" %>
+      </div>
 
-  <%= f.submit %>
-  <%= link_to "Reset", categories_path %>
-<% end %>
-
-<table id="categories">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th><%= sort_link(@q, :visible, "Visible?") %></th>
-      <th><%= sort_link(@q, :name, "Name") %></th>
-      <th><%= sort_link(@q, :description, "Description") %></th>
-      <th><%= sort_link(@q, :created_at, "Created at") %></th>
-      <th><%= sort_link(@q, :updated_at, "Updated at") %></th>
-      <th>Products count</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.id %></td>
-        <td><%= category.visible? ? "Yes" : "No" %></td>
-        <td><%= category.name %></td>
-        <td><%= category.description %></td>
-        <td><%= category.created_at %></td>
-        <td><%= category.updated_at %></td>
-        <td><%= category.products.count %></td>
-        <td><%= link_to "Show this category", category %></td>
-      </tr>
+      <footer class="form__footer">
+        <%= link_to "Reset filters", categories_path, class: "button" %>
+        <%= f.submit "Filter categories", class: "button button--action" %>
+      </footer>
     <% end %>
-  </tbody>
-</table>
-<%== pagy_nav(@pagy) %>
+  </div>
+</section>
 
-<%= link_to "New category", new_category_path %>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Categories
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "New category", new_category_path, class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <div class="table__wrapper">
+      <table id="categories" class="table">
+        <thead>
+          <tr class="table__head-row">
+            <th class="table__head-cell">ID</th>
+            <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :updated_at, "Updated at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell">Products count</th>
+            <th class="table__head-cell"></th>
+          </tr>
+        </thead>
+        <tbody class="table__body">
+          <% @categories.each do |category| %>
+            <tr class="table__body-row">
+              <td class="table__body-cell table__body-cell--numeric"><%= category.id %></td>
+              <td class="table__body-cell"><%= category.visible? ? "Yes" : "No" %></td>
+              <td class="table__body-cell"><%= category.name %></td>
+              <td class="table__body-cell"><%= category.description %></td>
+              <td class="table__body-cell"><%= category.created_at %></td>
+              <td class="table__body-cell"><%= category.updated_at %></td>
+              <td class="table__body-cell table__body-cell--numeric"><%= category.products.count %></td>
+              <td class="table__body-cell table__body-cell--actions"><%= link_to "Show category", category %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="card__footer card__footer--end">
+    <%== pagy_nav(@pagy) %>
+  </footer>
+</section>

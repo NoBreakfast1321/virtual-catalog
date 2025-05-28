@@ -1,0 +1,38 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Left-aligned: https://tailwindcss.com/plus/ui-blocks/application-ui/data-display/description-lists#component-d9372707af2e94e67936e94d7339cbb3
+ * - Left-aligned striped: https://tailwindcss.com/plus/ui-blocks/application-ui/data-display/description-lists#component-28307805860d15f5b930e5adbdf7287a
+ *
+ * Usage:
+ *
+ * <dl class="description-list">
+ *   <div class="description-list__item">
+ *     <dt class="description-list__term">
+ *       <!-- Content goes here -->
+ *     </dt>
+ *     <dd class="description-list__definition>
+ *       <!-- Content goes here -->
+ *     </dd>
+ *   </div>
+ * </dl>
+ *
+ */
+
+@layer components {
+  .description-list {
+    @apply divide-y divide-gray-100;
+  }
+
+  .description-list__item {
+    @apply px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0;
+  }
+
+  .description-list__term {
+    @apply text-sm/6 font-medium text-gray-900;
+  }
+
+  .description-list__definition {
+    @apply mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0;
+  }
+}

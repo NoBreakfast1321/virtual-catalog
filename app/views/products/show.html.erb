@@ -1,18 +1,54 @@
-<%= render @product %>
+<% content_for :title, @product.name %>
 
-<%= turbo_frame_tag OptionGroup.new do %>
-  <%= link_to "New option group", new_product_option_group_path(@product), data: { turbo_frame: dom_id(OptionGroup.new) } %>
-<% end %>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Product Details
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "Edit product", edit_product_path(@product), class: "button button--action" %>
+    </div>
+  </header>
 
-<%= turbo_frame_tag :option_groups do %>
-  <% @product.option_groups.each do |option_group| %>
-    <%= render option_group %>
-  <% end %>
-<% end %>
+  <div class="card__body">
+    <%= render @product %>
+  </div>
 
-<div>
-  <%= link_to "Edit this product", edit_product_path(@product) %>
-  <%= link_to "Back to products", products_path %>
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Back to products", products_path, class: "button" %>
+      <%= button_to "Destroy product", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+    </div>
+  </footer>
+</section>
 
-  <%= button_to "Destroy this product", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-</div>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Product Options
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "New option group", new_product_option_group_path(@product), data: { turbo_frame: dom_id(OptionGroup.new) }, class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= turbo_frame_tag OptionGroup.new %>
+
+    <%= turbo_frame_tag :option_groups do %>
+      <% @product.option_groups.each do |option_group| %>
+        <%= render option_group %>
+      <% end %>
+    <% end %>
+  </div>
+</section>

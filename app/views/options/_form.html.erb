@@ -1,6 +1,12 @@
 <%= simple_form_for [@product, @option_group, option] do |f| %>
   <%= f.input :visible %>
+
   <%= f.input :name %>
+
   <%= f.input :price_variation %>
-  <%= f.submit %>
+
+  <footer class="form__footer">
+    <%= link_to "Cancel", @product, class: "button" %>
+    <%= f.submit nil, class: "button button--action" %>
+  </footer>
 <% end %>

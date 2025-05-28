@@ -1,6 +1,12 @@
 <%= simple_form_for category do |f| %>
   <%= f.input :visible %>
+
   <%= f.input :name %>
+
   <%= f.input :description %>
-  <%= f.submit %>
+
+  <footer class="form__footer">
+    <%= link_to "Cancel", category.persisted? ? category : categories_path, class: "button" %>
+    <%= f.submit nil, class: "button button--action" %>
+  </footer>
 <% end %>

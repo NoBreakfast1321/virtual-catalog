@@ -1,27 +1,37 @@
-<div id="<%= dom_id category %>">
-  <p>
-    <strong>Visible:</strong>
-    <%= category.visible? ? "Yes" : "No" %>
-  </p>
+<dl id="<%= dom_id category %>" class="description-list">
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Visible?
+    </dt>
+    <dd class="description-list__definition">
+      <%= category.visible? ? "Yes" : "No" %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= category.name %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Name
+    </dt>
+    <dd class="description-list__definition">
+      <%= category.name %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Description:</strong>
-    <%= category.description %>
-  </p>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Description
+    </dt>
+    <dd class="description-list__definition">
+      <%= category.description %>
+    </dd>
+  </div>
 
-  <p>
-    <strong>Products:</strong>
-    <nav>
-      <ul>
-        <% category.products.each do |product| %>
-          <li><%= link_to product.name, product %></li>
-        <% end %>
-      </ul>
-    </nav>
-  </p>
-</div>
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Products
+    </dt>
+    <dd class="description-list__definition">
+      <%= category.products.map { |product| link_to product.name, product }.join(", ").html_safe %>
+    </dd>
+  </div>
+</dl>

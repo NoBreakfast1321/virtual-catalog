@@ -1,12 +1,16 @@
-<% content_for :title, "Editing category" %>
+<% content_for :title, "Editing Category" %>
 
-<h1>Editing category</h1>
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">
+      Editing Category
+    </h2>
+    <p class="card__description">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+    </p>
+  </header>
 
-<%= render "form", category: @category %>
-
-<br>
-
-<div>
-  <%= link_to "Show this category", @category %>
-  <%= link_to "Back to categories", categories_path %>
-</div>
+  <div class="card__body">
+    <%= render "form", category: @category %>
+  </div>
+</section>

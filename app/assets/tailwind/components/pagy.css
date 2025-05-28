@@ -1,0 +1,34 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Card footer with page buttons: https://tailwindcss.com/plus/ui-blocks/application-ui/navigation/pagination#component-69eb9381f977800aa890ce8f7d9e2d20
+ *
+ * Usage:
+ *
+ * <footer class="card__footer card__footer--end">
+ *   <%== pagy_nav(@pagy) %>
+ * </footer>
+ *
+ */
+
+@layer base {
+  .pagy.nav {
+    @apply isolate inline-flex -space-x-px rounded-md shadow-sm;
+  }
+
+  .pagy.nav > a {
+    @apply relative inline-flex items-center px-4 py-2 text-center text-sm font-semibold tabular-nums text-gray-900 ring-1 ring-inset ring-gray-300 first:rounded-l-md first:p-2 last:rounded-r-md last:p-2 hover:bg-gray-50 focus:z-20 focus:outline-offset-0;
+  }
+
+  .pagy.nav > a.current {
+    @apply z-10 bg-indigo-600 !text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  }
+
+  .pagy.nav > a.gap {
+    @apply !text-gray-700;
+  }
+
+  .pagy.nav > a[aria-disabled="true"] {
+    @apply text-gray-400;
+  }
+}

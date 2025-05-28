@@ -1,13 +1,24 @@
 <% flash.each do |flash_type, message| %>
   <div
-    style="color: <%= flash_type == "notice" ? "green" : "red" %>;"
+    class="toast <%= "toast--alert" if flash_type == "alert" %>"
     x-init="
       setTimeout(() => {
         $el.remove();
       }, 5000);
     "
   >
-    <%= message %>
-    <button @click="$el.parentElement.remove()">x</button>
+    <i class="<%= flash_type == "notice" ? "ri-checkbox-circle-line toast__icon" : "ri-alert-line toast__icon--alert" %>"></i>
+    <p
+      class="toast__message <%= "toast__message--alert" if flash_type == "alert" %>"
+    >
+      <%= message %>
+    </p>
+
+    <button
+      class="toast__dismiss-button <%= "toast__dismiss-button--alert" if flash_type == "alert" %>"
+      @click="$el.parentElement.remove()"
+    >
+      <i class="ri-close-line"></i>
+    </button>
   </div>
 <% end %>

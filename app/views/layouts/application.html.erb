@@ -34,6 +34,19 @@
       <%= render "layouts/flash_toast" %>
     </div>
 
-    <%= yield %>
+    <main>
+      <nav>
+        <h2 class="card__heading mb-1">Navigation</h2>
+
+        <ul>
+          <li>
+            <%= link_to "Categories", categories_path, class: "button" %>
+            <%= link_to "Products", products_path, class: "button" %>
+          </li>
+        </ul>
+      </nav>
+
+      <%= yield %>
+    </main>
   </body>
 </html>

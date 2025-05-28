@@ -1,0 +1,52 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Input with label: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/input-groups#component-04a268fee12196d74c94e82a43106f8d
+ * - Input with validation error: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/input-groups#component-7a5297f99a5ed22df80939dd1986de5f
+ * - Input with disabled state: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/input-groups#component-7cbbedb5c241c41093f698b30e1eff40
+ * - Checkboxes > List with description: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/checkboxes#component-f03fb959d6ba814eb987d39ae40961f0
+ * - Radio Groups > Simple list: https://tailwindcss.com/plus/ui-blocks/application-ui/forms/radio-groups#component-3e0576bb094c36161a958147cc707087
+ *
+ */
+
+@layer components {
+  .form {
+    @apply flex flex-col gap-y-8;
+  }
+
+  .form__group {
+    @apply flex flex-col gap-2;
+  }
+
+  .form__group--inline {
+    @apply flex-row items-center;
+  }
+
+  .form__label {
+    @apply block text-sm/6 font-medium text-gray-900;
+  }
+
+  .form__input {
+    @apply block w-full appearance-none rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:outline-gray-200 sm:text-sm/6;
+  }
+
+  .form__input--invalid {
+    @apply text-red-900 outline-red-300 placeholder:text-red-300 focus:outline-red-600;
+  }
+
+  .form__error {
+    @apply text-sm text-red-600;
+  }
+
+  .form__checkbox {
+    @apply relative size-4 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 checked:before:absolute checked:before:inset-0 checked:before:text-center checked:before:text-xs checked:before:text-white checked:before:content-['✓'] indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 disabled:checked:before:text-gray-400 forced-colors:appearance-auto;
+  }
+
+  .form__radio {
+    @apply relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden;
+  }
+
+  .form__footer {
+    @apply -mx-4 -mb-2 flex items-center justify-end gap-x-6 border-t border-gray-200 px-4 pt-4 sm:-mx-6 sm:px-6;
+  }
+}

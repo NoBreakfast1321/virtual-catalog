@@ -1,7 +1,14 @@
 <%= simple_form_for [@product, option_group] do |f| %>
   <%= f.input :visible %>
+
   <%= f.input :name %>
+
   <%= f.input :min_choices %>
+
   <%= f.input :max_choices %>
-  <%= f.submit %>
+
+  <footer class="form__footer">
+    <%= link_to "Cancel", @product, class: "button" %>
+    <%= f.submit nil, class: "button button--action" %>
+  </footer>
 <% end %>
