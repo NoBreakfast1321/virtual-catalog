@@ -25,4 +25,4 @@ console_command = '/rails/bin/rails console'
 
 [mounts]
   source = 'storage'
-  destination = '/app/storage'
+  destination = '/mnt/storage'
