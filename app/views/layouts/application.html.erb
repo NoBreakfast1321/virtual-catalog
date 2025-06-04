@@ -35,16 +35,22 @@
     </div>
 
     <main>
-      <nav>
-        <h2 class="card__heading mb-1">Navigation</h2>
+      <% if user_signed_in? %>
+        <nav class="flex items-center justify-between">
+          <div>
+            <h2 class="card__heading mb-1">Navigation</h2>
 
-        <ul>
-          <li>
-            <%= link_to "Categories", categories_path, class: "button" %>
-            <%= link_to "Products", products_path, class: "button" %>
-          </li>
-        </ul>
-      </nav>
+            <ul>
+              <li>
+                <%= link_to "Categories", categories_path, class: "button" %>
+                <%= link_to "Products", products_path, class: "button" %>
+              </li>
+            </ul>
+          </div>
+
+          <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button button--danger" %>
+        </nav>
+      <% end %>
 
       <%= yield %>
     </main>
