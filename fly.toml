@@ -10,7 +10,7 @@ console_command = '/rails/bin/rails console'
 [build]
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
@@ -25,7 +25,6 @@ console_command = '/rails/bin/rails console'
 
 [env]
   DATABASE_URL = 'sqlite3:///mnt/storage/production.sqlite'
-  PORT = 8080
 
 [mounts]
   source = 'storage'
