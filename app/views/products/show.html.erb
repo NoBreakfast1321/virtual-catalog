@@ -16,7 +16,7 @@
   </header>
 
   <div class="card__body">
-    <%= render @product %>
+    <%= render partial: "products/product", locals: { product: @product } %>
   </div>
 
   <footer class="card__footer">

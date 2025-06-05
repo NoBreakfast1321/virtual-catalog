@@ -16,7 +16,7 @@
   </header>
 
   <div class="card__body">
-    <%= render @category %>
+    <%= render partial: "categories/category", locals: { category: @category } %>
   </div>
 
   <footer class="card__footer">
