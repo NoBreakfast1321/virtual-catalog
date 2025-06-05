@@ -5,13 +5,13 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    @q = current_user.categories.ransack(params[:q])
+    @q = current_business.categories.ransack(params[:q])
     @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
   # GET /categories/new
   def new
-    @category = current_user.categories.new
+    @category = current_business.categories.build
   end
 
   # GET /categories/:id
@@ -24,7 +24,7 @@ class CategoriesController < ApplicationController
 
   # POST /categories
   def create
-    @category = current_user.categories.new(category_params)
+    @category = current_business.categories.build(category_params)
 
     respond_to do |format|
       if @category.save
@@ -48,12 +48,15 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/:id
   def destroy
-    if @category.destroy
-      respond_to do |format|
+    respond_to do |format|
+      if @category.destroy
         format.html { redirect_to categories_path, status: :see_other, notice: "Category was successfully destroyed." }
+      else
+        format.html do
+          flash.now[:alert] = @category.errors.full_messages.to_sentence
+          render :show, status: :unprocessable_entity
+        end
       end
-    else
-      redirect_to @category, alert: @category.errors.full_messages.to_sentence
     end
   end
 
@@ -61,7 +64,7 @@ class CategoriesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_category
-    @category = current_user.categories.find(params.expect(:id))
+    @category = current_business.categories.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

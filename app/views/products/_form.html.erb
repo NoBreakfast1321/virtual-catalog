@@ -21,7 +21,7 @@
 
   <%= f.input :available_until, html5: true %>
 
-  <%= f.association :categories, collection: current_user.categories, label: "Categories" %>
+  <%= f.association :categories, collection: current_business.categories, label: "Categories" %>
 
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>

@@ -1,0 +1,27 @@
+<% content_for :title, @business.name %>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">
+        Business Details
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </div>
+    <div class="card__actions">
+      <%= link_to "Edit business", edit_business_path(@business), class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= render @business %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= button_to "Destroy business", @business, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+    </div>
+  </footer>
+</section>

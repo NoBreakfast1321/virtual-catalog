@@ -3,6 +3,7 @@ class CreateProductCategories < ActiveRecord::Migration[8.0]
     create_table :product_categories do |t|
       t.references :product, null: false, foreign_key: { on_delete: :cascade }
       t.references :category, null: false, foreign_key: { on_delete: :restrict }
+
       t.timestamps
     end
 

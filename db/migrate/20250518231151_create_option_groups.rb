@@ -5,7 +5,9 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       t.string :name, null: false, limit: 30
       t.integer :min_choices, null: false, default: 1
       t.integer :max_choices
+
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
+
       t.timestamps
     end
 

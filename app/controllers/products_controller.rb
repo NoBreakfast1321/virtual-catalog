@@ -2,16 +2,17 @@ class ProductsController < ApplicationController
   include Pagy::Backend
 
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :restrict_product_creation, only: %i[ new create ]
 
   # GET /products
   def index
-    @q = current_user.products.ransack(params[:q])
+    @q = current_business.products.ransack(params[:q])
     @pagy, @products = pagy(@q.result(distinct: true))
   end
 
   # GET /products/new
   def new
-    @product = current_user.products.new
+    @product = current_business.products.build
   end
 
   # GET /products/:id
@@ -24,7 +25,7 @@ class ProductsController < ApplicationController
 
   # POST /products
   def create
-    @product = current_user.products.new(product_params)
+    @product = current_business.products.build(product_params)
 
     respond_to do |format|
       if @product.save
@@ -48,18 +49,29 @@ class ProductsController < ApplicationController
 
   # DELETE /products/:id
   def destroy
-    @product.destroy!
-
     respond_to do |format|
-      format.html { redirect_to products_path, status: :see_other, notice: "Product was successfully destroyed." }
+      if @product.destroy
+        format.html { redirect_to categories_path, status: :see_other, notice: "Product was successfully destroyed." }
+      else
+        format.html do
+          flash.now[:alert] = @product.errors.full_messages.to_sentence
+          render :show, status: :unprocessable_entity
+        end
+      end
     end
   end
 
   private
 
+  def restrict_product_creation
+    if current_business.categories.empty?
+      redirect_to new_category_path, alert: "You must create at least one category before creating a product."
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_product
-    @product = current_user.products.find(params.expect(:id))
+    @product = current_business.products.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

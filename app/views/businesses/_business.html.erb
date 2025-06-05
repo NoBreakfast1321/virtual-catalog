@@ -1,0 +1,28 @@
+<dl id="<%= dom_id business %>" class="description-list">
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Visible?
+    </dt>
+    <dd class="description-list__definition">
+      <%= business.visible? ? "Yes" : "No" %>
+    </dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Name
+    </dt>
+    <dd class="description-list__definition">
+      <%= business.name %>
+    </dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Description
+    </dt>
+    <dd class="description-list__definition">
+      <%= business.description %>
+    </dd>
+  </div>
+</dl>

@@ -18,25 +18,23 @@
 #  visible             :boolean          default(TRUE), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  user_id             :integer          not null
+#  business_id         :integer          not null
 #
 # Indexes
 #
-#  index_products_on_user_id           (user_id)
-#  index_products_on_user_id_and_code  (user_id,code) UNIQUE WHERE code IS NOT NULL AND code <> ''
-#  index_products_on_user_id_and_name  (user_id,name) UNIQUE
+#  index_products_on_business_id           (business_id)
+#  index_products_on_business_id_and_code  (business_id,code) UNIQUE WHERE code IS NOT NULL AND code <> ''
+#  index_products_on_business_id_and_name  (business_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  user_id  (user_id => users.id) ON DELETE => cascade
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
-  include FilterableByTimestamp
   include FilterableByVisibility
   include NameNormalizable
-  include OrderableByTimestamp
 
-  belongs_to :user
+  belongs_to :business
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
@@ -49,9 +47,9 @@ class Product < ApplicationRecord
 
   validates :visible, inclusion: { in: [ true, false ] }
   validates :featured, inclusion: { in: [ true, false ] }
-  validates :code, length: { maximum: 50 }, uniqueness: { scope: :user_id }, allow_nil: true
-  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :user_id }
-  validates :description, length: { maximum: 5000 }, allow_nil: true
+  validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
+  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
+  validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
   validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }

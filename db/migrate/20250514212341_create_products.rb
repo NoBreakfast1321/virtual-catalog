@@ -19,12 +19,14 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.datetime :sale_ends_at
       t.datetime :available_from
       t.datetime :available_until
-      t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
+
+      t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
+
       t.timestamps
     end
 
-    add_index :products, %i[ user_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
-    add_index :products, %i[ user_id name ], unique: true
+    add_index :products, %i[ business_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
+    add_index :products, %i[ business_id name ], unique: true
 
     add_check_constraint(
       :products,

@@ -21,10 +21,8 @@
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
 class OptionGroup < ApplicationRecord
-  include FilterableByTimestamp
   include FilterableByVisibility
   include NameNormalizable
-  include OrderableByTimestamp
 
   belongs_to :product
 

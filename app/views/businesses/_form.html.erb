@@ -1,0 +1,15 @@
+<%= simple_form_for business, url: business_path do |f| %>
+  <%= f.input :visible %>
+
+  <%= f.input :name %>
+
+  <%= f.input :description %>
+
+  <footer class="form__footer">
+    <% if business.persisted? %>
+      <%= link_to "Cancel", business, class: "button" %>
+    <% end %>
+
+    <%= f.submit nil, class: "button button--action" %>
+  </footer>
+<% end %>

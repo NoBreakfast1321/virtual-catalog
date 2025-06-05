@@ -1,11 +1,11 @@
 class OptionsController < ApplicationController
-  before_action :set_product, only: %i[ new edit create update destroy ]
-  before_action :set_option_group, only: %i[ new edit create update destroy ]
+  before_action :set_product
+  before_action :set_option_group
   before_action :set_option, only: %i[ edit update destroy ]
 
   # GET /products/:product_id/option_groups/:option_group_id/options/new
   def new
-    @option = @option_group.options.new
+    @option = @option_group.options.build
   end
 
   # GET /products/:product_id/option_groups/:option_group_id/options/:id/edit
@@ -14,7 +14,7 @@ class OptionsController < ApplicationController
 
   # POST /products/:product_id/option_groups/:option_group_id/options
   def create
-    @option = @option_group.options.new(option_params)
+    @option = @option_group.options.build(option_params)
 
     respond_to do |format|
       if @option.save
@@ -38,10 +38,15 @@ class OptionsController < ApplicationController
 
   # DELETE /products/:product_id/option_groups/:option_group_id/options/:id
   def destroy
-    @option.destroy!
-
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "Option was successfully destroyed." }
+      if @option.destroy
+        format.turbo_stream { flash.now[:notice] = "Option was successfully destroyed." }
+      else
+        format.turbo_stream do
+          flash.now[:alert] = @option.errors.full_messages.to_sentence
+          render turbo_stream: render_flash_toast, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -49,7 +54,7 @@ class OptionsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_product
-    @product = current_user.products.find(params.expect(:product_id))
+    @product = current_business.products.find(params.expect(:product_id))
   end
 
   def set_option_group

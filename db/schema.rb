@@ -11,15 +11,28 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
-  create_table "categories", force: :cascade do |t|
+  create_table "businesses", force: :cascade do |t|
     t.boolean "visible", default: true, null: false
     t.string "name", limit: 30, null: false
     t.text "description", limit: 150
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "name"], name: "index_categories_on_user_id_and_name", unique: true
-    t.index ["user_id"], name: "index_categories_on_user_id"
+    t.index ["user_id"], name: "index_businesses_on_user_id"
+    t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_businesses_description_length"
+    t.check_constraint "length(name) <= 30", name: "check_businesses_name_length"
+    t.check_constraint "visible IN (0, 1)", name: "check_businesses_visible_boolean"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.boolean "visible", default: true, null: false
+    t.string "name", limit: 30, null: false
+    t.text "description", limit: 150
+    t.integer "business_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_id", "name"], name: "index_categories_on_business_id_and_name", unique: true
+    t.index ["business_id"], name: "index_categories_on_business_id"
     t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_categories_description_length"
     t.check_constraint "length(name) <= 30", name: "check_categories_name_length"
     t.check_constraint "visible IN (0, 1)", name: "check_categories_visible_boolean"
@@ -80,12 +93,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
     t.datetime "sale_ends_at"
     t.datetime "available_from"
     t.datetime "available_until"
-    t.integer "user_id", null: false
+    t.integer "business_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "code"], name: "index_products_on_user_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
-    t.index ["user_id", "name"], name: "index_products_on_user_id_and_name", unique: true
-    t.index ["user_id"], name: "index_products_on_user_id"
+    t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
+    t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
+    t.index ["business_id"], name: "index_products_on_business_id"
     t.check_constraint "available_from IS NULL OR available_until IS NULL OR available_from < available_until", name: "check_products_available_range"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_products_code_length"
     t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"
@@ -110,10 +123,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "categories", "users", on_delete: :cascade
+  add_foreign_key "businesses", "users", on_delete: :cascade
+  add_foreign_key "categories", "businesses", on_delete: :cascade
   add_foreign_key "option_groups", "products", on_delete: :cascade
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
-  add_foreign_key "products", "users", on_delete: :cascade
+  add_foreign_key "products", "businesses", on_delete: :cascade
 end

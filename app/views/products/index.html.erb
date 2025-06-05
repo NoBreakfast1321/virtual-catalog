@@ -59,7 +59,7 @@
 
       <div class="form__group">
         <%= f.label :categories_name_in, "Categories", class: "form__label" %>
-        <%= f.collection_select :categories_name_in, current_user.categories.order(:name), :name, :name, { multiple: true }, class: "form__input" %>
+        <%= f.collection_select :categories_name_in, current_business.categories.order(:name), :name, :name, { multiple: true }, class: "form__input" %>
       </div>
 
       <footer class="form__footer">

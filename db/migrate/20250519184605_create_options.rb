@@ -9,6 +9,7 @@ class CreateOptions < ActiveRecord::Migration[8.0]
                   currency: { null: true, default: nil }
 
       t.belongs_to :option_group, null: false, foreign_key: { on_delete: :cascade }
+
       t.timestamps
     end
 
