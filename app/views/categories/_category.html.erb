@@ -31,7 +31,7 @@
       Products
     </dt>
     <dd class="description-list__definition">
-      <%= category.products.map { |product| link_to product.name, product }.join(", ").html_safe %>
+      <%= safe_join(category.products.map { |product| link_to product.name, product }, ", ") %>
     </dd>
   </div>
 </dl>
