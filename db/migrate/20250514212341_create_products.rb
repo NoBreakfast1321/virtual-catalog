@@ -4,6 +4,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.boolean :visible, null: false, default: true
       t.boolean :featured, null: false, default: false
       t.string :code, limit: 50
+      t.string :slug, null: false, limit: 150
       t.string :name, null: false, limit: 150
       t.text :description, limit: 5000
 
@@ -26,6 +27,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
     end
 
     add_index :products, %i[ business_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
+    add_index :products, %i[ business_id slug ], unique: true
     add_index :products, %i[ business_id name ], unique: true
 
     add_check_constraint(

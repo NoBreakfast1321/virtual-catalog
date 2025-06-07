@@ -19,6 +19,13 @@
 #                                          POST   /users(.:format)                                                                                  devise/registrations#create
 #                       rails_health_check GET    /up(.:format)                                                                                     rails/health#show
 #                                     root GET    /                                                                                                 products#index
+#                             new_business GET    /business/new(.:format)                                                                           businesses#new
+#                            edit_business GET    /business/edit(.:format)                                                                          businesses#edit
+#                                 business GET    /business(.:format)                                                                               businesses#show
+#                                          PATCH  /business(.:format)                                                                               businesses#update
+#                                          PUT    /business(.:format)                                                                               businesses#update
+#                                          DELETE /business(.:format)                                                                               businesses#destroy
+#                                          POST   /business(.:format)                                                                               businesses#create
 #                               categories GET    /categories(.:format)                                                                             categories#index
 #                                          POST   /categories(.:format)                                                                             categories#create
 #                             new_category GET    /categories/new(.:format)                                                                         categories#new
@@ -51,6 +58,8 @@
 #                                          PATCH  /products/:id(.:format)                                                                           products#update
 #                                          PUT    /products/:id(.:format)                                                                           products#update
 #                                          DELETE /products/:id(.:format)                                                                           products#destroy
+#                                  catalog GET    /:slug(.:format)                                                                                  catalogs#show
+#                           public_product GET    /:business_slug/products/:slug(.:format)                                                          public_products#show
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -94,11 +103,13 @@ Rails.application.routes.draw do
   root "products#index"
 
   resource :business
+  resources :categories
   resources :products do
     resources :option_groups do
       resources :options
     end
   end
 
-  resources :categories
+  get "/:slug", to: "catalogs#show", as: :catalog
+  get "/:business_slug/products/:slug", to: "public_products#show", as: :public_product
 end

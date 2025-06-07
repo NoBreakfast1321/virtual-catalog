@@ -1,0 +1,2 @@
+module PublicProductsHelper
+end

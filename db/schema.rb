@@ -13,14 +13,17 @@
 ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
   create_table "businesses", force: :cascade do |t|
     t.boolean "visible", default: true, null: false
+    t.string "slug", limit: 30, null: false
     t.string "name", limit: 30, null: false
     t.text "description", limit: 150
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_businesses_on_slug", unique: true
     t.index ["user_id"], name: "index_businesses_on_user_id"
     t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_businesses_description_length"
     t.check_constraint "length(name) <= 30", name: "check_businesses_name_length"
+    t.check_constraint "length(slug) <= 30 AND slug GLOB '[a-z0-9_-]*'", name: "check_businesses_slug_format"
     t.check_constraint "visible IN (0, 1)", name: "check_businesses_visible_boolean"
   end
 
@@ -83,6 +86,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
     t.boolean "visible", default: true, null: false
     t.boolean "featured", default: false, null: false
     t.string "code", limit: 50
+    t.string "slug", limit: 150, null: false
     t.string "name", limit: 150, null: false
     t.text "description", limit: 5000
     t.integer "price_cents", default: 0, null: false
@@ -98,6 +102,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_19_184605) do
     t.datetime "updated_at", null: false
     t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
     t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
+    t.index ["business_id", "slug"], name: "index_products_on_business_id_and_slug", unique: true
     t.index ["business_id"], name: "index_products_on_business_id"
     t.check_constraint "available_from IS NULL OR available_until IS NULL OR available_from < available_until", name: "check_products_available_range"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_products_code_length"

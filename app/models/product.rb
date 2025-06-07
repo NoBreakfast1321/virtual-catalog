@@ -40,6 +40,7 @@ class Product < ApplicationRecord
   has_many :categories, through: :product_categories
   has_many :option_groups, dependent: :destroy
 
+  before_validation :generate_slug, on: %i[ create update ]
   before_validation :normalize_code
 
   monetize :price_cents
@@ -48,6 +49,7 @@ class Product < ApplicationRecord
   validates :visible, inclusion: { in: [ true, false ] }
   validates :featured, inclusion: { in: [ true, false ] }
   validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
+  validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -70,7 +72,7 @@ class Product < ApplicationRecord
   scope :active, -> { visible.available.not_expired }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ visible featured code name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
+    %w[ visible featured code slug name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -88,6 +90,12 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def generate_slug
+    return if name.blank?
+
+    self.slug = name.to_slug.normalize.to_s[0..49]
+  end
 
   def normalize_code
     self.code = code&.strip&.presence

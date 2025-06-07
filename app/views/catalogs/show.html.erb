@@ -1,0 +1,11 @@
+<h1><%= @business.name %></h1>
+
+<% @categories.each do |category| %>
+  <h2><%= category.name %></h2>
+
+  <ul>
+    <% category.products.each do |product| %>
+      <li><%= link_to product.name, public_product_path(business_slug: @business.slug, slug: product.slug) %></li>
+    <% end %>
+  </ul>
+<% end %>

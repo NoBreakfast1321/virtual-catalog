@@ -18,6 +18,11 @@
       </div>
 
       <div class="form__group">
+        <%= f.label :slug_start, class: "form__label" %>
+        <%= f.search_field :slug_start, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
         <%= f.label :name_start, class: "form__label" %>
         <%= f.search_field :name_start, class: "form__input" %>
       </div>
@@ -94,6 +99,7 @@
             <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :featured, "Featured?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :code, "Code", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :slug, "Slug", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :price, "Price", class: "table__head-cell-link group") %></th>
@@ -115,6 +121,7 @@
               <td class="table__body-cell"><%= product.visible? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.featured? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.code %></td>
+              <td class="table__body-cell"><%= product.slug %></td>
               <td class="table__body-cell"><%= product.name %></td>
               <td class="table__body-cell"><%= product.description %></td>
               <td class="table__body-cell table__body-cell--numeric"><%= product.price %></td>

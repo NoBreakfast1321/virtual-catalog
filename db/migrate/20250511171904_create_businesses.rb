@@ -2,6 +2,7 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
   def change
     create_table :businesses do |t|
       t.boolean :visible, null: false, default: true
+      t.string :slug, null: false, limit: 30
       t.string :name, null: false, limit: 30
       t.text :description, limit: 150
 
@@ -10,10 +11,18 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
+    add_index :businesses, :slug, unique: true
+
     add_check_constraint(
       :businesses,
       "visible IN (0, 1)",
       name: "check_businesses_visible_boolean"
+    )
+
+    add_check_constraint(
+      :businesses,
+      "length(slug) <= 30 AND slug GLOB '[a-z0-9_-]*'",
+      name: "check_businesses_slug_format"
     )
 
     add_check_constraint(
@@ -31,6 +40,7 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
     reversible do |dir|
       dir.down do
         remove_check_constraint :businesses, name: "check_businesses_visible_boolean"
+        remove_check_constraint :businesses, name: "check_businesses_slug_format"
         remove_check_constraint :businesses, name: "check_businesses_name_length"
         remove_check_constraint :businesses, name: "check_businesses_description_length"
       end
