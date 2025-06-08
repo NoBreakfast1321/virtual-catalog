@@ -67,15 +67,15 @@ class Product < ApplicationRecord
   validates :images,
     limit: { max: 10 },
     content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
-    size: { less_than: 1.megabytes }
+    size: { less_than: 1.megabyte }
 
   scope :featured, -> { where(featured: true) }
   scope :unfeatured, -> { where(featured: false) }
   scope :on_sale, -> { where.not(sale_price_cents: nil) }
   scope :sale_scheduled, -> { where.not(sale_starts_at: nil).where("sale_starts_at > ?", Time.current) }
-  scope :sale_ended, -> { where.not(sale_ends_at: nil).where("sale_ends_at < ?", Time.current) }
+  scope :sale_ended, -> { where.not(sale_ends_at: nil).where(sale_ends_at: ...Time.current) }
   scope :available, -> { where("available_from IS NULL OR available_from <= ?", Time.current) }
-  scope :expired, -> { where.not(available_until: nil).where("available_until < ?", Time.current) }
+  scope :expired, -> { where.not(available_until: nil).where(available_until: ...Time.current) }
   scope :not_expired, -> { where("available_until IS NULL OR available_until >= ?", Time.current) }
   scope :active, -> { visible.available.not_expired }
 
