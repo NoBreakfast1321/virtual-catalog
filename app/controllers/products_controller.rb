@@ -88,7 +88,8 @@ class ProductsController < ApplicationController
       :sale_ends_at,
       :available_from,
       :available_until,
-      category_ids: []
+      category_ids: [],
+      images: []
     ])
   end
 end

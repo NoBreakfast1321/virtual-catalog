@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  description :text(150)
 #  name        :string(30)       not null
-#  slug        :string(50)       not null
+#  slug        :string(30)       not null
 #  visible     :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -29,11 +29,10 @@ class Business < ApplicationRecord
   has_many :categories, dependent: :destroy
 
   validates :visible, inclusion: { in: [ true, false ] }
-
   validates :slug,
     format: {
       with: /\A[a-z0-9_-]+\z/,
-      message: "can only contain lowercase letters, numbers, hyphens and underscores"
+      message: "can only contain lowercase letters, numbers, underscores and hyphens"
     },
     length: { maximum: 30 },
     presence: true,

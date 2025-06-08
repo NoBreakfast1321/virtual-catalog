@@ -1,4 +1,4 @@
-<%= simple_form_for product do |f| %>
+<%= simple_form_for product, html: { multipart: true } do |f| %>
   <%= f.input :visible %>
 
   <%= f.input :featured %>
@@ -23,9 +23,10 @@
 
   <%= f.association :categories, collection: current_business.categories, label: "Categories" %>
 
+  <%= f.input :images, as: :file, input_html: { multiple: true } %>
+
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>
     <%= f.submit nil, class: "button button--action" %>
   </footer>
 <% end %>
-

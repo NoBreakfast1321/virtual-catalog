@@ -15,6 +15,7 @@
 #  sale_price_cents    :integer
 #  sale_price_currency :string
 #  sale_starts_at      :datetime
+#  slug                :string(150)      not null
 #  visible             :boolean          default(TRUE), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
@@ -25,6 +26,7 @@
 #  index_products_on_business_id           (business_id)
 #  index_products_on_business_id_and_code  (business_id,code) UNIQUE WHERE code IS NOT NULL AND code <> ''
 #  index_products_on_business_id_and_name  (business_id,name) UNIQUE
+#  index_products_on_business_id_and_slug  (business_id,slug) UNIQUE
 #
 # Foreign Keys
 #
@@ -35,6 +37,8 @@ class Product < ApplicationRecord
   include NameNormalizable
 
   belongs_to :business
+
+  has_many_attached :images
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
@@ -60,6 +64,10 @@ class Product < ApplicationRecord
   validates :available_until, absence: true, if: -> { available_from.blank? }
   validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
   validates :categories, presence: true
+  validates :images,
+    limit: { max: 10 },
+    content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
+    size: { less_than: 1.megabytes }
 
   scope :featured, -> { where(featured: true) }
   scope :unfeatured, -> { where(featured: false) }

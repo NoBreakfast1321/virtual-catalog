@@ -111,5 +111,5 @@ Rails.application.routes.draw do
   end
 
   get "/:slug", to: "catalogs#show", as: :catalog
-  get "/:business_slug/products/:slug", to: "public_products#show", as: :public_product
+  get "/:business_slug/:slug", to: "public_products#show", as: :public_product
 end

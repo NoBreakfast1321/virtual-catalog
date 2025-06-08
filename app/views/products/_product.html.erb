@@ -106,4 +106,15 @@
       <%= safe_join(product.categories.map { |category| link_to category.name, category }, ", ") %>
     </dd>
   </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">
+      Images
+    </dt>
+    <dd class="description-list__definition flex flex-wrap gap-3">
+      <% product.images.each do |image| %>
+        <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "size-[300px]" %>
+      <% end %>
+    </dd>
+  </div>
 </div>
