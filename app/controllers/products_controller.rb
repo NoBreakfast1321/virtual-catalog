@@ -27,6 +27,8 @@ class ProductsController < ApplicationController
   def create
     @product = current_business.products.build(product_params)
 
+    @product.images.attach(params[:product][:images]) if params[:product][:images]
+
     respond_to do |format|
       if @product.save
         format.html { redirect_to @product, notice: "Product was successfully created." }
@@ -38,6 +40,12 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/:id
   def update
+    if (image_ids = params.dig(:product, :purge_image_ids).presence)
+      @product.images.attachments.where(id: image_ids.map(&:to_i)).each(&:purge)
+    end
+
+    @product.images.attach(params[:product][:images]) if params[:product][:images]
+
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: "Product was successfully updated." }
@@ -88,8 +96,7 @@ class ProductsController < ApplicationController
       :sale_ends_at,
       :available_from,
       :available_until,
-      category_ids: [],
-      images: []
+      category_ids: []
     ])
   end
 end

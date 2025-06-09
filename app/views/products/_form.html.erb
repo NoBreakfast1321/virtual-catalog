@@ -23,7 +23,37 @@
 
   <%= f.association :categories, collection: current_business.categories, label: "Categories" %>
 
-  <%= f.input :images, as: :file, input_html: { multiple: true } %>
+  <div x-data="imagePreview()" class="space-y-4">
+    <%= f.input :images, as: :file, input_html: { multiple: true, accept: "image/jpeg, image/png, image/webp", "@change": "previewImages($event)" } %>
+
+    <div class="flex flex-wrap gap-4 mt-2">
+      <template x-for="image in images" :key="image">
+        <img :src="image" class="w-32 h-32 object-cover rounded border shadow">
+      </template>
+    </div>
+  </div>
+
+  <!-- Imagens já salvas (edição) -->
+  <% if product.persisted? && product.images.attached? %>
+    <h4 class="mt-6">Imagens atuais</h4>
+
+    <div class="grid grid-cols-3 gap-4 mt-2">
+      <% product.images.each do |image| %>
+        <% next unless image.persisted? %>
+
+        <div class="relative group">
+          <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "w-full rounded shadow" %>
+
+          <div class="absolute top-0 leading-none right-0 bg-white text-xs px-2 py-1 rounded shadow leading-none">
+            <label class="flex items-center gap-1">
+              <%= check_box_tag "product[purge_image_ids][]", image.id %>
+              Remover
+            </label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>

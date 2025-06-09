@@ -102,7 +102,13 @@ class Product < ApplicationRecord
   def generate_slug
     return if name.blank?
 
-    self.slug = name.to_slug.normalize.to_s[0..49]
+    self.slug = name.parameterize[0..49]
+
+    if slug.blank?
+      errors.add(:name, "cannot be used to generate a valid slug")
+
+      throw(:abort)
+    end
   end
 
   def normalize_code
