@@ -2,7 +2,6 @@ class ProductsController < ApplicationController
   include Pagy::Backend
 
   before_action :set_product, only: %i[ show edit update destroy ]
-  before_action :restrict_product_creation, only: %i[ new create ]
 
   # GET /products
   def index
@@ -70,12 +69,6 @@ class ProductsController < ApplicationController
   end
 
   private
-
-  def restrict_product_creation
-    if current_business.categories.empty?
-      redirect_to new_category_path, alert: "You must create at least one category before creating a product."
-    end
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_product

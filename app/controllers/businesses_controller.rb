@@ -1,5 +1,6 @@
 class BusinessesController < ApplicationController
   before_action :set_business, only: %i[ show edit update destroy ]
+  before_action :restrict_business_creation, only: %i[new create]
 
   # GET /business/new
   def new
@@ -53,6 +54,12 @@ class BusinessesController < ApplicationController
   end
 
   private
+
+  def restrict_business_creation
+    if current_business.present?
+      redirect_to root_path, alert: "You already have a business."
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_business

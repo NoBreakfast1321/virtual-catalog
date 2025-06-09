@@ -11,6 +11,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories/new
   def new
+    @categories_empty = current_business.categories.none?
     @category = current_business.categories.build
   end
 
