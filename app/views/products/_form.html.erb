@@ -1,59 +1,93 @@
-<%= simple_form_for product, html: { multipart: true } do |f| %>
-  <%= f.input :visible %>
-
-  <%= f.input :featured %>
-
-  <%= f.input :code %>
-
-  <%= f.input :name %>
-
-  <%= f.input :description %>
-
-  <%= f.input :price %>
-
-  <%= f.input :sale_price %>
-
-  <%= f.input :sale_starts_at, html5: true %>
-
-  <%= f.input :sale_ends_at, html5: true %>
-
-  <%= f.input :available_from, html5: true %>
-
-  <%= f.input :available_until, html5: true %>
-
-  <%= f.association :categories, collection: current_business.categories, label: "Categories" %>
-
-  <div x-data="imagePreview()" class="space-y-4">
-    <%= f.input :images, as: :file, input_html: { multiple: true, accept: "image/jpeg, image/png, image/webp", "@change": "previewImages($event)" } %>
-
-    <div class="flex flex-wrap gap-4 mt-2">
-      <template x-for="image in images" :key="image">
-        <img :src="image" class="w-32 h-32 object-cover rounded border shadow">
-      </template>
-    </div>
+<%= custom_form_with model: product, multipart: true, class: "form" do |f| %>
+  <div class="form__group form__group--inline">
+    <%= f.checkbox :visible, class: "form__checkbox" %>
+    <%= f.label :visible, class: "form__label" %>
+    <%= f.error :visible, "form__error" %>
   </div>
 
-  <!-- Imagens já salvas (edição) -->
-  <% if product.persisted? && product.images.attached? %>
-    <h4 class="mt-6">Imagens atuais</h4>
+  <div class="form__group form__group--inline">
+    <%= f.checkbox :featured, class: "form__checkbox" %>
+    <%= f.label :featured, class: "form__label" %>
+    <%= f.error :featured, "form__error" %>
+  </div>
 
-    <div class="grid grid-cols-3 gap-4 mt-2">
-      <% product.images.each do |image| %>
-        <% next unless image.persisted? %>
+  <div class="form__group">
+    <%= f.label :code, class: "form__label" %>
+    <%= f.text_field :code, class: "form__input" %>
+    <%= f.error :code, "form__error" %>
+  </div>
 
-        <div class="relative group">
-          <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "w-full rounded shadow" %>
+  <div class="form__group">
+    <%= f.label :name, class: "form__label" %>
+    <%= f.text_field :name, class: "form__input" %>
+    <%= f.error :name, "form__error" %>
+  </div>
 
-          <div class="absolute top-0 leading-none right-0 bg-white text-xs px-2 py-1 rounded shadow leading-none">
-            <label class="flex items-center gap-1">
-              <%= check_box_tag "product[purge_image_ids][]", image.id %>
-              Remover
-            </label>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+  <div class="form__group">
+    <%= f.label :description, class: "form__label" %>
+    <%= f.text_area :description, class: "form__input" %>
+    <%= f.error :description, "form__error" %>
+  </div>
+
+  <div
+    class="form__group"
+    data-controller="currency"
+    data-currency-locale-value="<%= I18n.locale %>"
+    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+  >
+    <%= f.label :price, class: "form__label" %>
+    <input id="product_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
+    <%= f.hidden_field :price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <%= f.error :price, "form__error" %>
+  </div>
+
+  <div
+    class="form__group"
+    data-controller="currency"
+    data-currency-locale-value="<%= I18n.locale %>"
+    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+  >
+    <%= f.label :sale_price, class: "form__label" %>
+    <input id="product_sale_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
+    <%= f.hidden_field :sale_price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <%= f.error :sale_price, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :sale_starts_at, class: "form__label" %>
+    <%= f.datetime_local_field :sale_starts_at, class: "form__input" %>
+    <%= f.error :sale_starts_at, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :sale_ends_at, class: "form__label" %>
+    <%= f.datetime_local_field :sale_ends_at, class: "form__input" %>
+    <%= f.error :sale_ends_at, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :available_from, class: "form__label" %>
+    <%= f.datetime_local_field :available_from, class: "form__input" %>
+    <%= f.error :available_from, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :available_until, class: "form__label" %>
+    <%= f.datetime_local_field :available_until, class: "form__input" %>
+    <%= f.error :available_until, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :category_ids, "Categories", class: "form__label" %>
+    <%= f.collection_select :category_ids, current_business.categories, :id, :name, {}, multiple: true, class: "form__input" %>
+    <%= f.error :category_ids, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= f.label :images, class: "form__label" %>
+    <%= f.file_field :images, multiple: true, accept: "image/jpeg, image/png, image/webp", class: "form__input" %>
+    <%= f.error :images, "form__error" %>
+  </div>
 
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>

@@ -1,9 +1,27 @@
-<%= simple_form_for [@product, @option_group, option] do |f| %>
-  <%= f.input :visible %>
+<%= custom_form_with model: [@product, @option_group, option], class: "form" do |f| %>
+  <div class="form__group form__group--inline">
+    <%= f.checkbox :visible, class: "form__checkbox" %>
+    <%= f.label :visible, class: "form__label" %>
+    <%= f.error :visible, "form__error" %>
+  </div>
 
-  <%= f.input :name %>
+  <div class="form__group">
+    <%= f.label :name, class: "form__label" %>
+    <%= f.text_field :name, class: "form__input" %>
+    <%= f.error :name, "form__error" %>
+  </div>
 
-  <%= f.input :price_variation %>
+  <div
+    class="form__group"
+    data-controller="currency"
+    data-currency-locale-value="<%= I18n.locale %>"
+    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+  >
+    <%= f.label :price_variation, class: "form__label" %>
+    <input id="option_price_variation" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
+    <%= f.hidden_field :price_variation, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <%= f.error :price_variation, "form__error" %>
+  </div>
 
   <footer class="form__footer">
     <%= link_to "Cancel", @product, class: "button" %>
