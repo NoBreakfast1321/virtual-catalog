@@ -30,8 +30,8 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       name: "check_categories_description_length"
     )
 
-    reversible do |dir|
-      dir.down do
+    reversible do |direction|
+      direction.down do
         remove_check_constraint :categories, name: "check_categories_visible_boolean"
         remove_check_constraint :categories, name: "check_categories_name_length"
         remove_check_constraint :categories, name: "check_categories_description_length"

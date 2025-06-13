@@ -11,30 +11,30 @@
   </header>
 
   <div class="card__body">
-    <%= search_form_for @q, html: { class: "form" } do |f| %>
+    <%= search_form_for @q, html: { class: "form" } do |form| %>
       <div class="form__group">
-        <%= f.label :name_start, class: "form__label" %>
-        <%= f.search_field :name_start, class: "form__input" %>
+        <%= form.label :name_start, class: "form__label" %>
+        <%= form.search_field :name_start, class: "form__input" %>
       </div>
 
       <div class="form__group">
-        <%= f.label :description_start, class: "form__label" %>
-        <%= f.search_field :description_start, class: "form__input" %>
+        <%= form.label :description_start, class: "form__label" %>
+        <%= form.search_field :description_start, class: "form__input" %>
       </div>
 
       <div class="form__group">
-        <%= f.label :created_at_gteq, class: "form__label" %>
-        <%= f.date_field :created_at_gteq, class: "form__input" %>
+        <%= form.label :created_at_gteq, class: "form__label" %>
+        <%= form.date_field :created_at_gteq, class: "form__input" %>
       </div>
 
       <div class="form__group">
-        <%= f.label :updated_at_gteq, class: "form__label" %>
-        <%= f.date_field :updated_at_gteq, class: "form__input" %>
+        <%= form.label :updated_at_gteq, class: "form__label" %>
+        <%= form.date_field :updated_at_gteq, class: "form__input" %>
       </div>
 
       <footer class="form__footer">
         <%= link_to "Reset filters", categories_path, class: "button" %>
-        <%= f.submit "Filter categories", class: "button button--action" %>
+        <%= form.submit "Filter categories", class: "button button--action" %>
       </footer>
     <% end %>
   </div>

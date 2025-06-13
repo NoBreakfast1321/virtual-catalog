@@ -90,8 +90,8 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       name: "check_products_available_range"
     )
 
-    reversible do |dir|
-      dir.down do
+    reversible do |direction|
+      direction.down do
         remove_check_constraint :products, name: "check_products_visible_boolean"
         remove_check_constraint :products, name: "check_products_featured_boolean"
         remove_check_constraint :products, name: "check_products_code_length"

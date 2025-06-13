@@ -37,8 +37,8 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
       name: "check_businesses_description_length"
     )
 
-    reversible do |dir|
-      dir.down do
+    reversible do |direction|
+      direction.down do
         remove_check_constraint :businesses, name: "check_businesses_visible_boolean"
         remove_check_constraint :businesses, name: "check_businesses_slug_format"
         remove_check_constraint :businesses, name: "check_businesses_name_length"

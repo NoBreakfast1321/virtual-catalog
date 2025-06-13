@@ -37,8 +37,8 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       name: "check_option_groups_max_choices_gte_min_choices"
     )
 
-    reversible do |dir|
-      dir.down do
+    reversible do |direction|
+      direction.down do
         remove_check_constraint :option_groups, name: "check_option_groups_visible_boolean"
         remove_check_constraint :option_groups, name: "check_option_groups_name_length"
         remove_check_constraint :option_groups, name: "check_option_groups_min_choices_gte_1"

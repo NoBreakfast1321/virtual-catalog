@@ -1,32 +1,32 @@
-<%= custom_form_with model: product, multipart: true, class: "form" do |f| %>
+<%= custom_form_with model: product, multipart: true, class: "form" do |form| %>
   <div class="form__group form__group--inline">
-    <%= f.checkbox :visible, class: "form__checkbox" %>
-    <%= f.label :visible, class: "form__label" %>
-    <%= f.error :visible, "form__error" %>
+    <%= form.checkbox :visible, class: "form__checkbox" %>
+    <%= form.label :visible, class: "form__label" %>
+    <%= form.error :visible, "form__error" %>
   </div>
 
   <div class="form__group form__group--inline">
-    <%= f.checkbox :featured, class: "form__checkbox" %>
-    <%= f.label :featured, class: "form__label" %>
-    <%= f.error :featured, "form__error" %>
+    <%= form.checkbox :featured, class: "form__checkbox" %>
+    <%= form.label :featured, class: "form__label" %>
+    <%= form.error :featured, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :code, class: "form__label" %>
-    <%= f.text_field :code, class: "form__input" %>
-    <%= f.error :code, "form__error" %>
+    <%= form.label :code, class: "form__label" %>
+    <%= form.text_field :code, class: "form__input" %>
+    <%= form.error :code, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :name, class: "form__label" %>
-    <%= f.text_field :name, class: "form__input" %>
-    <%= f.error :name, "form__error" %>
+    <%= form.label :name, class: "form__label" %>
+    <%= form.text_field :name, class: "form__input" %>
+    <%= form.error :name, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :description, class: "form__label" %>
-    <%= f.text_area :description, class: "form__input" %>
-    <%= f.error :description, "form__error" %>
+    <%= form.label :description, class: "form__label" %>
+    <%= form.text_area :description, class: "form__input" %>
+    <%= form.error :description, "form__error" %>
   </div>
 
   <div
@@ -35,10 +35,10 @@
     data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
   >
-    <%= f.label :price, class: "form__label" %>
+    <%= form.label :price, class: "form__label" %>
     <input id="product_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
-    <%= f.hidden_field :price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
-    <%= f.error :price, "form__error" %>
+    <%= form.hidden_field :price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <%= form.error :price, "form__error" %>
   </div>
 
   <div
@@ -47,50 +47,50 @@
     data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
   >
-    <%= f.label :sale_price, class: "form__label" %>
+    <%= form.label :sale_price, class: "form__label" %>
     <input id="product_sale_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
-    <%= f.hidden_field :sale_price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
-    <%= f.error :sale_price, "form__error" %>
+    <%= form.hidden_field :sale_price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <%= form.error :sale_price, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :sale_starts_at, class: "form__label" %>
-    <%= f.datetime_local_field :sale_starts_at, class: "form__input" %>
-    <%= f.error :sale_starts_at, "form__error" %>
+    <%= form.label :sale_starts_at, class: "form__label" %>
+    <%= form.datetime_local_field :sale_starts_at, class: "form__input" %>
+    <%= form.error :sale_starts_at, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :sale_ends_at, class: "form__label" %>
-    <%= f.datetime_local_field :sale_ends_at, class: "form__input" %>
-    <%= f.error :sale_ends_at, "form__error" %>
+    <%= form.label :sale_ends_at, class: "form__label" %>
+    <%= form.datetime_local_field :sale_ends_at, class: "form__input" %>
+    <%= form.error :sale_ends_at, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :available_from, class: "form__label" %>
-    <%= f.datetime_local_field :available_from, class: "form__input" %>
-    <%= f.error :available_from, "form__error" %>
+    <%= form.label :available_from, class: "form__label" %>
+    <%= form.datetime_local_field :available_from, class: "form__input" %>
+    <%= form.error :available_from, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :available_until, class: "form__label" %>
-    <%= f.datetime_local_field :available_until, class: "form__input" %>
-    <%= f.error :available_until, "form__error" %>
+    <%= form.label :available_until, class: "form__label" %>
+    <%= form.datetime_local_field :available_until, class: "form__input" %>
+    <%= form.error :available_until, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :category_ids, "Categories", class: "form__label" %>
-    <%= f.collection_select :category_ids, current_business.categories, :id, :name, {}, multiple: true, class: "form__input" %>
-    <%= f.error :category_ids, "form__error" %>
+    <%= form.label :category_ids, "Categories", class: "form__label" %>
+    <%= form.collection_select :category_ids, current_business.categories, :id, :name, {}, multiple: true, class: "form__input" %>
+    <%= form.error :category_ids, "form__error" %>
   </div>
 
   <div class="form__group">
-    <%= f.label :images, class: "form__label" %>
-    <%= f.file_field :images, multiple: true, accept: "image/jpeg, image/png, image/webp", class: "form__input" %>
-    <%= f.error :images, "form__error" %>
+    <%= form.label :images, class: "form__label" %>
+    <%= form.file_field :images, multiple: true, accept: "image/jpeg, image/png, image/webp", class: "form__input" %>
+    <%= form.error :images, "form__error" %>
   </div>
 
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>
-    <%= f.submit nil, class: "button button--action" %>
+    <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

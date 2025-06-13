@@ -27,8 +27,8 @@ class CreateOptions < ActiveRecord::Migration[8.0]
       name: "check_options_name_length"
     )
 
-    reversible do |dir|
-      dir.down do
+    reversible do |direction|
+      direction.down do
         remove_check_constraint :options, name: "check_options_visible_boolean"
         remove_check_constraint :options, name: "check_options_name_length"
       end

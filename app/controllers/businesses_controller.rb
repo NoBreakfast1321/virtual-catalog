@@ -1,6 +1,6 @@
 class BusinessesController < ApplicationController
   before_action :set_business, only: %i[ show edit update destroy ]
-  before_action :restrict_business_creation, only: %i[new create]
+  before_action :restrict_business_creation, only: %i[ new create ]
 
   # GET /business/new
   def new
