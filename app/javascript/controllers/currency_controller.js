@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
+const FRACTION_DIGITS = 2;
+
 export default class extends Controller {
   static targets = ["input", "hidden"];
   static values = {
@@ -24,15 +26,15 @@ export default class extends Controller {
     const value = rawValue / 100;
 
     this.inputTarget.value = this.formatter.format(value);
-    this.hiddenTarget.value = value.toFixed(2);
+    this.hiddenTarget.value = value.toFixed(FRACTION_DIGITS);
   }
 
   get formatter() {
     return new Intl.NumberFormat(this.localeValue, {
       style: "currency",
       currency: this.currencyValue,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      minimumFractionDigits: FRACTION_DIGITS,
+      maximumFractionDigits: FRACTION_DIGITS,
     });
   }
 }

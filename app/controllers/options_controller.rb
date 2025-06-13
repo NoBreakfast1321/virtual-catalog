@@ -44,7 +44,7 @@ class OptionsController < ApplicationController
       else
         format.turbo_stream do
           flash.now[:alert] = @option.errors.full_messages.to_sentence
-          render turbo_stream: render_flash_toast, status: :unprocessable_entity
+          render turbo_stream: render_toast, status: :unprocessable_entity
         end
       end
     end

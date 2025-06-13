@@ -1,6 +1,6 @@
 module ApplicationHelper
   include Pagy::Frontend
-  include FlashToastable
+  include Toaster
 
   def custom_form_with(**options, &block)
     options[:builder] = CustomFormBuilder

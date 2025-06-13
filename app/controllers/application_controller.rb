@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include FlashToastable
+  include Toaster
 
   before_action :authenticate_user!, unless: :devise_controller?
   before_action :ensure_business_creation
