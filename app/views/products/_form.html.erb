@@ -30,10 +30,10 @@
   </div>
 
   <div
-    class="form__group"
     data-controller="currency"
     data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    class="form__group"
   >
     <%= form.label :price, class: "form__label" %>
     <input id="product_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
@@ -42,10 +42,10 @@
   </div>
 
   <div
-    class="form__group"
     data-controller="currency"
     data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    class="form__group"
   >
     <%= form.label :sale_price, class: "form__label" %>
     <input id="product_sale_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
@@ -83,11 +83,37 @@
     <%= form.error :category_ids, "form__error" %>
   </div>
 
-  <div class="form__group">
+  <div data-controller="image-preview" class="form__group">
     <%= form.label :images, class: "form__label" %>
-    <%= form.file_field :images, multiple: true, accept: "image/jpeg, image/png, image/webp", class: "form__input" %>
+    <%= form.file_field :images,
+      data: { image_preview_target: "input", action: "change->image-preview#preview" },
+      multiple: true,
+      accept: "image/jpeg, image/png, image/webp",
+      class: "form__input"
+    %>
     <%= form.error :images, "form__error" %>
+
+    <div data-image-preview-target="preview" class="mt-2 flex flex-wrap gap-4"></div>
   </div>
+
+  <% if product.persisted? && product.images.attached? %>
+    <h4 class="mt-6">Imagens atuais</h4>
+
+    <div class="mt-2 grid grid-cols-3 gap-4">
+      <% product.images.each do |image| %>
+        <% next unless image.persisted? %>
+
+        <div class="relative">
+          <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300" %>
+
+          <label class="form__group form__group--inline absolute right-1 top-1 rounded-md bg-white px-2 py-0.5">
+            <%= check_box_tag "product[purge_image_ids][]", id: image.id, value: image.id, class: "form__checkbox" %>
+            <span class="form__label">Remover</span>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <footer class="form__footer">
     <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>

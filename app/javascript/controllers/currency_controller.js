@@ -26,7 +26,7 @@ export default class extends Controller {
     const value = rawValue / 100;
 
     this.inputTarget.value = this.formatter.format(value);
-    this.hiddenTarget.value = value.toFixed(FRACTION_DIGITS);
+    this.hiddenTarget.value = value;
   }
 
   get formatter() {

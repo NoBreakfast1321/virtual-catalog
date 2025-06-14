@@ -12,10 +12,10 @@
   </div>
 
   <div
-    class="form__group"
     data-controller="currency"
     data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    class="form__group"
   >
     <%= form.label :price_variation, class: "form__label" %>
     <input id="option_price_variation" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
