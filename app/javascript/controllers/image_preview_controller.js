@@ -5,8 +5,6 @@ export default class extends Controller {
   static values = { images: Array };
 
   connect() {
-    this.imagesValue = [];
-
     this.render();
   }
 

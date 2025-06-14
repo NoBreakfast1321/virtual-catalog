@@ -111,10 +111,12 @@
     <dt class="description-list__term">
       Images
     </dt>
-    <dd class="description-list__definition flex flex-wrap gap-3">
-      <% product.images.each do |image| %>
-        <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "size-[300px]" %>
-      <% end %>
+    <dd
+      data-controller="image-preview"
+      data-image-preview-images-value="<%= product.images.map(&method(:url_for)) %>"
+      class="description-list__definition flex flex-wrap gap-3"
+    >
+      <div data-image-preview-target="preview" class="mt-2 flex flex-wrap gap-4"></div>
     </dd>
   </div>
 </div>
