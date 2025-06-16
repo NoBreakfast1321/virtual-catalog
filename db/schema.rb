@@ -40,13 +40,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "businesses", force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
-    t.string "slug", limit: 30, null: false
-    t.string "name", limit: 30, null: false
     t.text "description", limit: 150
-    t.integer "user_id", null: false
+    t.string "name", limit: 30, null: false
+    t.string "slug", limit: 30, null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["slug"], name: "index_businesses_on_slug", unique: true
     t.index ["user_id"], name: "index_businesses_on_user_id"
     t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_businesses_description_length"
@@ -56,12 +56,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
-    t.string "name", limit: 30, null: false
     t.text "description", limit: 150
-    t.integer "business_id", null: false
+    t.string "name", limit: 30, null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "business_id", null: false
     t.index ["business_id", "name"], name: "index_categories_on_business_id_and_name", unique: true
     t.index ["business_id"], name: "index_categories_on_business_id"
     t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_categories_description_length"
@@ -70,13 +70,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "option_groups", force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
-    t.string "name", limit: 30, null: false
-    t.integer "min_choices", default: 1, null: false
     t.integer "max_choices"
-    t.integer "product_id", null: false
+    t.integer "min_choices", default: 1, null: false
+    t.string "name", limit: 30, null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "product_id", null: false
     t.index ["product_id", "name"], name: "index_option_groups_on_product_id_and_name", unique: true
     t.index ["product_id"], name: "index_option_groups_on_product_id"
     t.check_constraint "length(name) <= 30", name: "check_option_groups_name_length"
@@ -86,13 +86,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "options", force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
     t.string "name", limit: 50, null: false
     t.integer "price_variation_cents"
     t.string "price_variation_currency"
-    t.integer "option_group_id", null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "option_group_id", null: false
     t.index ["option_group_id", "name"], name: "index_options_on_option_group_id_and_name", unique: true
     t.index ["option_group_id"], name: "index_options_on_option_group_id"
     t.check_constraint "length(name) <= 50", name: "check_options_name_length"
@@ -100,10 +100,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "product_categories", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category_id", null: false
+    t.integer "product_id", null: false
     t.index ["category_id", "product_id"], name: "index_product_categories_on_category_id_and_product_id"
     t.index ["category_id"], name: "index_product_categories_on_category_id"
     t.index ["product_id", "category_id"], name: "index_product_categories_on_product_id_and_category_id", unique: true
@@ -111,23 +111,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.boolean "visible", default: true, null: false
-    t.boolean "featured", default: false, null: false
+    t.datetime "available_from"
+    t.datetime "available_until"
     t.string "code", limit: 50
-    t.string "slug", limit: 150, null: false
-    t.string "name", limit: 150, null: false
     t.text "description", limit: 5000
+    t.boolean "featured", default: false, null: false
+    t.string "name", limit: 150, null: false
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
+    t.datetime "sale_ends_at"
     t.integer "sale_price_cents"
     t.string "sale_price_currency"
     t.datetime "sale_starts_at"
-    t.datetime "sale_ends_at"
-    t.datetime "available_from"
-    t.datetime "available_until"
-    t.integer "business_id", null: false
+    t.string "slug", limit: 150, null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "business_id", null: false
     t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
     t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
     t.index ["business_id", "slug"], name: "index_products_on_business_id_and_slug", unique: true

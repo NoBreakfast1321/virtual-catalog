@@ -32,6 +32,10 @@
     </dt>
     <dd class="description-list__definition">
       <%= safe_join(category.products.map { |product| link_to product.name, product }, ", ") %>
+
+      <br>
+
+      <%= link_to "New product", new_product_path, class: "button button--action" %>
     </dd>
   </div>
 </dl>

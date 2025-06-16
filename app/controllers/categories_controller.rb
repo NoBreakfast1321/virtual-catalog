@@ -55,6 +55,7 @@ class CategoriesController < ApplicationController
       else
         format.html do
           flash.now[:alert] = @category.errors.full_messages.to_sentence
+
           render :show, status: :unprocessable_entity
         end
       end
@@ -70,6 +71,6 @@ class CategoriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def category_params
-    params.expect(category: [ :visible, :name, :description ])
+    params.expect(category: [ :description, :name, :visible ])
   end
 end

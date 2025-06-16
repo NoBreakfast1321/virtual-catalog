@@ -21,13 +21,13 @@
 #  option_group_id  (option_group_id => option_groups.id) ON DELETE => cascade
 #
 class Option < ApplicationRecord
-  include FilterableByVisibility
-  include NameNormalizable
-
-  belongs_to :option_group
+  include NameNormalizer
+  include VisibilityFilterer
 
   monetize :price_variation_cents, allow_nil: true
 
-  validates :visible, inclusion: { in: [ true, false ] }
+  belongs_to :option_group
+
   validates :name, length: { maximum: 50 }, presence: true, uniqueness: { scope: :option_group }
+  validates :visible, inclusion: { in: [ true, false ] }
 end

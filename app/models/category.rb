@@ -20,19 +20,19 @@
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Category < ApplicationRecord
-  include FilterableByVisibility
-  include NameNormalizable
+  include NameNormalizer
+  include VisibilityFilterer
 
   belongs_to :business
 
   has_many :product_categories, dependent: :restrict_with_error
   has_many :products, through: :product_categories
 
-  validates :visible, inclusion: { in: [ true, false ] }
-  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :business_id }
   validates :description, length: { maximum: 150 }, allow_blank: true
+  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :business_id }
+  validates :visible, inclusion: { in: [ true, false ] }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ visible name description created_at updated_at ]
+    %w[ description name visible created_at updated_at ]
   end
 end

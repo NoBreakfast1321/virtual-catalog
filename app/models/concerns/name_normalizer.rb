@@ -1,4 +1,4 @@
-module NameNormalizable
+module NameNormalizer
   extend ActiveSupport::Concern
 
   included do

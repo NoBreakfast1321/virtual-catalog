@@ -2,8 +2,8 @@ class ProductsController < ApplicationController
   include Pagy::Backend
 
   before_action :set_product, only: %i[ show edit update destroy ]
-  before_action :restrict_product_creation, only: %i[ new create ]
 
+  before_action :restrict_product_creation, only: %i[ new create ]
 
   # GET /products
   def index
@@ -64,6 +64,7 @@ class ProductsController < ApplicationController
       else
         format.html do
           flash.now[:alert] = @product.errors.full_messages.to_sentence
+
           render :show, status: :unprocessable_entity
         end
       end
@@ -71,10 +72,6 @@ class ProductsController < ApplicationController
   end
 
   private
-
-  def restrict_product_creation
-    redirect_to new_category_path, alert: "You must create at least one category before creating a product." if current_business.categories.blank?
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_product
@@ -84,18 +81,22 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.expect(product: [
-      :visible,
-      :featured,
-      :code,
-      :name,
-      :description,
-      :price,
-      :sale_price,
-      :sale_starts_at,
-      :sale_ends_at,
       :available_from,
       :available_until,
+      :code,
+      :description,
+      :featured,
+      :name,
+      :price,
+      :sale_ends_at,
+      :sale_price,
+      :sale_starts_at,
+      :visible,
       category_ids: []
     ])
+  end
+
+  def restrict_product_creation
+    redirect_to new_category_path, alert: "You must create at least one category before creating a product." if current_business.categories.blank?
   end
 end

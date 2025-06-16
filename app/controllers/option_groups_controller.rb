@@ -43,6 +43,7 @@ class OptionGroupsController < ApplicationController
       else
         format.turbo_stream do
           flash.now[:alert] = @option_group.errors.full_messages.to_sentence
+
           render turbo_stream: render_toast, status: :unprocessable_entity
         end
       end
@@ -62,6 +63,6 @@ class OptionGroupsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def option_group_params
-    params.expect(option_group: [ :visible, :name, :min_choices, :max_choices ])
+    params.expect(option_group: [ :max_choices, :min_choices, :name, :visible ])
   end
 end

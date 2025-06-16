@@ -59,7 +59,7 @@
 #                                          PUT    /products/:id(.:format)                                                                           products#update
 #                                          DELETE /products/:id(.:format)                                                                           products#destroy
 #                                  catalog GET    /:slug(.:format)                                                                                  catalogs#show
-#                           public_product GET    /:business_slug/products/:slug(.:format)                                                          public_products#show
+#                           public_product GET    /:business_slug/:slug(.:format)                                                                   public_products#show
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

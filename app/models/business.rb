@@ -21,14 +21,17 @@
 #  user_id  (user_id => users.id) ON DELETE => cascade
 #
 class Business < ApplicationRecord
-  include NameNormalizable
+  include NameNormalizer
+  include SlugBlocker
 
   belongs_to :user
 
-  has_many :products, dependent: :destroy
   has_many :categories, dependent: :destroy
+  has_many :products, dependent: :destroy
 
-  validates :visible, inclusion: { in: [ true, false ] }
+  validates :description, length: { maximum: 150 }, allow_blank: true
+  validates :name, length: { maximum: 30 }, presence: true
+
   validates :slug,
     format: {
       with: /\A[a-z0-9_-]+\z/,
@@ -38,6 +41,5 @@ class Business < ApplicationRecord
     presence: true,
     uniqueness: true
 
-  validates :name, length: { maximum: 30 }, presence: true
-  validates :description, length: { maximum: 150 }, allow_blank: true
+  validates :visible, inclusion: { in: [ true, false ] }
 end

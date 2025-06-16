@@ -21,6 +21,6 @@
 #  product_id   (product_id => products.id) ON DELETE => cascade
 #
 class ProductCategory < ApplicationRecord
-  belongs_to :product
   belongs_to :category
+  belongs_to :product
 end

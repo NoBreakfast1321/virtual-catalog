@@ -1,5 +1,6 @@
 class BusinessesController < ApplicationController
   before_action :set_business, only: %i[ show edit update destroy ]
+
   before_action :restrict_business_creation, only: %i[ new create ]
 
   # GET /business/new
@@ -47,6 +48,7 @@ class BusinessesController < ApplicationController
       else
         format.html do
           flash.now[:alert] = @business.errors.full_messages.to_sentence
+
           render :show, status: :unprocessable_entity
         end
       end
@@ -55,12 +57,6 @@ class BusinessesController < ApplicationController
 
   private
 
-  def restrict_business_creation
-    if current_business.present?
-      redirect_to root_path, alert: "You already have a business."
-    end
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_business
     @business = current_business
@@ -68,6 +64,10 @@ class BusinessesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def business_params
-    params.expect(business: [ :visible, :slug, :name, :description ])
+    params.expect(business: [ :description, :name, :slug, :visible ])
+  end
+
+  def restrict_business_creation
+    redirect_to root_path, alert: "You already have a business." if current_business.present?
   end
 end

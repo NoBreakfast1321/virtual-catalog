@@ -113,7 +113,7 @@
     </dt>
     <dd
       data-controller="image-preview"
-      data-image-preview-images-value="<%= product.images.map(&method(:url_for)) %>"
+      data-image-preview-images-value="<%= product.images.map { |image| url_for(image) } %>"
       class="description-list__definition flex flex-wrap gap-3"
     >
       <div data-image-preview-target="preview" class="mt-2 flex flex-wrap gap-4"></div>

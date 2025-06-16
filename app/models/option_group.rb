@@ -21,15 +21,15 @@
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
 class OptionGroup < ApplicationRecord
-  include FilterableByVisibility
-  include NameNormalizable
+  include NameNormalizer
+  include VisibilityFilterer
 
   belongs_to :product
 
   has_many :options, dependent: :destroy
 
-  validates :visible, inclusion: { in: [ true, false ] }
-  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }
-  validates :min_choices, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :max_choices, numericality: { only_integer: true, greater_than_or_equal_to: :min_choices }, allow_nil: true
+  validates :min_choices, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }
+  validates :visible, inclusion: { in: [ true, false ] }
 end

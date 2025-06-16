@@ -1,4 +1,4 @@
-module FilterableByVisibility
+module VisibilityFilterer
   extend ActiveSupport::Concern
 
   included do

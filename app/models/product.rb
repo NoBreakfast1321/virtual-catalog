@@ -33,54 +33,63 @@
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
-  include FilterableByVisibility
-  include NameNormalizable
+  include NameNormalizer
+  include SlugBlocker
+  include VisibilityFilterer
 
-  belongs_to :business
+  monetize :price_cents
+  monetize :sale_price_cents, allow_nil: true
 
   has_many_attached :images
+
+  belongs_to :business
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
   has_many :option_groups, dependent: :destroy
 
-  before_validation :generate_slug, on: %i[ create update ]
-  before_validation :normalize_code
-
-  monetize :price_cents
-  monetize :sale_price_cents, allow_nil: true
-
-  validates :visible, inclusion: { in: [ true, false ] }
-  validates :featured, inclusion: { in: [ true, false ] }
-  validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
-  validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
-  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
-  validates :description, length: { maximum: 5000 }, allow_blank: true
-  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
-  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }
-  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.blank? }
-  validates :sale_ends_at, comparison: { greater_than: :sale_starts_at }, allow_nil: true
-  validates :available_until, absence: true, if: -> { available_from.blank? }
-  validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
-  validates :categories, presence: true
   validates :images,
     limit: { max: 10 },
     content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
     size: { less_than: 1.megabyte }
 
-  scope :featured, -> { where(featured: true) }
-  scope :unfeatured, -> { where(featured: false) }
-  scope :on_sale, -> { where.not(sale_price_cents: nil) }
-  scope :sale_scheduled, -> { where.not(sale_starts_at: nil).where("sale_starts_at > ?", Time.current) }
-  scope :sale_ended, -> { where.not(sale_ends_at: nil).where(sale_ends_at: ...Time.current) }
+  validates :available_until, absence: true, if: -> { available_from.blank? }
+  validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
+  validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
+  validates :description, length: { maximum: 5000 }, allow_blank: true
+  validates :featured, inclusion: { in: [ true, false ] }
+  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.blank? }
+  validates :sale_ends_at, comparison: { greater_than: :sale_starts_at }, allow_nil: true
+  validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
+  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }
+  validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
+  validates :visible, inclusion: { in: [ true, false ] }
+  validates :categories, presence: true
+
+  before_validation :generate_slug, on: %i[ create update ]
+  before_validation :normalize_code
+
+  # 📆 Availability scopes
   scope :available, -> { where("available_from IS NULL OR available_from <= ?", Time.current) }
   scope :expired, -> { where.not(available_until: nil).where(available_until: ...Time.current) }
   scope :not_expired, -> { where("available_until IS NULL OR available_until >= ?", Time.current) }
+
+  # 🔥 Featured scopes
+  scope :featured, -> { where(featured: true) }
+  scope :unfeatured, -> { where(featured: false) }
+
+  # 🏷️ Sale scopes
+  scope :on_sale, -> { where.not(sale_price_cents: nil) }
+  scope :sale_ended, -> { where.not(sale_ends_at: nil).where(sale_ends_at: ...Time.current) }
+  scope :sale_scheduled, -> { where.not(sale_starts_at: nil).where("sale_starts_at > ?", Time.current) }
+
+  # 🚩 General state scopes
   scope :active, -> { visible.available.not_expired }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ visible featured code slug name description price sale_price sale_starts_at sale_ends_at available_from available_until created_at updated_at ]
+    %w[ available_from available_until code description featured name price sale_ends_at sale_price sale_starts_at slug visible created_at updated_at ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -100,8 +109,6 @@ class Product < ApplicationRecord
   private
 
   def generate_slug
-    return if name.blank?
-
     self.slug = name.parameterize[0..49]
 
     if slug.blank?
