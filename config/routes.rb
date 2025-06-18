@@ -108,6 +108,10 @@ Rails.application.routes.draw do
     resources :option_groups do
       resources :options
     end
+
+    resources :property_groups do
+      resources :properties
+    end
   end
 
   get "/:slug", to: "catalogs#show", as: :catalog

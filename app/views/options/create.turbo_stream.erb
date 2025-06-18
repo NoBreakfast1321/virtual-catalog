@@ -1,5 +1,5 @@
-<%= turbo_stream.append :options, partial: "options/option", locals: { option: @option } %>
+<%= turbo_stream.append turbo_frame_id(@option_group, :options), partial: "options/option", locals: { option: @option } %>
 
-<%= turbo_stream.update Option.new, "" %>
+<%= turbo_stream.update turbo_frame_id(@option_group, Option.new), "" %>
 
 <%= render_toast %>

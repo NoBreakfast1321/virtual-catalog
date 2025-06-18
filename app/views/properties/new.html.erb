@@ -1,0 +1,10 @@
+<%= turbo_frame_tag turbo_frame_id(@property_group, Property.new) do %>
+  <div class="card mb-6">
+    <header class="card__header">
+      <h3 class="card__heading">New Property</h3>
+    </header>
+    <div class="card__body">
+      <%= render "form", property: @property %>
+    </div>
+  </div>
+<% end %>

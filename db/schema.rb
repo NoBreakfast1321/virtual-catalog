@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_18_143607) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -144,6 +144,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
     t.check_constraint "visible IN (0, 1)", name: "check_products_visible_boolean"
   end
 
+  create_table "properties", force: :cascade do |t|
+    t.string "name", limit: 50, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "property_group_id", null: false
+    t.index ["property_group_id", "name"], name: "index_properties_on_property_group_id_and_name", unique: true
+    t.index ["property_group_id"], name: "index_properties_on_property_group_id"
+    t.check_constraint "length(name) <= 50", name: "check_properties_name_length"
+  end
+
+  create_table "property_groups", force: :cascade do |t|
+    t.string "name", limit: 30, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "product_id", null: false
+    t.index ["product_id", "name"], name: "index_property_groups_on_product_id_and_name", unique: true
+    t.index ["product_id"], name: "index_property_groups_on_product_id"
+    t.check_constraint "length(name) <= 30", name: "check_property_groups_name_length"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -165,4 +185,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_204220) do
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
   add_foreign_key "products", "businesses", on_delete: :cascade
+  add_foreign_key "properties", "property_groups", on_delete: :cascade
+  add_foreign_key "property_groups", "products", on_delete: :cascade
 end

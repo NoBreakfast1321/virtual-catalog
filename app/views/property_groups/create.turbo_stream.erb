@@ -1,0 +1,5 @@
+<%= turbo_stream.append :property_groups, partial: "property_groups/property_group", locals: { property_group: @property_group } %>
+
+<%= turbo_stream.update PropertyGroup.new, "" %>
+
+<%= render_toast %>

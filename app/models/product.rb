@@ -46,7 +46,11 @@ class Product < ApplicationRecord
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
+
   has_many :option_groups, dependent: :destroy
+  has_many :property_groups, dependent: :destroy
+
+  has_many :properties, through: :property_groups
 
   validates :images,
     limit: { max: 10 },
