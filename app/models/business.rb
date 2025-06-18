@@ -22,7 +22,7 @@
 #
 class Business < ApplicationRecord
   include NameNormalizer
-  include SlugBlocker
+  include SlugRestricter
 
   belongs_to :user
 

@@ -97,6 +97,6 @@ class ProductsController < ApplicationController
   end
 
   def restrict_product_creation
-    redirect_to new_category_path, alert: "You must create at least one category before creating a product." if current_business.categories.blank?
+    redirect_to new_category_path, alert: "You must create at least one category before creating a product." if current_business.categories.empty?
   end
 end

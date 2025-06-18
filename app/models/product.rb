@@ -34,7 +34,7 @@
 #
 class Product < ApplicationRecord
   include NameNormalizer
-  include SlugBlocker
+  include SlugRestricter
   include VisibilityFilterer
 
   monetize :price_cents
@@ -53,17 +53,17 @@ class Product < ApplicationRecord
     content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
     size: { less_than: 1.megabyte }
 
-  validates :available_until, absence: true, if: -> { available_from.blank? }
+  validates :available_until, absence: true, if: -> { available_from.nil? }
   validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
   validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :featured, inclusion: { in: [ true, false ] }
   validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.blank? }
+  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.nil? }
   validates :sale_ends_at, comparison: { greater_than: :sale_starts_at }, allow_nil: true
   validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
-  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.blank? }
+  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.nil? }
   validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :visible, inclusion: { in: [ true, false ] }
   validates :categories, presence: true
@@ -97,9 +97,13 @@ class Product < ApplicationRecord
   end
 
   def active?
-    visible &&
-      (available_from.nil? || available_from <= Time.current) &&
-      (available_until.nil? || available_until >= Time.current)
+    return false unless visible
+
+    return false if available_from && available_from > Time.current
+
+    return false if available_until && available_until < Time.current
+
+    true
   end
 
   def effective_price
