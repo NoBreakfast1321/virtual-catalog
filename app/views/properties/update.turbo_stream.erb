@@ -1,5 +1,9 @@
+<%= render_toast %>
+
+<%= turbo_stream.replace :variants do %>
+  <%= render partial: "products/variants", locals: { product: @product } %>
+<% end %>
+
 <%= turbo_stream.replace @property do %>
   <%= render @property %>
 <% end %>
-
-<%= render_toast %>

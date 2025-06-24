@@ -52,6 +52,8 @@ class Product < ApplicationRecord
 
   has_many :properties, through: :property_groups
 
+  has_many :variants, dependent: :destroy
+
   validates :images,
     limit: { max: 10 },
     content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },

@@ -18,6 +18,8 @@ class PropertiesController < ApplicationController
 
     respond_to do |format|
       if @property.save
+        Products::VariantsRebuilder.call(@product)
+
         format.turbo_stream { flash.now[:notice] = "Property was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,6 +42,8 @@ class PropertiesController < ApplicationController
   def destroy
     respond_to do |format|
       if @property.destroy
+        Products::VariantsRebuilder.call(@product)
+
         format.turbo_stream { flash.now[:notice] = "Property was successfully destroyed." }
       else
         format.turbo_stream do

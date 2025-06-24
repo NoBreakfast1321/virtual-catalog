@@ -27,6 +27,25 @@
   </footer>
 </section>
 
+<div>
+  <section class="card">
+    <header class="card__header">
+      <h2 class="card__heading">
+        Product Variants
+      </h2>
+      <p class="card__description">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+      </p>
+    </header>
+
+    <div class="card__body">
+      <%= turbo_frame_tag :variants do %>
+        <%= render partial: "products/variants", locals: { product: @product } %>
+      <% end %>
+    </div>
+  </section>
+</div>
+
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
