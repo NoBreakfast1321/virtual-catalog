@@ -50,6 +50,22 @@
 #                                          PATCH  /products/:product_id/option_groups/:id(.:format)                                                 option_groups#update
 #                                          PUT    /products/:product_id/option_groups/:id(.:format)                                                 option_groups#update
 #                                          DELETE /products/:product_id/option_groups/:id(.:format)                                                 option_groups#destroy
+#        product_property_group_properties GET    /products/:product_id/property_groups/:property_group_id/properties(.:format)                     properties#index
+#                                          POST   /products/:product_id/property_groups/:property_group_id/properties(.:format)                     properties#create
+#      new_product_property_group_property GET    /products/:product_id/property_groups/:property_group_id/properties/new(.:format)                 properties#new
+#     edit_product_property_group_property GET    /products/:product_id/property_groups/:property_group_id/properties/:id/edit(.:format)            properties#edit
+#          product_property_group_property GET    /products/:product_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#show
+#                                          PATCH  /products/:product_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
+#                                          PUT    /products/:product_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
+#                                          DELETE /products/:product_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#destroy
+#                  product_property_groups GET    /products/:product_id/property_groups(.:format)                                                   property_groups#index
+#                                          POST   /products/:product_id/property_groups(.:format)                                                   property_groups#create
+#               new_product_property_group GET    /products/:product_id/property_groups/new(.:format)                                               property_groups#new
+#              edit_product_property_group GET    /products/:product_id/property_groups/:id/edit(.:format)                                          property_groups#edit
+#                   product_property_group GET    /products/:product_id/property_groups/:id(.:format)                                               property_groups#show
+#                                          PATCH  /products/:product_id/property_groups/:id(.:format)                                               property_groups#update
+#                                          PUT    /products/:product_id/property_groups/:id(.:format)                                               property_groups#update
+#                                          DELETE /products/:product_id/property_groups/:id(.:format)                                               property_groups#destroy
 #                                 products GET    /products(.:format)                                                                               products#index
 #                                          POST   /products(.:format)                                                                               products#create
 #                              new_product GET    /products/new(.:format)                                                                           products#new

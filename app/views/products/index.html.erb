@@ -96,6 +96,7 @@
         <thead>
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
+            <th class="table__head-cell"><%= sort_link(@q, :visible, "Adult only?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :featured, "Featured?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :code, "Code", class: "table__head-cell-link group") %></th>
@@ -118,6 +119,7 @@
           <% @products.each do |product| %>
             <tr class="table__body-row">
               <td class="table__body-cell table__body-cell--numeric"><%= product.id %></td>
+              <td class="table__body-cell"><%= product.adult_only? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.visible? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.featured? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.code %></td>

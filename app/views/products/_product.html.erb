@@ -1,6 +1,15 @@
 <dl id="<%= dom_id product %>" class="description-list">
   <div class="description-list__item">
     <dt class="description-list__term">
+      Adult only?
+    </dt>
+    <dd class="description-list__definition">
+      <%= product.adult_only? ? "Yes" : "No" %>
+    </dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">
       Visible?
     </dt>
     <dd class="description-list__definition">

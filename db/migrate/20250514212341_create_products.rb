@@ -1,6 +1,7 @@
 class CreateProducts < ActiveRecord::Migration[8.0]
   def change
     create_table :products do |t|
+      t.boolean     :adult_only, null: false, default: false
       t.datetime    :available_from
       t.datetime    :available_until
       t.string      :code, limit: 50
@@ -29,6 +30,12 @@ class CreateProducts < ActiveRecord::Migration[8.0]
     add_index :products, %i[ business_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
     add_index :products, %i[ business_id name ], unique: true
     add_index :products, %i[ business_id slug ], unique: true
+
+    add_check_constraint(
+      :products,
+      "adult_only IN (0, 1)",
+      name: "check_products_adult_only_boolean"
+    )
 
     add_check_constraint(
       :products,
@@ -92,6 +99,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
     reversible do |direction|
       direction.down do
+        remove_check_constraint :products, name: "check_products_adult_only_boolean"
         remove_check_constraint :products, name: "check_products_available_range"
         remove_check_constraint :products, name: "check_products_code_length"
         remove_check_constraint :products, name: "check_products_description_length"

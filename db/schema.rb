@@ -111,6 +111,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.boolean "adult_only", default: false, null: false
     t.datetime "available_from"
     t.datetime "available_until"
     t.string "code", limit: 50
@@ -132,6 +133,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
     t.index ["business_id", "slug"], name: "index_products_on_business_id_and_slug", unique: true
     t.index ["business_id"], name: "index_products_on_business_id"
+    t.check_constraint "adult_only IN (0, 1)", name: "check_products_adult_only_boolean"
     t.check_constraint "available_from IS NULL OR available_until IS NULL OR available_from < available_until", name: "check_products_available_range"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_products_code_length"
     t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"

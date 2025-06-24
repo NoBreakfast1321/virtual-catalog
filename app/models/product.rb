@@ -3,6 +3,7 @@
 # Table name: products
 #
 #  id                  :integer          not null, primary key
+#  adult_only          :boolean          default(FALSE), not null
 #  available_from      :datetime
 #  available_until     :datetime
 #  code                :string(50)
@@ -59,6 +60,7 @@ class Product < ApplicationRecord
     content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
     size: { less_than: 1.megabyte }
 
+  validates :adult_only, inclusion: { in: [ true, false ] }
   validates :available_until, absence: true, if: -> { available_from.nil? }
   validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
   validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
@@ -76,6 +78,10 @@ class Product < ApplicationRecord
 
   before_validation :generate_slug, on: %i[ create update ]
   before_validation :normalize_code
+
+  # 🔞 Audience scopes
+  scope :adult, -> { where(adult_only: true) }
+  scope :non_adult, -> { where(adult_only: false) }
 
   # 📆 Availability scopes
   scope :available, -> { where("available_from IS NULL OR available_from <= ?", Time.current) }
