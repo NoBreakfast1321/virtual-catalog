@@ -1,6 +1,6 @@
 <%= render_toast %>
 
-<%= turbo_stream.replace :variants do %>
+<%= turbo_stream.replace turbo_frame_id(:variants) do %>
   <%= render partial: "products/variants", locals: { product: @product } %>
 <% end %>
 

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag @property_group do %>
+<%= turbo_frame_tag turbo_frame_id(@property_group) do %>
   <div class="card mb-6">
     <div class="card__body">
       <%= render "form", property_group: @property_group %>

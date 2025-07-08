@@ -1,5 +1,5 @@
 <%= render_toast %>
 
-<%= turbo_stream.replace @option do %>
+<%= turbo_stream.replace turbo_frame_id(@option) do %>
   <%= render @option %>
 <% end %>

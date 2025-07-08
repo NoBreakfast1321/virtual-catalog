@@ -1,4 +1,4 @@
-<%= turbo_frame_tag @option_group do %>
+<%= turbo_frame_tag turbo_frame_id(@option_group) do %>
   <div class="card mb-6">
     <div class="card__body">
       <%= render "form", option_group: @option_group %>

@@ -39,7 +39,7 @@
     </header>
 
     <div class="card__body">
-      <%= turbo_frame_tag :variants do %>
+      <%= turbo_frame_tag turbo_frame_id(:variants) do %>
         <%= render partial: "products/variants", locals: { product: @product } %>
       <% end %>
     </div>
@@ -57,14 +57,14 @@
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New option group", new_business_product_option_group_path(@business, @product), data: { turbo_frame: dom_id(OptionGroup.new) }, class: "button button--action" %>
+      <%= link_to "New option group", new_business_product_option_group_path(@business, @product), data: { turbo_frame: turbo_frame_id(OptionGroup.new) }, class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
-    <%= turbo_frame_tag OptionGroup.new %>
+    <%= turbo_frame_tag turbo_frame_id(OptionGroup.new) %>
 
-    <%= turbo_frame_tag :option_groups do %>
+    <%= turbo_frame_tag turbo_frame_id(:option_groups) do %>
       <% @product.option_groups.each do |option_group| %>
         <%= render option_group %>
       <% end %>
@@ -83,14 +83,14 @@
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New property group", new_business_product_property_group_path(@business, @product), data: { turbo_frame: dom_id(PropertyGroup.new) }, class: "button button--action" %>
+      <%= link_to "New property group", new_business_product_property_group_path(@business, @product), data: { turbo_frame: turbo_frame_id(PropertyGroup.new) }, class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
-    <%= turbo_frame_tag PropertyGroup.new %>
+    <%= turbo_frame_tag turbo_frame_id(PropertyGroup.new) %>
 
-    <%= turbo_frame_tag :property_groups do %>
+    <%= turbo_frame_tag turbo_frame_id(:property_groups) do %>
       <% @product.property_groups.each do |property_group| %>
         <%= render property_group %>
       <% end %>
