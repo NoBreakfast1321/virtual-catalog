@@ -42,4 +42,8 @@ class Business < ApplicationRecord
     uniqueness: true
 
   validates :visible, inclusion: { in: [ true, false ] }
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[ description name slug visible created_at updated_at ]
+  end
 end

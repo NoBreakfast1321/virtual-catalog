@@ -34,17 +34,19 @@
     <main>
       <% if user_signed_in? %>
         <nav class="flex items-center justify-between">
-          <div>
-            <h2 class="card__heading mb-1">Navigation</h2>
+          <% if @business&.persisted? %>
+            <div>
+              <h2 class="card__heading mb-1">Navigation</h2>
 
-            <ul>
-              <li>
-                <%= link_to "Categories", categories_path, class: "button" %>
-                <%= link_to "Products", products_path, class: "button" %>
-                <%= link_to "Business", business_path, class: "button" %>
-              </li>
-            </ul>
-          </div>
+              <ul>
+                <li>
+                  <%= link_to "Categories", business_categories_path(@business), class: "button" %>
+                  <%= link_to "Products", business_products_path(@business), class: "button" %>
+                  <%= link_to "Businesses", businesses_path, class: "button" %>
+                </li>
+              </ul>
+            </div>
+          <% end %>
 
           <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button button--danger" %>
         </nav>

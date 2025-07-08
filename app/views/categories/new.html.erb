@@ -11,11 +11,6 @@
   </header>
 
   <div class="card__body">
-    <% if @current_business.categories.reload.empty? %>
-      <h1>You must create at least one category before accessing the app.</h1>
-      <p>You must create at least one category before creating a product.</p>
-    <% end %>
-
     <%= render "form", category: @category %>
   </div>
 </section>

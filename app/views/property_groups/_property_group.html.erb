@@ -22,9 +22,9 @@
     </div>
 
     <footer class="card__footer card__footer--end">
-      <%= button_to "Destroy property group", [@product, property_group], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
-      <%= link_to "Edit property group", edit_product_property_group_path(@product, property_group), data: { turbo_frame: dom_id(property_group) }, class: "button" %>
-      <%= link_to "New property", new_product_property_group_property_path(@product, property_group), data: { turbo_frame: turbo_frame_id(property_group, Property.new) }, class: "button button--action" %>
+      <%= button_to "Destroy property group", [ @business, @product, property_group ], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+      <%= link_to "Edit property group", edit_business_product_property_group_path(@business, @product, property_group), data: { turbo_frame: dom_id(property_group) }, class: "button" %>
+      <%= link_to "New property", new_business_product_property_group_property_path(@business, @product, property_group), data: { turbo_frame: turbo_frame_id(property_group, Property.new) }, class: "button button--action" %>
     </footer>
   </div>
 <% end %>

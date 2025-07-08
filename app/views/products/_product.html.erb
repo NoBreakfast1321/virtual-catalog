@@ -112,7 +112,7 @@
       Categories
     </dt>
     <dd class="description-list__definition">
-      <%= safe_join(product.categories.map { |category| link_to category.name, category }, ", ") %>
+      <%= safe_join(product.categories.map { |category| link_to category.name, [ @business, category ] }, ", ") %>
     </dd>
   </div>
 

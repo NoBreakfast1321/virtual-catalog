@@ -11,7 +11,7 @@
   </header>
 
   <div class="card__body">
-    <%= search_form_for @q, html: { class: "form" } do |form| %>
+    <%= search_form_for [ @business, @q ], html: { class: "form" } do |form| %>
       <div class="form__group">
         <%= form.label :code_start, class: "form__label" %>
         <%= form.search_field :code_start, class: "form__input" %>
@@ -64,11 +64,11 @@
 
       <div class="form__group">
         <%= form.label :categories_name_in, "Categories", class: "form__label" %>
-        <%= form.collection_select :categories_name_in, current_business.categories.order(:name), :name, :name, { multiple: true }, class: "form__input" %>
+        <%= form.collection_select :categories_name_in, @business.categories.order(:name), :name, :name, { multiple: true }, class: "form__input" %>
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset filters", products_path, class: "button" %>
+        <%= link_to "Reset filters", business_products_path(@business), class: "button" %>
         <%= form.submit "Filter products", class: "button button--action" %>
       </footer>
     <% end %>
@@ -86,7 +86,7 @@
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New product", new_product_path, class: "button button--action" %>
+      <%= link_to "New product", new_business_product_path(@business), class: "button button--action" %>
     </div>
   </header>
 
@@ -135,9 +135,9 @@
               <td class="table__body-cell"><%= product.created_at %></td>
               <td class="table__body-cell"><%= product.updated_at %></td>
               <td class="table__body-cell">
-                <%= product.categories.map { |category| link_to category.name, category }.join(", ").html_safe %>
+                <%= product.categories.map { |category| link_to category.name, [ @business, category ] }.join(", ").html_safe %>
               </td>
-              <td class="table__body-cell table__body-cell--actions"><%= link_to "Show product", product %></td>
+              <td class="table__body-cell table__body-cell--actions"><%= link_to "Show product", [ @business, product ] %></td>
             </tr>
           <% end %>
         </tbody>

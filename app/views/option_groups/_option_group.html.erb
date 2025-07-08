@@ -49,9 +49,9 @@
     </div>
 
     <footer class="card__footer card__footer--end">
-      <%= button_to "Destroy option group", [@product, option_group], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
-      <%= link_to "Edit option group", edit_product_option_group_path(@product, option_group), data: { turbo_frame: dom_id(option_group) }, class: "button" %>
-      <%= link_to "New option", new_product_option_group_option_path(@product, option_group), data: { turbo_frame: turbo_frame_id(option_group, Option.new) }, class: "button button--action" %>
+      <%= button_to "Destroy option group", [ @business, @product, option_group ], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+      <%= link_to "Edit option group", edit_business_product_option_group_path(@business, @product, option_group), data: { turbo_frame: dom_id(option_group) }, class: "button" %>
+      <%= link_to "New option", new_business_product_option_group_option_path(@business, @product, option_group), data: { turbo_frame: turbo_frame_id(option_group, Option.new) }, class: "button button--action" %>
     </footer>
   </div>
 <% end %>

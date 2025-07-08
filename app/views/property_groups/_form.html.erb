@@ -1,4 +1,4 @@
-<%= custom_form_with model: [@product, property_group], class: "form" do |form| %>
+<%= custom_form_with model: [ @business, @product, property_group ], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :name, class: "form__label" %>
     <%= form.text_field :name, class: "form__input" %>
@@ -6,7 +6,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", @product, class: "button" %>
+    <%= link_to "Cancel", [ @business, @product ], class: "button" %>
     <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

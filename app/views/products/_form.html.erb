@@ -1,4 +1,4 @@
-<%= custom_form_with model: product, multipart: true, class: "form" do |form| %>
+<%= custom_form_with model: [ @business, product ], multipart: true, class: "form" do |form| %>
   <div class="form__group form__group--inline">
     <%= form.checkbox :visible, class: "form__checkbox" %>
     <%= form.label :visible, class: "form__label" %>
@@ -79,7 +79,7 @@
 
   <div class="form__group">
     <%= form.label :category_ids, "Categories", class: "form__label" %>
-    <%= form.collection_select :category_ids, current_business.categories, :id, :name, {}, multiple: true, class: "form__input" %>
+    <%= form.collection_select :category_ids, @business.categories, :id, :name, {}, multiple: true, class: "form__input" %>
     <%= form.error :category_ids, "form__error" %>
   </div>
 
@@ -104,7 +104,7 @@
         <% next unless image.persisted? %>
 
         <div class="relative">
-          <%= image_tag image.variant(resize_to_limit: [300, 300]), class: "w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300" %>
+          <%= image_tag image.variant(resize_to_limit: [ 300, 300 ]), class: "w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300" %>
 
           <label class="form__group form__group--inline absolute right-1 top-1 rounded-md bg-white px-2 py-0.5">
             <%= check_box_tag "product[purge_image_ids][]", id: image.id, value: image.id, class: "form__checkbox" %>
@@ -116,7 +116,7 @@
   <% end %>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", product.persisted? ? product : products_path, class: "button" %>
+    <%= link_to "Cancel", product.persisted? ? [ @business, product ] : business_products_path(@business), class: "button" %>
     <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

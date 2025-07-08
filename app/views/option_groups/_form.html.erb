@@ -1,4 +1,4 @@
-<%= custom_form_with model: [@product, option_group], class: "form" do |form| %>
+<%= custom_form_with model: [ @business, @product, option_group ], class: "form" do |form| %>
   <div class="form__group form__group--inline">
     <%= form.checkbox :visible, class: "form__checkbox" %>
     <%= form.label :visible, class: "form__label" %>
@@ -24,7 +24,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", @product, class: "button" %>
+    <%= link_to "Cancel", [ @business, @product ], class: "button" %>
     <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

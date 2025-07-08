@@ -1,4 +1,4 @@
-<%= custom_form_with model: business, url: business_path, class: "form" do |form| %>
+<%= custom_form_with model: business, class: "form" do |form| %>
   <div class="form__group form__group--inline">
     <%= form.checkbox :visible, class: "form__checkbox" %>
     <%= form.label :visible, class: "form__label" %>
@@ -24,7 +24,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", business, class: "button" if business.persisted? %>
+    <%= link_to "Cancel", business.persisted? ? @business : businesses_path, class: "button" %>
     <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

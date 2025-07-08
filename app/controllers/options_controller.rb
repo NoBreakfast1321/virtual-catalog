@@ -1,18 +1,19 @@
 class OptionsController < ApplicationController
+  before_action :set_business
   before_action :set_product
   before_action :set_option_group
   before_action :set_option, only: %i[ edit update destroy ]
 
-  # GET /products/:product_id/option_groups/:option_group_id/options/new
+  # GET /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options/new
   def new
     @option = @option_group.options.build
   end
 
-  # GET /products/:product_id/option_groups/:option_group_id/options/:id/edit
+  # GET /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options/:id/edit
   def edit
   end
 
-  # POST /products/:product_id/option_groups/:option_group_id/options
+  # POST /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options
   def create
     @option = @option_group.options.build(option_params)
 
@@ -25,7 +26,7 @@ class OptionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /products/:product_id/option_groups/:option_group_id/options/:id
+  # PATCH/PUT /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options/:id
   def update
     respond_to do |format|
       if @option.update(option_params)
@@ -36,7 +37,7 @@ class OptionsController < ApplicationController
     end
   end
 
-  # DELETE /products/:product_id/option_groups/:option_group_id/options/:id
+  # DELETE /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options/:id
   def destroy
     respond_to do |format|
       if @option.destroy
@@ -54,8 +55,12 @@ class OptionsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def set_business
+    @business = current_user.businesses.find(params.expect(:business_id))
+  end
+
   def set_product
-    @product = current_business.products.find(params.expect(:product_id))
+    @product = @business.products.find(params.expect(:product_id))
   end
 
   def set_option_group
