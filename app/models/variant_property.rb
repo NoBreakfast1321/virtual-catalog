@@ -3,6 +3,7 @@
 # Table name: variant_properties
 #
 #  id          :integer          not null, primary key
+#  position    :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  property_id :integer          not null
@@ -23,4 +24,6 @@
 class VariantProperty < ApplicationRecord
   belongs_to :property
   belongs_to :variant
+
+  validates :position, presence: true, numericality: { only_integer: true, greater_than: 0 }
 end

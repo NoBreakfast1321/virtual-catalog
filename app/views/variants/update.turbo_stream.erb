@@ -1,0 +1,5 @@
+<%= render_toast %>
+
+<%= turbo_stream.replace turbo_frame_id(@variant) do %>
+  <%= render @variant %>
+<% end %>

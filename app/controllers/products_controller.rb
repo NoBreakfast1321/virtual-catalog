@@ -39,7 +39,8 @@ class ProductsController < ApplicationController
           @product.variants.create!(
             base: true,
             code: "#{params[:product][:code]}-BASE",
-            price: params[:product][:price]
+            price: params[:product][:price],
+            visible: true
           )
         end
 

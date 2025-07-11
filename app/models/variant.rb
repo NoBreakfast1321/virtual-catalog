@@ -7,6 +7,7 @@
 #  code           :string(50)
 #  price_cents    :integer          default(0), not null
 #  price_currency :string           default("USD"), not null
+#  visible        :boolean          default(TRUE), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  product_id     :integer          not null
@@ -27,12 +28,15 @@ class Variant < ApplicationRecord
 
   belongs_to :product
 
-  has_many :variant_properties, dependent: :destroy
+  has_many :variant_properties, -> { order(:position) }, dependent: :destroy
   has_many :properties, through: :variant_properties
 
   validates :base, inclusion: { in: [ true, false ] }
   validates :code, length: { maximum: 50 }, uniqueness: { scope: :product_id }, allow_blank: true
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :visible, inclusion: { in: [ true, false ] }
+
+  scope :non_base, -> { where.not(base: true) }
 
   def label
     properties.pluck(:name).join(" / ")

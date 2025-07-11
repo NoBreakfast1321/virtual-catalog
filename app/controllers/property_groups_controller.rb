@@ -40,7 +40,7 @@ class PropertyGroupsController < ApplicationController
   def destroy
     respond_to do |format|
       if @property_group.destroy
-        Products::VariantsRebuilder.call(@product) unless @property_group.properties.empty?
+        Products::VariantsRebuilder.call(@product)
 
         format.turbo_stream { flash.now[:notice] = "Property group was successfully destroyed." }
       else

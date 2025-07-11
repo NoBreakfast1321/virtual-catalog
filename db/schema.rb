@@ -169,6 +169,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
   end
 
   create_table "variant_properties", force: :cascade do |t|
+    t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "property_id", null: false
@@ -184,6 +185,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.string "code", limit: 50
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
@@ -192,6 +194,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_variants_code_length"
     t.check_constraint "price_cents >= 0", name: "check_variants_price_nonnegative"
+    t.check_constraint "visible IN (0, 1)", name: "check_variants_visible_boolean"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

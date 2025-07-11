@@ -40,7 +40,9 @@
 
     <div class="card__body">
       <%= turbo_frame_tag turbo_frame_id(:variants) do %>
-        <%= render partial: "products/variants", locals: { product: @product } %>
+        <% @product.variants.non_base.each do |variant| %>
+          <%= render variant %>
+        <% end %>
       <% end %>
     </div>
   </section>

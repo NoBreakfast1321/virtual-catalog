@@ -1,0 +1,25 @@
+<%= custom_form_with model: [ @business, @product, variant ], class: "form flex-row items-center gap-2 mb-2" do |form| %>
+  <div class="w-40">
+    <%= variant.label %>
+  </div>
+
+  <div class="form__group form__group--inline">
+    <%= form.checkbox :visible, class: "form__checkbox" %>
+  </div>
+
+  <div class="form__group">
+    <%= form.text_field :code, class: "form__input" %>
+  </div>
+
+  <div
+    data-controller="currency"
+    data-currency-locale-value="<%= I18n.locale %>"
+    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    class="form__group"
+  >
+    <input id="variant_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
+    <%= form.hidden_field :price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+  </div>
+
+  <%= form.submit nil, class: "button button--action" %>
+<% end %>

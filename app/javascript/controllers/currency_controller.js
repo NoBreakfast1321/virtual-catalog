@@ -14,9 +14,7 @@ export default class extends Controller {
       return;
     }
 
-    this.inputTarget.value = this.formatter.format(
-      this.hiddenTarget.value / 100,
-    );
+    this.inputTarget.value = this.formatter.format(this.hiddenTarget.value);
   }
 
   format() {

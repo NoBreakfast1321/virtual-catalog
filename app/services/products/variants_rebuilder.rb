@@ -11,22 +11,36 @@ module Products
     end
 
     def call
-      property_groups = product.property_groups.reject { |property_group| property_group.properties.empty? }
+      ordered_property_groups = product
+        .property_groups
+        .order(:created_at)
+        .reject { |property_group| property_group.properties.empty? }
 
       ActiveRecord::Base.transaction do
-        product.variants.where.not(base: true).destroy_all
+        product.variants.non_base.destroy_all
 
-        return [] if property_groups.empty?
+        return [] if ordered_property_groups.empty?
 
-        combinations = property_groups
+        combinations = ordered_property_groups
           .map(&:properties)
           .map(&:to_a)
           .then { |properties| properties.first.product(*properties.drop(1)) }
 
         combinations.map do |properties|
-          variant = product.variants.create!
+          base_code = product.code ? "#{product.code}-" : ""
 
-          variant.properties << properties
+          variant = product.variants.create!(
+            code: "#{base_code}#{properties.map(&:name).join("-").upcase}",
+            price: product.base_variant.price
+          )
+
+          properties.each_with_index do |property, index|
+            VariantProperty.create!(
+              position: index + 1,
+              property: property,
+              variant: variant
+            )
+          end
 
           variant
         end

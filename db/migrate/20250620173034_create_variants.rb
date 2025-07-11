@@ -8,6 +8,7 @@ class CreateVariants < ActiveRecord::Migration[8.0]
                       amount: { null: false, default: 0 },
                       currency: { null: false, default: Money.default_currency.iso_code }
 
+      t.boolean     :visible, null: false, default: true
       t.timestamps
 
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
@@ -33,11 +34,18 @@ class CreateVariants < ActiveRecord::Migration[8.0]
       name: "check_variants_price_nonnegative"
     )
 
+    add_check_constraint(
+      :variants,
+      "visible IN (0, 1)",
+      name: "check_variants_visible_boolean"
+    )
+
     reversible do |direction|
       direction.down do
         remove_check_constraint :variants, name: "check_variants_base_boolean"
         remove_check_constraint :variants, name: "check_variants_code_length"
         remove_check_constraint :variants, name: "check_variants_price_nonnegative"
+        remove_check_constraint :variants, name: "check_variants_visible_boolean"
       end
     end
   end

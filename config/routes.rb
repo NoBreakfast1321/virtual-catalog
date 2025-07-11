@@ -18,7 +18,7 @@
 #                                               DELETE /users(.:format)                                                                                               devise/registrations#destroy
 #                                               POST   /users(.:format)                                                                                               devise/registrations#create
 #                            rails_health_check GET    /up(.:format)                                                                                                  rails/health#show
-#                                          root GET    /                                                                                                              products#index
+#                                          root GET    /                                                                                                              businesses#index
 #                           business_categories GET    /businesses/:business_id/categories(.:format)                                                                  categories#index
 #                                               POST   /businesses/:business_id/categories(.:format)                                                                  categories#create
 #                         new_business_category GET    /businesses/:business_id/categories/new(.:format)                                                              categories#new
@@ -59,6 +59,14 @@
 #                                               PATCH  /businesses/:business_id/products/:product_id/property_groups/:id(.:format)                                    property_groups#update
 #                                               PUT    /businesses/:business_id/products/:product_id/property_groups/:id(.:format)                                    property_groups#update
 #                                               DELETE /businesses/:business_id/products/:product_id/property_groups/:id(.:format)                                    property_groups#destroy
+#                     business_product_variants GET    /businesses/:business_id/products/:product_id/variants(.:format)                                               variants#index
+#                                               POST   /businesses/:business_id/products/:product_id/variants(.:format)                                               variants#create
+#                  new_business_product_variant GET    /businesses/:business_id/products/:product_id/variants/new(.:format)                                           variants#new
+#                 edit_business_product_variant GET    /businesses/:business_id/products/:product_id/variants/:id/edit(.:format)                                      variants#edit
+#                      business_product_variant GET    /businesses/:business_id/products/:product_id/variants/:id(.:format)                                           variants#show
+#                                               PATCH  /businesses/:business_id/products/:product_id/variants/:id(.:format)                                           variants#update
+#                                               PUT    /businesses/:business_id/products/:product_id/variants/:id(.:format)                                           variants#update
+#                                               DELETE /businesses/:business_id/products/:product_id/variants/:id(.:format)                                           variants#destroy
 #                             business_products GET    /businesses/:business_id/products(.:format)                                                                    products#index
 #                                               POST   /businesses/:business_id/products(.:format)                                                                    products#create
 #                          new_business_product GET    /businesses/:business_id/products/new(.:format)                                                                products#new
@@ -129,6 +137,8 @@ Rails.application.routes.draw do
       resources :property_groups do
         resources :properties
       end
+
+      resources :variants
     end
   end
 

@@ -37,7 +37,7 @@
   >
     <%= form.label :price, class: "form__label" %>
     <input id="product_price" data-currency-target="input" data-action="currency#format" inputmode="numeric" class="form__input">
-    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, inputmode: "numeric", value: @product.base_variant&.price_cents || 0 %>
+    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, inputmode: "numeric", value: (product.base_variant&.price_cents || 0) / 100.0 %>
     <%= form.error :price, "form__error" %>
   </div>
 
