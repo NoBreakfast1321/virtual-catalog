@@ -67,25 +67,7 @@
       Price
     </dt>
     <dd class="description-list__definition">
-      <%= product.price %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Sale price
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.sale_price %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Sale starts at
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.sale_starts_at %>
+      <%= product.base_variant.price %>
     </dd>
   </div>
 

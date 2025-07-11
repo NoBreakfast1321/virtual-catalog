@@ -1,16 +1,25 @@
 class CreateVariants < ActiveRecord::Migration[8.0]
   def change
     create_table :variants do |t|
+      t.boolean     :base, null: false, default: false
       t.string      :code, limit: 50
 
-      t.monetize    :price_override,
-                      amount: { null: true, default: nil },
-                      currency: { null: true, default: nil }
+      t.monetize    :price,
+                      amount: { null: false, default: 0 },
+                      currency: { null: false, default: Money.default_currency.iso_code }
 
       t.timestamps
 
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
     end
+
+    add_index :variants, %i[ product_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
+
+    add_check_constraint(
+      :variants,
+      "base IN (0, 1)",
+      name: "check_variants_base_boolean"
+    )
 
     add_check_constraint(
       :variants,
@@ -20,14 +29,15 @@ class CreateVariants < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :variants,
-      "price_override_cents IS NULL OR price_override_cents >= 0",
-      name: "check_variants_price_override_nonnegative"
+      "price_cents >= 0",
+      name: "check_variants_price_nonnegative"
     )
 
     reversible do |direction|
       direction.down do
+        remove_check_constraint :variants, name: "check_variants_base_boolean"
         remove_check_constraint :variants, name: "check_variants_code_length"
-        remove_check_constraint :variants, name: "check_variants_price_override_nonnegative"
+        remove_check_constraint :variants, name: "check_variants_price_nonnegative"
       end
     end
   end

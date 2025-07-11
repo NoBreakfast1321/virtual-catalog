@@ -118,12 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.text "description", limit: 5000
     t.boolean "featured", default: false, null: false
     t.string "name", limit: 150, null: false
-    t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "USD", null: false
-    t.datetime "sale_ends_at"
-    t.integer "sale_price_cents"
-    t.string "sale_price_currency"
-    t.datetime "sale_starts_at"
     t.string "slug", limit: 150, null: false
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
@@ -139,10 +133,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"
     t.check_constraint "featured IN (0, 1)", name: "check_products_featured_boolean"
     t.check_constraint "length(name) <= 150", name: "check_products_name_length"
-    t.check_constraint "price_cents >= 0", name: "check_products_price_nonnegative"
-    t.check_constraint "sale_price_cents IS NULL OR sale_price_cents < price_cents", name: "check_products_sale_price_lt_price"
-    t.check_constraint "sale_price_cents IS NULL OR sale_price_cents >= 0", name: "check_products_sale_price_nonnegative"
-    t.check_constraint "sale_starts_at IS NULL OR sale_ends_at IS NULL OR sale_starts_at < sale_ends_at", name: "check_products_sale_range"
     t.check_constraint "visible IN (0, 1)", name: "check_products_visible_boolean"
   end
 
@@ -190,15 +180,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
   end
 
   create_table "variants", force: :cascade do |t|
+    t.boolean "base", default: false, null: false
     t.string "code", limit: 50
-    t.integer "price_override_cents"
-    t.string "price_override_currency"
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
+    t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
     t.index ["product_id"], name: "index_variants_on_product_id"
+    t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_variants_code_length"
-    t.check_constraint "price_override_cents IS NULL OR price_override_cents >= 0", name: "check_variants_price_override_nonnegative"
+    t.check_constraint "price_cents >= 0", name: "check_variants_price_nonnegative"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

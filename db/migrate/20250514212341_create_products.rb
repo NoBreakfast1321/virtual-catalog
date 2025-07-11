@@ -8,18 +8,6 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.text        :description, limit: 5000
       t.boolean     :featured, null: false, default: false
       t.string      :name, null: false, limit: 150
-
-      t.monetize    :price,
-                      amount: { null: false, default: 0 },
-                      currency: { null: false, default: Money.default_currency.iso_code }
-
-      t.datetime    :sale_ends_at
-
-      t.monetize    :sale_price,
-                      amount: { null: true, default: nil },
-                      currency: { null: true, default: nil }
-
-      t.datetime    :sale_starts_at
       t.string      :slug, null: false, limit: 150
       t.boolean     :visible, null: false, default: true
       t.timestamps
@@ -69,30 +57,6 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :products,
-      "price_cents >= 0",
-      name: "check_products_price_nonnegative"
-    )
-
-    add_check_constraint(
-      :products,
-      "sale_price_cents IS NULL OR sale_price_cents < price_cents",
-      name: "check_products_sale_price_lt_price"
-    )
-
-    add_check_constraint(
-      :products,
-      "sale_price_cents IS NULL OR sale_price_cents >= 0",
-      name: "check_products_sale_price_nonnegative"
-    )
-
-    add_check_constraint(
-      :products,
-      "sale_starts_at IS NULL OR sale_ends_at IS NULL OR sale_starts_at < sale_ends_at",
-      name: "check_products_sale_range"
-    )
-
-    add_check_constraint(
-      :products,
       "visible IN (0, 1)",
       name: "check_products_visible_boolean"
     )
@@ -105,10 +69,6 @@ class CreateProducts < ActiveRecord::Migration[8.0]
         remove_check_constraint :products, name: "check_products_description_length"
         remove_check_constraint :products, name: "check_products_featured_boolean"
         remove_check_constraint :products, name: "check_products_name_length"
-        remove_check_constraint :products, name: "check_products_price_nonnegative"
-        remove_check_constraint :products, name: "check_products_sale_price_lt_price"
-        remove_check_constraint :products, name: "check_products_sale_price_nonnegative"
-        remove_check_constraint :products, name: "check_products_sale_range"
         remove_check_constraint :products, name: "check_products_visible_boolean"
       end
     end

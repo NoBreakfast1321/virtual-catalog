@@ -2,25 +2,19 @@
 #
 # Table name: products
 #
-#  id                  :integer          not null, primary key
-#  adult_only          :boolean          default(FALSE), not null
-#  available_from      :datetime
-#  available_until     :datetime
-#  code                :string(50)
-#  description         :text(5000)
-#  featured            :boolean          default(FALSE), not null
-#  name                :string(150)      not null
-#  price_cents         :integer          default(0), not null
-#  price_currency      :string           default("USD"), not null
-#  sale_ends_at        :datetime
-#  sale_price_cents    :integer
-#  sale_price_currency :string
-#  sale_starts_at      :datetime
-#  slug                :string(150)      not null
-#  visible             :boolean          default(TRUE), not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  business_id         :integer          not null
+#  id              :integer          not null, primary key
+#  adult_only      :boolean          default(FALSE), not null
+#  available_from  :datetime
+#  available_until :datetime
+#  code            :string(50)
+#  description     :text(5000)
+#  featured        :boolean          default(FALSE), not null
+#  name            :string(150)      not null
+#  slug            :string(150)      not null
+#  visible         :boolean          default(TRUE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  business_id     :integer          not null
 #
 # Indexes
 #
@@ -34,12 +28,10 @@
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
+  include CodeNormalizer
   include NameNormalizer
   include SlugRestricter
   include VisibilityFilterer
-
-  monetize :price_cents
-  monetize :sale_price_cents, allow_nil: true
 
   has_many_attached :images
 
@@ -67,11 +59,6 @@ class Product < ApplicationRecord
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :featured, inclusion: { in: [ true, false ] }
   validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
-  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :sale_ends_at, absence: true, if: -> { sale_starts_at.nil? }
-  validates :sale_ends_at, comparison: { greater_than: :sale_starts_at }, allow_nil: true
-  validates :sale_price_cents, numericality: { greater_than_or_equal_to: 0, less_than: :price_cents }, presence: true, if: -> { sale_starts_at.present? }
-  validates :sale_starts_at, absence: true, if: -> { sale_price_cents.nil? }
   validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :visible, inclusion: { in: [ true, false ] }
   validates :categories, presence: true
@@ -92,16 +79,11 @@ class Product < ApplicationRecord
   scope :featured, -> { where(featured: true) }
   scope :unfeatured, -> { where(featured: false) }
 
-  # 🏷️ Sale scopes
-  scope :on_sale, -> { where.not(sale_price_cents: nil) }
-  scope :sale_ended, -> { where.not(sale_ends_at: nil).where(sale_ends_at: ...Time.current) }
-  scope :sale_scheduled, -> { where.not(sale_starts_at: nil).where("sale_starts_at > ?", Time.current) }
-
   # 🚩 General state scopes
   scope :active, -> { visible.available.not_expired }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ available_from available_until code description featured name price sale_ends_at sale_price sale_starts_at slug visible created_at updated_at ]
+    %w[ available_from available_until code description featured name slug visible created_at updated_at ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -118,8 +100,8 @@ class Product < ApplicationRecord
     true
   end
 
-  def effective_price
-    sale_price.presence || price
+  def base_variant
+    variants.find_by(base: true)
   end
 
   private
@@ -132,9 +114,5 @@ class Product < ApplicationRecord
 
       throw(:abort)
     end
-  end
-
-  def normalize_code
-    self.code = code&.strip&.presence
   end
 end

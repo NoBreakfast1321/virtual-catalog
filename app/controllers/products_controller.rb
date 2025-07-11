@@ -32,9 +32,21 @@ class ProductsController < ApplicationController
     @product.images.attach(params[:product][:images]) if params[:product][:images]
 
     respond_to do |format|
-      if @product.save
+      begin
+        ActiveRecord::Base.transaction do
+          @product.save!
+
+          @product.variants.create!(
+            base: true,
+            code: "#{params[:product][:code]}-BASE",
+            price: params[:product][:price]
+          )
+        end
+
         format.html { redirect_to [ @business, @product ], notice: "Product was successfully created." }
-      else
+      rescue ActiveRecord::RecordInvalid => error
+        flash.now[:alert] = error.record.errors.full_messages.to_sentence
+
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -49,9 +61,20 @@ class ProductsController < ApplicationController
     @product.images.attach(params[:product][:images]) if params[:product][:images]
 
     respond_to do |format|
-      if @product.update(product_params)
+      begin
+        ActiveRecord::Base.transaction do
+          @product.update!(product_params)
+
+          @product.base_variant&.update!(
+            code: params[:product][:code],
+            price: params[:product][:price]
+          )
+        end
+
         format.html { redirect_to [ @business, @product ], notice: "Product was successfully updated." }
-      else
+      rescue ActiveRecord::RecordInvalid => error
+        flash.now[:alert] = error.record.errors.full_messages.to_sentence
+
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
@@ -92,10 +115,6 @@ class ProductsController < ApplicationController
       :description,
       :featured,
       :name,
-      :price,
-      :sale_ends_at,
-      :sale_price,
-      :sale_starts_at,
       :visible,
       category_ids: []
     ])

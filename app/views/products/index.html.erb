@@ -33,16 +33,6 @@
       </div>
 
       <div class="form__group">
-        <%= form.label :sale_starts_at_gteq, class: "form__label" %>
-        <%= form.date_field :sale_starts_at_gteq, class: "form__input" %>
-      </div>
-
-      <div class="form__group">
-        <%= form.label :sale_ends_at_gteq, class: "form__label" %>
-        <%= form.date_field :sale_ends_at_gteq, class: "form__input" %>
-      </div>
-
-      <div class="form__group">
         <%= form.label :available_from_gteq, class: "form__label" %>
         <%= form.date_field :available_from_gteq, class: "form__input" %>
       </div>
@@ -96,17 +86,13 @@
         <thead>
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
-            <th class="table__head-cell"><%= sort_link(@q, :visible, "Adult only?", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :adult_only, "Adult only?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :featured, "Featured?", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :code, "Code", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :slug, "Slug", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :price, "Price", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :sale_price, "Sale price", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :sale_starts_at, "Sale starts at", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :sale_ends_at, "Sale ends at", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :available_from, "Available from", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :available_until, "Available until", class: "table__head-cell-link group") %></th>
             <th class="table__head-cell"><%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %></th>
@@ -122,14 +108,9 @@
               <td class="table__body-cell"><%= product.adult_only? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.visible? ? "Yes" : "No" %></td>
               <td class="table__body-cell"><%= product.featured? ? "Yes" : "No" %></td>
-              <td class="table__body-cell"><%= product.code %></td>
               <td class="table__body-cell"><%= product.slug %></td>
               <td class="table__body-cell"><%= product.name %></td>
               <td class="table__body-cell"><%= product.description %></td>
-              <td class="table__body-cell table__body-cell--numeric"><%= product.price %></td>
-              <td class="table__body-cell table__body-cell--numeric"><%= product.sale_price %></td>
-              <td class="table__body-cell"><%= product.sale_starts_at %></td>
-              <td class="table__body-cell"><%= product.sale_ends_at %></td>
               <td class="table__body-cell"><%= product.available_from %></td>
               <td class="table__body-cell"><%= product.available_until %></td>
               <td class="table__body-cell"><%= product.created_at %></td>

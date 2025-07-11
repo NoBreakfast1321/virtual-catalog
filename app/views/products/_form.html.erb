@@ -36,33 +36,9 @@
     class="form__group"
   >
     <%= form.label :price, class: "form__label" %>
-    <input id="product_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
-    <%= form.hidden_field :price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
+    <input id="product_price" data-currency-target="input" data-action="currency#format" inputmode="numeric" class="form__input">
+    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, inputmode: "numeric", value: @product.base_variant&.price_cents || 0 %>
     <%= form.error :price, "form__error" %>
-  </div>
-
-  <div
-    data-controller="currency"
-    data-currency-locale-value="<%= I18n.locale %>"
-    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
-    class="form__group"
-  >
-    <%= form.label :sale_price, class: "form__label" %>
-    <input id="product_sale_price" inputmode="numeric" data-currency-target="input" data-action="currency#format" class="form__input">
-    <%= form.hidden_field :sale_price, inputmode: "numeric", data: { "currency-target": "hidden" } %>
-    <%= form.error :sale_price, "form__error" %>
-  </div>
-
-  <div class="form__group">
-    <%= form.label :sale_starts_at, class: "form__label" %>
-    <%= form.datetime_local_field :sale_starts_at, class: "form__input" %>
-    <%= form.error :sale_starts_at, "form__error" %>
-  </div>
-
-  <div class="form__group">
-    <%= form.label :sale_ends_at, class: "form__label" %>
-    <%= form.datetime_local_field :sale_ends_at, class: "form__input" %>
-    <%= form.error :sale_ends_at, "form__error" %>
   </div>
 
   <div class="form__group">
