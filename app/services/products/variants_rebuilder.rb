@@ -14,7 +14,7 @@ module Products
       property_groups = product.property_groups.reject { |property_group| property_group.properties.empty? }
 
       ActiveRecord::Base.transaction do
-        product.variants.destroy_all
+        product.variants.where.not(base: true).destroy_all
 
         return [] if property_groups.empty?
 
