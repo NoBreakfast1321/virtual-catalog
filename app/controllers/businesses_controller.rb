@@ -1,7 +1,10 @@
 class BusinessesController < ApplicationController
   include Pagy::Backend
 
+  before_action :build_business_with_params, only: %i[ create ]
   before_action :set_business, only: %i[ show edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   # GET /businesses
   def index
@@ -24,8 +27,6 @@ class BusinessesController < ApplicationController
 
   # POST /businesses
   def create
-    @business = current_user.businesses.build(business_params)
-
     respond_to do |format|
       if @business.save
         format.html { redirect_to @business, notice: "Business was successfully created." }
@@ -64,6 +65,10 @@ class BusinessesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
+  def build_business_with_params
+    @business = current_user.businesses.build(business_params)
+  end
+
   def set_business
     @business = current_user.businesses.find(params.expect(:id))
   end

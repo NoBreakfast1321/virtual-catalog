@@ -6,6 +6,4 @@
   <% end %>
 <% end %>
 
-<%= turbo_stream.replace turbo_frame_id(@property_group) do %>
-  <%= render @property_group %>
-<% end %>
+<%= turbo_stream.update turbo_frame_id(Variant.new), "" %>

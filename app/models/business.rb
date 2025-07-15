@@ -21,6 +21,8 @@
 #  user_id  (user_id => users.id) ON DELETE => cascade
 #
 class Business < ApplicationRecord
+  audited
+
   include NameNormalizer
   include SlugRestricter
 

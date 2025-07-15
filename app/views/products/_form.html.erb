@@ -31,13 +31,13 @@
 
   <div
     data-controller="currency"
-    data-currency-locale-value="<%= I18n.locale %>"
     data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    data-currency-locale-value="<%= I18n.locale %>"
     class="form__group"
   >
     <%= form.label :price, class: "form__label" %>
+    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, id: nil %>
     <input id="product_price" data-currency-target="input" data-action="currency#format" inputmode="numeric" class="form__input">
-    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, inputmode: "numeric", value: (product.base_variant&.price_cents || 0) / 100.0 %>
     <%= form.error :price, "form__error" %>
   </div>
 

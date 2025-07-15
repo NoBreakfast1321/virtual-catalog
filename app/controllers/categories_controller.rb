@@ -2,7 +2,10 @@ class CategoriesController < ApplicationController
   include Pagy::Backend
 
   before_action :set_business
+  before_action :build_category_with_params, only: %i[ create ]
   before_action :set_category, only: %i[ show edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   # GET /businesses/:business_id/categories
   def index
@@ -25,8 +28,6 @@ class CategoriesController < ApplicationController
 
   # POST /businesses/:business_id/categories
   def create
-    @category = @business.categories.build(category_params)
-
     respond_to do |format|
       if @category.save
         format.html { redirect_to [ @business, @category ], notice: "Category was successfully created." }
@@ -67,6 +68,10 @@ class CategoriesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_business
     @business = current_user.businesses.find(params.expect(:business_id))
+  end
+
+  def build_category_with_params
+    @category = @business.categories.build(category_params)
   end
 
   def set_category

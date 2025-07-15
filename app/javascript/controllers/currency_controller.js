@@ -3,11 +3,20 @@ import { Controller } from "@hotwired/stimulus";
 const FRACTION_DIGITS = 2;
 
 export default class extends Controller {
-  static targets = ["input", "hidden"];
+  static targets = ["hidden", "input"];
   static values = {
-    locale: String,
     currency: String,
+    locale: String,
   };
+
+  get formatter() {
+    return new Intl.NumberFormat(this.localeValue, {
+      currency: this.currencyValue,
+      maximumFractionDigits: FRACTION_DIGITS,
+      minimumFractionDigits: FRACTION_DIGITS,
+      style: "currency",
+    });
+  }
 
   connect() {
     if (!this.hiddenTarget.value) {
@@ -25,16 +34,7 @@ export default class extends Controller {
     const rawValue = this.inputTarget.value.replace(/\D/g, "");
     const value = rawValue / 100;
 
-    this.inputTarget.value = this.formatter.format(value);
     this.hiddenTarget.value = value;
-  }
-
-  get formatter() {
-    return new Intl.NumberFormat(this.localeValue, {
-      style: "currency",
-      currency: this.currencyValue,
-      minimumFractionDigits: FRACTION_DIGITS,
-      maximumFractionDigits: FRACTION_DIGITS,
-    });
+    this.inputTarget.value = this.formatter.format(value);
   }
 }

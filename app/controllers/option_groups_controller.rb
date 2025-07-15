@@ -1,7 +1,10 @@
 class OptionGroupsController < ApplicationController
   before_action :set_business
   before_action :set_product
+  before_action :build_option_group_with_params, only: %i[ create ]
   before_action :set_option_group, only: %i[ edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   # GET /businesses/:business_id/products/:product_id/option_groups/new
   def new
@@ -14,8 +17,6 @@ class OptionGroupsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/option_groups
   def create
-    @option_group = @product.option_groups.build(option_group_params)
-
     respond_to do |format|
       if @option_group.save
         format.turbo_stream { flash.now[:notice] = "Option group was successfully created." }
@@ -60,6 +61,10 @@ class OptionGroupsController < ApplicationController
 
   def set_product
     @product = @business.products.find(params.expect(:product_id))
+  end
+
+  def build_option_group_with_params
+    @option_group = @product.option_groups.build(option_group_params)
   end
 
   def set_option_group

@@ -6,7 +6,7 @@
  */
 
 .toast {
-  @apply absolute inset-x-4 top-4 flex items-center rounded-md bg-green-50 p-4;
+  @apply sticky inset-x-4 top-4 flex items-center rounded-md bg-green-50 p-4;
 }
 
 .toast--alert {

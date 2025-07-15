@@ -10,6 +10,8 @@
 #  description     :text(5000)
 #  featured        :boolean          default(FALSE), not null
 #  name            :string(150)      not null
+#  price_cents     :integer          default(0), not null
+#  price_currency  :string           default("USD"), not null
 #  slug            :string(150)      not null
 #  visible         :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
@@ -28,10 +30,14 @@
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
+  audited
+
   include CodeNormalizer
   include NameNormalizer
   include SlugRestricter
   include VisibilityFilterer
+
+  monetize :price_cents
 
   has_many_attached :images
 
@@ -59,6 +65,7 @@ class Product < ApplicationRecord
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :featured, inclusion: { in: [ true, false ] }
   validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
   validates :visible, inclusion: { in: [ true, false ] }
   validates :categories, presence: true
@@ -83,7 +90,7 @@ class Product < ApplicationRecord
   scope :active, -> { visible.available.not_expired }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[ available_from available_until code description featured name slug visible created_at updated_at ]
+    %w[ available_from available_until code description featured name price slug visible created_at updated_at ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -98,10 +105,6 @@ class Product < ApplicationRecord
     return false if available_until && available_until < Time.current
 
     true
-  end
-
-  def base_variant
-    variants.find_by(base: true)
   end
 
   private

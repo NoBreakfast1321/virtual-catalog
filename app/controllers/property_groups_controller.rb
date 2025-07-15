@@ -1,7 +1,10 @@
 class PropertyGroupsController < ApplicationController
   before_action :set_business
   before_action :set_product
+  before_action :build_property_group_with_params, only: %i[ create ]
   before_action :set_property_group, only: %i[ edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   # GET /businesses/:business_id/products/:product_id/property_groups/new
   def new
@@ -14,8 +17,6 @@ class PropertyGroupsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/property_groups
   def create
-    @property_group = @product.property_groups.build(property_group_params)
-
     respond_to do |format|
       if @property_group.save
         format.turbo_stream { flash.now[:notice] = "Property group was successfully created." }
@@ -40,7 +41,7 @@ class PropertyGroupsController < ApplicationController
   def destroy
     respond_to do |format|
       if @property_group.destroy
-        Products::VariantsRebuilder.call(@product)
+        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
 
         format.turbo_stream { flash.now[:notice] = "Property group was successfully destroyed." }
       else
@@ -62,6 +63,10 @@ class PropertyGroupsController < ApplicationController
 
   def set_product
     @product = @business.products.find(params.expect(:product_id))
+  end
+
+  def build_property_group_with_params
+    @property_group = @product.property_groups.build(property_group_params)
   end
 
   def set_property_group

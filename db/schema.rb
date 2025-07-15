@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.text "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "businesses", force: :cascade do |t|
@@ -118,6 +140,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.text "description", limit: 5000
     t.boolean "featured", default: false, null: false
     t.string "name", limit: 150, null: false
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
     t.string "slug", limit: 150, null: false
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
@@ -133,6 +157,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
     t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"
     t.check_constraint "featured IN (0, 1)", name: "check_products_featured_boolean"
     t.check_constraint "length(name) <= 150", name: "check_products_name_length"
+    t.check_constraint "price_cents >= 0", name: "check_products_price_nonnegative"
     t.check_constraint "visible IN (0, 1)", name: "check_products_visible_boolean"
   end
 
@@ -169,7 +194,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
   end
 
   create_table "variant_properties", force: :cascade do |t|
-    t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "property_id", null: false
@@ -181,19 +205,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_173041) do
   end
 
   create_table "variants", force: :cascade do |t|
-    t.boolean "base", default: false, null: false
     t.string "code", limit: 50
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
+    t.integer "stock_quantity"
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
     t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
     t.index ["product_id"], name: "index_variants_on_product_id"
-    t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_variants_code_length"
     t.check_constraint "price_cents >= 0", name: "check_variants_price_nonnegative"
+    t.check_constraint "stock_quantity IS NULL OR stock_quantity >= 0", name: "check_variants_stock_quantity_nonnegative"
     t.check_constraint "visible IN (0, 1)", name: "check_variants_visible_boolean"
   end
 

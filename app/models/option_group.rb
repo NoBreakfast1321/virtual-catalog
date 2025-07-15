@@ -21,6 +21,8 @@
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
 class OptionGroup < ApplicationRecord
+  audited
+
   include NameNormalizer
   include VisibilityFilterer
 

@@ -1,7 +1,7 @@
 <%= render_toast %>
 
 <%= turbo_stream.replace turbo_frame_id(:variants) do %>
-  <% @product.variants.non_base.each do |variant| %>
+  <% @product.variants.each do |variant| %>
     <%= render variant %>
   <% end %>
 <% end %>

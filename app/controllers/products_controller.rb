@@ -2,7 +2,10 @@ class ProductsController < ApplicationController
   include Pagy::Backend
 
   before_action :set_business
+  before_action :build_product_with_params, only: %i[ create ]
   before_action :set_product, only: %i[ show edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   before_action :restrict_product_creation, only: %i[ new create ]
 
@@ -27,27 +30,13 @@ class ProductsController < ApplicationController
 
   # POST /businesses/:business_id/products
   def create
-    @product = @business.products.build(product_params)
-
+    # Attach newly uploaded images to the product
     @product.images.attach(params[:product][:images]) if params[:product][:images]
 
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @product.save!
-
-          @product.variants.create!(
-            base: true,
-            code: "#{params[:product][:code]}-BASE",
-            price: params[:product][:price],
-            visible: true
-          )
-        end
-
+      if @product.save
         format.html { redirect_to [ @business, @product ], notice: "Product was successfully created." }
-      rescue ActiveRecord::RecordInvalid => error
-        flash.now[:alert] = error.record.errors.full_messages.to_sentence
-
+      else
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -55,27 +44,18 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /businesses/:business_id/products/:id
   def update
+    # Purge images that were marked for deletion
     if (image_ids = params.dig(:product, :purge_image_ids).presence)
       @product.images.attachments.where(id: image_ids.map(&:to_i)).each(&:purge)
     end
 
+    # Attach newly uploaded images to the product
     @product.images.attach(params[:product][:images]) if params[:product][:images]
 
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @product.update!(product_params)
-
-          @product.base_variant&.update!(
-            code: params[:product][:code],
-            price: params[:product][:price]
-          )
-        end
-
+      if @product.update(product_params)
         format.html { redirect_to [ @business, @product ], notice: "Product was successfully updated." }
-      rescue ActiveRecord::RecordInvalid => error
-        flash.now[:alert] = error.record.errors.full_messages.to_sentence
-
+      else
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
@@ -103,6 +83,10 @@ class ProductsController < ApplicationController
     @business = current_user.businesses.find(params.expect(:business_id))
   end
 
+  def build_product_with_params
+    @product = @business.products.build(product_params)
+  end
+
   def set_product
     @product = @business.products.find(params.expect(:id))
   end
@@ -116,6 +100,7 @@ class ProductsController < ApplicationController
       :description,
       :featured,
       :name,
+      :price,
       :visible,
       category_ids: []
     ])

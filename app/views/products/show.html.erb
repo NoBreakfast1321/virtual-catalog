@@ -29,18 +29,26 @@
 
 <div>
   <section class="card">
-    <header class="card__header">
-      <h2 class="card__heading">
-        Product Variants
-      </h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
+    <header class="card__header card__header--with-actions">
+      <div>
+        <h2 class="card__heading">
+          Product Variants
+        </h2>
+        <p class="card__description">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
+        </p>
+      </div>
+
+      <div class="card__actions">
+        <%= link_to "New variant", new_business_product_variant_path(@business, @product), data: { turbo_frame: turbo_frame_id(Variant.new) }, class: "button button--action" %>
+      </div>
     </header>
 
     <div class="card__body">
+      <%= turbo_frame_tag turbo_frame_id(Variant.new) %>
+
       <%= turbo_frame_tag turbo_frame_id(:variants) do %>
-        <% @product.variants.non_base.each do |variant| %>
+        <% @product.variants.each do |variant| %>
           <%= render variant %>
         <% end %>
       <% end %>

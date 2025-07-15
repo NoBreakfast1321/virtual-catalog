@@ -3,7 +3,6 @@
 # Table name: variant_properties
 #
 #  id          :integer          not null, primary key
-#  position    :integer          not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  property_id :integer          not null

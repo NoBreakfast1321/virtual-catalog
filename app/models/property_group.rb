@@ -18,6 +18,8 @@
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
 class PropertyGroup < ApplicationRecord
+  audited
+
   include NameNormalizer
 
   belongs_to :product

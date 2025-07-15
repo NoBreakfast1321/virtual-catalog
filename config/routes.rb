@@ -129,6 +129,7 @@ Rails.application.routes.draw do
 
   resources :businesses do
     resources :categories
+
     resources :products do
       resources :option_groups do
         resources :options

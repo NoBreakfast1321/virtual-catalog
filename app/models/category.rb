@@ -20,6 +20,8 @@
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class Category < ApplicationRecord
+  audited
+
   include NameNormalizer
   include VisibilityFilterer
 

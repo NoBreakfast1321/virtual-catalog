@@ -2,7 +2,10 @@ class PropertiesController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_property_group
+  before_action :build_property_with_params, only: %i[ create ]
   before_action :set_property, only: %i[ edit update destroy ]
+
+  before_action :set_audit_comment, only: %i[ create update destroy ]
 
   # GET /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/new
   def new
@@ -15,11 +18,9 @@ class PropertiesController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties
   def create
-    @property = @property_group.properties.build(property_params)
-
     respond_to do |format|
       if @property.save
-        Products::VariantsRebuilder.call(@product)
+        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
 
         format.turbo_stream { flash.now[:notice] = "Property was successfully created." }
       else
@@ -43,7 +44,7 @@ class PropertiesController < ApplicationController
   def destroy
     respond_to do |format|
       if @property.destroy
-        Products::VariantsRebuilder.call(@product)
+        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
 
         format.turbo_stream { flash.now[:notice] = "Property was successfully destroyed." }
       else
@@ -69,6 +70,10 @@ class PropertiesController < ApplicationController
 
   def set_property_group
     @property_group = @product.property_groups.find(params.expect(:property_group_id))
+  end
+
+  def build_property_with_params
+    @property = @property_group.properties.build(property_params)
   end
 
   def set_property

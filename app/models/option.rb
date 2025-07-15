@@ -21,6 +21,8 @@
 #  option_group_id  (option_group_id => option_groups.id) ON DELETE => cascade
 #
 class Option < ApplicationRecord
+  audited
+
   include NameNormalizer
   include VisibilityFilterer
 
