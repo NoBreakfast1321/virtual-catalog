@@ -2,8 +2,6 @@ module ApplicationHelper
   include Pagy::Frontend
   include Toaster
 
-  errable_form_with
-
   def errable_form_with(**options, &block)
     options[:builder] = ErrableFormBuilder
 
