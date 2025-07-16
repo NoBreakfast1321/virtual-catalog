@@ -2,10 +2,7 @@ class PropertiesController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_property_group
-  before_action :build_property_with_params, only: %i[ create ]
-  before_action :set_property, only: %i[ edit update destroy ]
-
-  before_action :set_audit_comment, only: %i[ create update destroy ]
+  before_action :set_property, only: %i[edit update destroy]
 
   # GET /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/new
   def new
@@ -18,11 +15,13 @@ class PropertiesController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties
   def create
+    @property = @property_group.properties.build(property_params)
+
     respond_to do |format|
       if @property.save
-        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
-
-        format.turbo_stream { flash.now[:notice] = "Property was successfully created." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -33,7 +32,9 @@ class PropertiesController < ApplicationController
   def update
     respond_to do |format|
       if @property.update(property_params)
-        format.turbo_stream { flash.now[:notice] = "Property was successfully updated." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -44,9 +45,9 @@ class PropertiesController < ApplicationController
   def destroy
     respond_to do |format|
       if @property.destroy
-        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
-
-        format.turbo_stream { flash.now[:notice] = "Property was successfully destroyed." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("destroy.success")
+        end
       else
         format.turbo_stream do
           flash.now[:alert] = @property.errors.full_messages.to_sentence
@@ -69,11 +70,8 @@ class PropertiesController < ApplicationController
   end
 
   def set_property_group
-    @property_group = @product.property_groups.find(params.expect(:property_group_id))
-  end
-
-  def build_property_with_params
-    @property = @property_group.properties.build(property_params)
+    @property_group =
+      @product.property_groups.find(params.expect(:property_group_id))
   end
 
   def set_property
@@ -82,6 +80,6 @@ class PropertiesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def property_params
-    params.expect(property: [ :name, :price_variation, :visible ])
+    params.expect(property: %i[name visible])
   end
 end

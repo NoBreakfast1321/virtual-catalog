@@ -24,14 +24,31 @@ class OptionGroup < ApplicationRecord
   audited
 
   include NameNormalizer
-  include VisibilityFilterer
 
   belongs_to :product
 
   has_many :options, dependent: :destroy
 
-  validates :max_choices, numericality: { only_integer: true, greater_than_or_equal_to: :min_choices }, allow_nil: true
-  validates :min_choices, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }
-  validates :visible, inclusion: { in: [ true, false ] }
+  validates :maximum_selections,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: :minimum_selections
+            },
+            allow_nil: true
+
+  validates :minimum_selections,
+            presence: true,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 1
+            }
+
+  validates :name,
+            length: {
+              maximum: 30
+            },
+            presence: true,
+            uniqueness: {
+              scope: :product_id
+            }
 end

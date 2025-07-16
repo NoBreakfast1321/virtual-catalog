@@ -1,0 +1,8 @@
+en:
+  views:
+    categories:
+      edit:
+        header:
+          description: "Update your category details below."
+          heading: "Editing Category"
+        title: "Editing Category"

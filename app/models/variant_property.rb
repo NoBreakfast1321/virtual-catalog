@@ -24,5 +24,10 @@ class VariantProperty < ApplicationRecord
   belongs_to :property
   belongs_to :variant
 
-  validates :position, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :position,
+            presence: true,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 0
+            }
 end

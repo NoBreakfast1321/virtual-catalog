@@ -1,10 +1,7 @@
 class VariantsController < ApplicationController
   before_action :set_business
   before_action :set_product
-  before_action :build_variant_with_params, only: %i[ create ]
-  before_action :set_variant, only: %i[ edit update destroy ]
-
-  before_action :set_audit_comment, only: %i[ create update destroy ]
+  before_action :set_variant, only: %i[edit update destroy]
 
   # GET /businesses/:business_id/products/:product_id/variants/new
   def new
@@ -17,9 +14,13 @@ class VariantsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/variants
   def create
+    @variant = @product.variants.build(variant_params)
+
     respond_to do |format|
       if @variant.save
-        format.turbo_stream { flash.now[:notice] = "Variant was successfully created." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -30,7 +31,9 @@ class VariantsController < ApplicationController
   def update
     respond_to do |format|
       if @variant.update(variant_params)
-        format.turbo_stream { flash.now[:notice] = "Variant was successfully updated." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -41,7 +44,9 @@ class VariantsController < ApplicationController
   def destroy
     respond_to do |format|
       if @variant.destroy
-        format.turbo_stream { flash.now[:notice] = "Variant was successfully destroyed." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("destroy.success")
+        end
       else
         format.turbo_stream do
           flash.now[:alert] = @variant.errors.full_messages.to_sentence
@@ -63,22 +68,21 @@ class VariantsController < ApplicationController
     @product = @business.products.find(params.expect(:product_id))
   end
 
-  def build_variant_with_params
-    @variant = @product.variants.build(variant_params)
-  end
-
   def set_variant
     @variant = @product.variants.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def variant_params
-    params.expect(variant: [
-      :code,
-      :price,
-      :stock_quantity,
-      :visible,
-      property_ids: []
-    ])
+    params.expect(
+      variant: [
+        :base,
+        :code,
+        :price,
+        :stock_quantity,
+        :visible,
+        property_ids: []
+      ]
+    )
   end
 end

@@ -1,20 +1,29 @@
 class CreateVariants < ActiveRecord::Migration[8.0]
   def change
     create_table :variants do |t|
-      t.string      :code, limit: 50
+      t.string :code, limit: 50
 
-      t.monetize    :price,
-                      amount: { null: false, default: 0 },
-                      currency: { null: false, default: Money.default_currency.iso_code }
+      t.monetize :price,
+                 amount: {
+                   null: false,
+                   default: 0
+                 },
+                 currency: {
+                   null: false,
+                   default: Money.default_currency.iso_code
+                 }
 
-      t.integer     :stock_quantity
-      t.boolean     :visible, null: false, default: true
+      t.integer :stock_quantity
+      t.boolean :visible, null: false, default: true
       t.timestamps
 
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
     end
 
-    add_index :variants, %i[ product_id code ], unique: true, where: "code IS NOT NULL AND code <> ''"
+    add_index :variants,
+              %i[product_id code],
+              unique: true,
+              where: "code IS NOT NULL AND code <> ''"
 
     add_check_constraint(
       :variants,
@@ -43,9 +52,16 @@ class CreateVariants < ActiveRecord::Migration[8.0]
     reversible do |direction|
       direction.down do
         remove_check_constraint :variants, name: "check_variants_code_length"
-        remove_check_constraint :variants, name: "check_variants_price_nonnegative"
-        remove_check_constraint :variants, name: "check_variants_stock_quantity_nonnegative"
-        remove_check_constraint :variants, name: "check_variants_visible_boolean"
+
+        remove_check_constraint :variants,
+                                name: "check_variants_price_nonnegative"
+
+        remove_check_constraint :variants,
+                                name:
+                                  "check_variants_stock_quantity_nonnegative"
+
+        remove_check_constraint :variants,
+                                name: "check_variants_visible_boolean"
       end
     end
   end

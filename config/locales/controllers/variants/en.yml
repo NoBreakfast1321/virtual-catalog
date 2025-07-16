@@ -1,0 +1,9 @@
+en:
+  controllers:
+    variants:
+      create:
+        success: "Variant was successfully created."
+      update:
+        success: "Variant was successfully updated."
+      destroy:
+        success: "Variant was successfully destroyed."

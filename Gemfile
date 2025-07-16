@@ -73,5 +73,7 @@ gem "money-rails", "~> 1.12"
 gem "pagy", "~> 9.3"
 gem "pry", "~> 0.15.0"
 gem "ransack"
+gem "syntax_tree"
 gem "tailwindcss-rails", "~> 4.3"
 gem "tailwindcss-ruby", "~> 4.1"
+gem "w_syntax_tree-erb", "~> 0.12", require: false

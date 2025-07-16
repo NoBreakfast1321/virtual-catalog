@@ -2,12 +2,9 @@ class ProductsController < ApplicationController
   include Pagy::Backend
 
   before_action :set_business
-  before_action :build_product_with_params, only: %i[ create ]
-  before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :set_product, only: %i[show edit update destroy]
 
-  before_action :set_audit_comment, only: %i[ create update destroy ]
-
-  before_action :restrict_product_creation, only: %i[ new create ]
+  before_action :restrict_product_creation, only: %i[new create]
 
   # GET /businesses/:business_id/products
   def index
@@ -15,13 +12,13 @@ class ProductsController < ApplicationController
     @pagy, @products = pagy(@q.result(distinct: true))
   end
 
+  # GET /businesses/:business_id/products/:id
+  def show
+  end
+
   # GET /businesses/:business_id/products/new
   def new
     @product = @business.products.build
-  end
-
-  # GET /businesses/:business_id/products/:id
-  def show
   end
 
   # GET /businesses/:business_id/products/:id/edit
@@ -30,12 +27,19 @@ class ProductsController < ApplicationController
 
   # POST /businesses/:business_id/products
   def create
+    @product = @business.products.build(product_params)
+
     # Attach newly uploaded images to the product
-    @product.images.attach(params[:product][:images]) if params[:product][:images]
+    if params[:product][:images]
+      @product.images.attach(params[:product][:images])
+    end
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to [ @business, @product ], notice: "Product was successfully created." }
+        format.html do
+          redirect_to [ @business, @product ],
+                      notice: t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -50,11 +54,16 @@ class ProductsController < ApplicationController
     end
 
     # Attach newly uploaded images to the product
-    @product.images.attach(params[:product][:images]) if params[:product][:images]
+    if params[:product][:images]
+      @product.images.attach(params[:product][:images])
+    end
 
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to [ @business, @product ], notice: "Product was successfully updated." }
+        format.html do
+          redirect_to [ @business, @product ],
+                      notice: t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -65,7 +74,11 @@ class ProductsController < ApplicationController
   def destroy
     respond_to do |format|
       if @product.destroy
-        format.html { redirect_to business_products_path(@business), status: :see_other, notice: "Product was successfully destroyed." }
+        format.html do
+          redirect_to business_products_path(@business),
+                      notice: t_controller("destroy.success"),
+                      status: :see_other
+        end
       else
         format.html do
           flash.now[:alert] = @product.errors.full_messages.to_sentence
@@ -83,30 +96,31 @@ class ProductsController < ApplicationController
     @business = current_user.businesses.find(params.expect(:business_id))
   end
 
-  def build_product_with_params
-    @product = @business.products.build(product_params)
-  end
-
   def set_product
     @product = @business.products.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.expect(product: [
-      :available_from,
-      :available_until,
-      :code,
-      :description,
-      :featured,
-      :name,
-      :price,
-      :visible,
-      category_ids: []
-    ])
+    params.expect(
+      product: [
+        :available_from,
+        :available_until,
+        :code,
+        :description,
+        :featured,
+        :name,
+        :price,
+        :visible,
+        category_ids: []
+      ]
+    )
   end
 
   def restrict_product_creation
-    redirect_to new_business_category_path(@business), alert: "You must create at least one category before creating a product." if @business.categories.empty?
+    if @business.categories.empty?
+      redirect_to new_business_category_path(@business),
+                  alert: t_controller("guards.restrict_product_creation")
+    end
   end
 end

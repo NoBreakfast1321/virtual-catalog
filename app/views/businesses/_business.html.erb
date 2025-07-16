@@ -1,37 +1,25 @@
+<%# locals: (business:) %>
+
 <dl id="<%= dom_id business %>" class="description-list">
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Visible?
-    </dt>
-    <dd class="description-list__definition">
-      <%= business.visible? ? "Yes" : "No" %>
-    </dd>
+    <dt class="description-list__term"><%= t(".description") %></dt>
+    <dd class="description-list__definition"><%= business.description %></dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Slug
-    </dt>
-    <dd class="description-list__definition">
-      <%= business.slug %>
-    </dd>
+    <dt class="description-list__term"><%= t(".name") %></dt>
+    <dd class="description-list__definition"><%= business.name %></dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Name
-    </dt>
-    <dd class="description-list__definition">
-      <%= business.name %>
-    </dd>
+    <dt class="description-list__term"><%= t(".slug") %></dt>
+    <dd class="description-list__definition"><%= business.slug %></dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Description
-    </dt>
+    <dt class="description-list__term"><%= t(".visible") %></dt>
     <dd class="description-list__definition">
-      <%= business.description %>
+      <%= business.visible? ? t("application.yes") : t("application.no") %>
     </dd>
   </div>
 </dl>

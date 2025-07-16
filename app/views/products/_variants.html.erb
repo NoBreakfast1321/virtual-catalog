@@ -1,13 +1,9 @@
 <% if product.variants.empty? %>
-  <p class="description-list__definition text-center">
-    ---
-  </p>
+  <p class="description-list__definition text-center">---</p>
 <% else %>
   <ul>
     <% product.variants.each do |variant| %>
-      <li class="description-list__definition">
-        <%= variant.label %>
-      </li>
+      <li class="description-list__definition"><%= variant.label %></li>
     <% end %>
   </ul>
 <% end %>

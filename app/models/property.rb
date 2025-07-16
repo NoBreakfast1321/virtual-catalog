@@ -26,5 +26,12 @@ class Property < ApplicationRecord
 
   has_one :product, through: :property_group
 
-  validates :name, length: { maximum: 50 }, presence: true, uniqueness: { scope: :property_group }
+  validates :name,
+            length: {
+              maximum: 50
+            },
+            presence: true,
+            uniqueness: {
+              scope: :property_group
+            }
 end

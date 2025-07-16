@@ -29,23 +29,24 @@ class Business < ApplicationRecord
   belongs_to :user
 
   has_many :categories, dependent: :destroy
+
   has_many :products, dependent: :destroy
 
   validates :description, length: { maximum: 150 }, allow_blank: true
   validates :name, length: { maximum: 30 }, presence: true
-
   validates :slug,
-    format: {
-      with: /\A[a-z0-9_-]+\z/,
-      message: "can only contain lowercase letters, numbers, underscores and hyphens"
-    },
-    length: { maximum: 30 },
-    presence: true,
-    uniqueness: true
+            format: {
+              with: /\A[a-z0-9_-]+\z/
+            },
+            length: {
+              maximum: 30
+            },
+            presence: true,
+            uniqueness: true
 
   validates :visible, inclusion: { in: [ true, false ] }
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[ description name slug visible created_at updated_at ]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[description name slug visible created_at updated_at]
   end
 end

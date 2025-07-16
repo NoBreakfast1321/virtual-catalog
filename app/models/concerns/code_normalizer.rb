@@ -1,9 +1,7 @@
 module CodeNormalizer
   extend ActiveSupport::Concern
 
-  included do
-    before_validation :normalize_code
-  end
+  included { before_validation :normalize_code }
 
   private
 

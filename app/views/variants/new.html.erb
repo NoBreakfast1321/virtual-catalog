@@ -1,7 +1,5 @@
 <%= turbo_frame_tag turbo_frame_id(Variant.new) do %>
   <div class="card mb-6">
-    <div class="card__body">
-      <%= render "form", variant: @variant %>
-    </div>
+    <div class="card__body"><%= render "form", variant: @variant %></div>
   </div>
 <% end %>

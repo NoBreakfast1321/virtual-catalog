@@ -1,19 +1,31 @@
 module SlugRestricter
   extend ActiveSupport::Concern
 
+  # TODO: Would it be wise to also include application paths here?
   # Taken from https://github.com/norman/friendly_id
-  RESERVED_SLUGS = %w[ new edit index session login logout users admin stylesheets assets javascripts images ]
+  RESERVED_SLUGS = %w[
+    admin
+    assets
+    edit
+    images
+    index
+    javascripts
+    login
+    logout
+    new
+    session
+    stylesheets
+    users
+  ]
 
-  included do
-    validate :restrict_slug_creation, if: -> { slug.present? }
-  end
+  included { validate :restrict_slug_creation, if: -> { slug.present? } }
 
   private
 
   def restrict_slug_creation
     if RESERVED_SLUGS.include?(slug)
-      errors.add(:name, "is reserved and cannot be used")
-      errors.add(:slug, "is reserved and cannot be used")
+      errors.add(:name, :reserved_slug)
+      errors.add(:slug, :reserved_slug)
 
       throw(:abort)
     end

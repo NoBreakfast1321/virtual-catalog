@@ -1,0 +1,9 @@
+en:
+  controllers:
+    properties:
+      create:
+        success: "Property was successfully created."
+      update:
+        success: "Property was successfully updated."
+      destroy:
+        success: "Property was successfully destroyed."

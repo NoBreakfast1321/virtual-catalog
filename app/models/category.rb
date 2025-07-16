@@ -31,10 +31,18 @@ class Category < ApplicationRecord
   has_many :products, through: :product_categories
 
   validates :description, length: { maximum: 150 }, allow_blank: true
-  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :business_id }
+  validates :name,
+            length: {
+              maximum: 30
+            },
+            presence: true,
+            uniqueness: {
+              scope: :business_id
+            }
+
   validates :visible, inclusion: { in: [ true, false ] }
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[ description name visible created_at updated_at ]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[description name visible created_at updated_at]
   end
 end

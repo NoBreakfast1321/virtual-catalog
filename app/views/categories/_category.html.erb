@@ -1,41 +1,36 @@
+<%# locals: (business:, category:) %>
+
 <dl id="<%= dom_id category %>" class="description-list">
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Visible?
-    </dt>
+    <dt class="description-list__term"><%= t(".description") %></dt>
+    <dd class="description-list__definition"><%= category.description %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term"><%= t(".name") %></dt>
+    <dd class="description-list__definition"><%= category.name %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term"><%= t(".visible") %></dt>
     <dd class="description-list__definition">
-      <%= category.visible? ? "Yes" : "No" %>
+      <%= category.visible? ? t("application.yes") : t("application.no") %>
     </dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Name
-    </dt>
+    <dt class="description-list__term"><%= t(".products") %></dt>
     <dd class="description-list__definition">
-      <%= category.name %>
-    </dd>
-  </div>
+      <span>
+        <%= safe_join(
+          category.products.map { |product| link_to product.name, [business, product] },
+          ", "
+        ) %>
+      </span>
 
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Description
-    </dt>
-    <dd class="description-list__definition">
-      <%= category.description %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Products
-    </dt>
-    <dd class="description-list__definition">
-      <%= safe_join(category.products.map { |product| link_to product.name, [ @business, product ] }, ", ") %>
-
-      <br>
-
-      <%= link_to "New product", new_business_product_path(@business), class: "button button--action" %>
+      <%= link_to t(".actions.new_product"),
+              new_business_product_path(business),
+              class: "button button--action mt-4" %>
     </dd>
   </div>
 </dl>

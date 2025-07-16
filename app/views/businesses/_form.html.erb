@@ -1,14 +1,10 @@
-<%= custom_form_with model: business, class: "form" do |form| %>
-  <div class="form__group form__group--inline">
-    <%= form.checkbox :visible, class: "form__checkbox" %>
-    <%= form.label :visible, class: "form__label" %>
-    <%= form.error :visible, "form__error" %>
-  </div>
+<%# locals: (business:) %>
 
+<%= errable_form_with model: business, class: "form" do |form| %>
   <div class="form__group">
-    <%= form.label :slug, class: "form__label" %>
-    <%= form.text_field :slug, class: "form__input" %>
-    <%= form.error :slug, "form__error" %>
+    <%= form.label :description, class: "form__label" %>
+    <%= form.text_area :description, class: "form__input" %>
+    <%= form.error :description, "form__error" %>
   </div>
 
   <div class="form__group">
@@ -18,13 +14,22 @@
   </div>
 
   <div class="form__group">
-    <%= form.label :description, class: "form__label" %>
-    <%= form.text_area :description, class: "form__input" %>
-    <%= form.error :description, "form__error" %>
+    <%= form.label :slug, class: "form__label" %>
+    <%= form.text_field :slug, class: "form__input" %>
+    <%= form.error :slug, "form__error" %>
+  </div>
+
+  <div class="form__group form__group--inline">
+    <%= form.checkbox :visible, class: "form__checkbox" %>
+    <%= form.label :visible, class: "form__label" %>
+    <%= form.error :visible, "form__error" %>
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", business.persisted? ? @business : businesses_path, class: "button" %>
-    <%= form.submit nil, class: "button button--action" %>
+    <%= link_to t("application.cancel"),
+            business.persisted? ? @business : businesses_path,
+            class: "button" %>
+
+    <%= form.submit t("application.save"), class: "button button--action" %>
   </footer>
 <% end %>

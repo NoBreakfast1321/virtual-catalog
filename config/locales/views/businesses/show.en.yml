@@ -1,0 +1,10 @@
+en:
+  views:
+    businesses:
+      show:
+        actions:
+          destroy_business: "Destroy business"
+          edit_business: "Edit business"
+        header:
+          description: "See the information for your business below."
+          heading: "Business Details"

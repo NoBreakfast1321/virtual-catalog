@@ -4,6 +4,7 @@ const FRACTION_DIGITS = 2;
 
 export default class extends Controller {
   static targets = ["hidden", "input"];
+
   static values = {
     currency: String,
     locale: String,

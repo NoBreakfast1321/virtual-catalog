@@ -1,16 +1,12 @@
-<% content_for :title, "Editing Business" %>
+<% content_for :title, t(".title") %>
 
 <section class="card">
   <header class="card__header">
-    <h2 class="card__heading">
-      Editing Business
-    </h2>
-    <p class="card__description">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-    </p>
+    <h2 class="card__heading"><%= t(".header.heading") %></h2>
+    <p class="card__description"><%= t(".header.description") %></p>
   </header>
 
   <div class="card__body">
-    <%= render "form", business: @business %>
+    <%= render "businesses/form", business: @business %>
   </div>
 </section>

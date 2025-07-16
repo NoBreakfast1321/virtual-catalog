@@ -24,12 +24,15 @@ class Option < ApplicationRecord
   audited
 
   include NameNormalizer
-  include VisibilityFilterer
-
-  monetize :price_variation_cents, allow_nil: true
 
   belongs_to :option_group
 
-  validates :name, length: { maximum: 50 }, presence: true, uniqueness: { scope: :option_group }
-  validates :visible, inclusion: { in: [ true, false ] }
+  validates :name,
+            length: {
+              maximum: 50
+            },
+            presence: true,
+            uniqueness: {
+              scope: :option_group
+            }
 end

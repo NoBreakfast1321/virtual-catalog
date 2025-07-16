@@ -1,0 +1,9 @@
+en:
+  controllers:
+    property_groups:
+      create:
+        success: "Property group was successfully created."
+      update:
+        success: "Property group was successfully updated."
+      destroy:
+        success: "Property group was successfully destroyed."

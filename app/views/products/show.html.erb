@@ -3,15 +3,15 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">
-        Product Details
-      </h2>
+      <h2 class="card__heading">Product Details</h2>
       <p class="card__description">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "Edit product", edit_business_product_path(@business, @product), class: "button button--action" %>
+      <%= link_to "Edit product",
+              edit_business_product_path(@business, @product),
+              class: "button button--action" %>
     </div>
   </header>
 
@@ -22,7 +22,13 @@
   <footer class="card__footer">
     <div class="card__footer--end">
       <%= link_to "Back to products", business_products_path(@business), class: "button" %>
-      <%= button_to "Destroy product", [ @business, @product ], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+      <%= button_to "Destroy product",
+                [@business, @product],
+                method: :delete,
+                data: {
+                  turbo_confirm: "Are you sure?"
+                },
+                class: "button button--danger" %>
     </div>
   </footer>
 </section>
@@ -31,16 +37,19 @@
   <section class="card">
     <header class="card__header card__header--with-actions">
       <div>
-        <h2 class="card__heading">
-          Product Variants
-        </h2>
+        <h2 class="card__heading">Product Variants</h2>
         <p class="card__description">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
         </p>
       </div>
 
       <div class="card__actions">
-        <%= link_to "New variant", new_business_product_variant_path(@business, @product), data: { turbo_frame: turbo_frame_id(Variant.new) }, class: "button button--action" %>
+        <%= link_to "New variant",
+                new_business_product_variant_path(@business, @product),
+                data: {
+                  turbo_frame: turbo_frame_id(Variant.new)
+                },
+                class: "button button--action" %>
       </div>
     </header>
 
@@ -59,15 +68,18 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">
-        Product Options
-      </h2>
+      <h2 class="card__heading">Product Options</h2>
       <p class="card__description">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New option group", new_business_product_option_group_path(@business, @product), data: { turbo_frame: turbo_frame_id(OptionGroup.new) }, class: "button button--action" %>
+      <%= link_to "New option group",
+              new_business_product_option_group_path(@business, @product),
+              data: {
+                turbo_frame: turbo_frame_id(OptionGroup.new)
+              },
+              class: "button button--action" %>
     </div>
   </header>
 
@@ -85,15 +97,18 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">
-        Product Properties
-      </h2>
+      <h2 class="card__heading">Product Properties</h2>
       <p class="card__description">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New property group", new_business_product_property_group_path(@business, @product), data: { turbo_frame: turbo_frame_id(PropertyGroup.new) }, class: "button button--action" %>
+      <%= link_to "New property group",
+              new_business_product_property_group_path(@business, @product),
+              data: {
+                turbo_frame: turbo_frame_id(PropertyGroup.new)
+              },
+              class: "button button--action" %>
     </div>
   </header>
 

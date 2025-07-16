@@ -1,0 +1,10 @@
+en:
+  views:
+    categories:
+      show:
+        actions:
+          destroy_category: "Destroy category"
+          edit_category: "Edit category"
+        header:
+          description: "See the information for your category below."
+          heading: "Category Details"

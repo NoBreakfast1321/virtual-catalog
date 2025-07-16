@@ -6,6 +6,10 @@
   <% end %>
 <% end %>
 
-<%= turbo_stream.append turbo_frame_id(:property_groups), partial: "property_groups/property_group", locals: { property_group: @property_group } %>
+<%= turbo_stream.append turbo_frame_id(:property_groups),
+                    partial: "property_groups/property_group",
+                    locals: {
+                      property_group: @property_group
+                    } %>
 
 <%= turbo_stream.update turbo_frame_id(PropertyGroup.new), "" %>

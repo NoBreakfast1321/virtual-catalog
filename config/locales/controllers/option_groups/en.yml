@@ -1,0 +1,9 @@
+en:
+  controllers:
+    option_groups:
+      create:
+        success: "Option group was successfully created."
+      update:
+        success: "Option group was successfully updated."
+      destroy:
+        success: "Option group was successfully destroyed."

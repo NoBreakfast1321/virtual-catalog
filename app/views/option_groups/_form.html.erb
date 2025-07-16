@@ -1,8 +1,16 @@
-<%= custom_form_with model: [ @business, @product, option_group ], class: "form" do |form| %>
-  <div class="form__group form__group--inline">
-    <%= form.checkbox :visible, class: "form__checkbox" %>
-    <%= form.label :visible, class: "form__label" %>
-    <%= form.error :visible, "form__error" %>
+<%# locals: (business:, product:, option_group:) %>
+
+<%= errable_form_with model: [business, product, option_group], class: "form" do |form| %>
+  <div class="form__group">
+    <%= form.label :maximum_selections, class: "form__label" %>
+    <%= form.number_field :maximum_selections, class: "form__input" %>
+    <%= form.error :maximum_selections, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= form.label :minimum_selections, class: "form__label" %>
+    <%= form.number_field :minimum_selections, class: "form__input" %>
+    <%= form.error :minimum_selections, "form__error" %>
   </div>
 
   <div class="form__group">
@@ -11,20 +19,8 @@
     <%= form.error :name, "form__error" %>
   </div>
 
-  <div class="form__group">
-    <%= form.label :min_choices, class: "form__label" %>
-    <%= form.number_field :min_choices, class: "form__input" %>
-    <%= form.error :min_choices, "form__error" %>
-  </div>
-
-  <div class="form__group">
-    <%= form.label :max_choices, class: "form__label" %>
-    <%= form.number_field :max_choices, class: "form__input" %>
-    <%= form.error :max_choices, "form__error" %>
-  </div>
-
   <footer class="form__footer">
-    <%= link_to "Cancel", [ @business, @product ], class: "button" %>
-    <%= form.submit nil, class: "button button--action" %>
+    <%= link_to t("application.cancel"), [business, product], class: "button" %>
+    <%= form.submit t("application.save"), class: "button button--action" %>
   </footer>
 <% end %>

@@ -3,26 +3,31 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">
-        Business Details
-      </h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
+      <h2 class="card__heading"><%= t(".header.heading") %></h2>
+      <p class="card__description"><%= t(".header.description") %></p>
     </div>
+
     <div class="card__actions">
-      <%= link_to "Edit business", edit_business_path(@business), class: "button button--action" %>
+      <%= link_to t(".actions.edit_business"),
+              edit_business_path(@business),
+              class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
-    <%= render @business %>
+    <%= render "businesses/business", business: @business %>
   </div>
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to "Back to businesses", businesses_path, class: "button" %>
-      <%= button_to "Destroy business", @business, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "button button--danger" %>
+      <%= link_to t("application.return"), businesses_path, class: "button" %>
+      <%= button_to t(".actions.destroy_business"),
+                @business,
+                method: :delete,
+                data: {
+                  turbo_confirm: t("application.destroy_confirm")
+                },
+                class: "button button--danger" %>
     </div>
   </footer>
 </section>

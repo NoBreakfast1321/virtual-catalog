@@ -28,7 +28,15 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  application:
+    cancel: "Cancel"
+    destroy_confirm: "Are you sure?"
+    reset: "Reset"
+    return: "Return"
+    save: "Save"
+    show: "Show"
+    yes: "Yes"
+    no: "No"
   pagy:
     prev: '<i class="ri-arrow-left-double-fill size-5"></i>'
     next: '<i class="ri-arrow-right-double-fill size-5"></i>'

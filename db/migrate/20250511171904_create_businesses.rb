@@ -1,10 +1,10 @@
 class CreateBusinesses < ActiveRecord::Migration[8.0]
   def change
     create_table :businesses do |t|
-      t.text        :description, limit: 150
-      t.string      :name, null: false, limit: 30
-      t.string      :slug, null: false, limit: 30
-      t.boolean     :visible, null: false, default: true
+      t.text :description, limit: 150
+      t.string :name, null: false, limit: 30
+      t.string :slug, null: false, limit: 30
+      t.boolean :visible, null: false, default: true
       t.timestamps
 
       t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
@@ -38,10 +38,17 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
 
     reversible do |direction|
       direction.down do
-        remove_check_constraint :businesses, name: "check_businesses_description_length"
-        remove_check_constraint :businesses, name: "check_businesses_name_length"
-        remove_check_constraint :businesses, name: "check_businesses_slug_format"
-        remove_check_constraint :businesses, name: "check_businesses_visible_boolean"
+        remove_check_constraint :businesses,
+                                name: "check_businesses_description_length"
+
+        remove_check_constraint :businesses,
+                                name: "check_businesses_name_length"
+
+        remove_check_constraint :businesses,
+                                name: "check_businesses_slug_format"
+
+        remove_check_constraint :businesses,
+                                name: "check_businesses_visible_boolean"
       end
     end
   end

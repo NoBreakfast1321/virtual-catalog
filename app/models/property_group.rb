@@ -26,5 +26,12 @@ class PropertyGroup < ApplicationRecord
 
   has_many :properties, dependent: :destroy
 
-  validates :name, length: { maximum: 30 }, presence: true, uniqueness: { scope: :product_id }
+  validates :name,
+            length: {
+              maximum: 30
+            },
+            presence: true,
+            uniqueness: {
+              scope: :product_id
+            }
 end

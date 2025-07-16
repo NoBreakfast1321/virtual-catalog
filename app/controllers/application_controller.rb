@@ -12,9 +12,7 @@ class ApplicationController < ActionController::Base
     "#{controller_name}##{action_name}"
   end
 
-  def set_audit_comment
-    resource = instance_variable_get("@#{controller_name.singularize}")
-
-    resource.audit_comment = audit_comment if resource&.respond_to?(:audit_comment=)
+  def t_controller(key)
+    t("controllers.#{controller_name}.#{key}")
   end
 end

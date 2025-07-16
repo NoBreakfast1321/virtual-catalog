@@ -2,10 +2,7 @@ class OptionsController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_option_group
-  before_action :build_option_with_params, only: %i[ create ]
-  before_action :set_option, only: %i[ edit update destroy ]
-
-  before_action :set_audit_comment, only: %i[ create update destroy ]
+  before_action :set_option, only: %i[edit update destroy]
 
   # GET /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options/new
   def new
@@ -18,9 +15,13 @@ class OptionsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/option_groups/:option_group_id/options
   def create
+    @option = @option_group.options.build(option_params)
+
     respond_to do |format|
       if @option.save
-        format.turbo_stream { flash.now[:notice] = "Option was successfully created." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -31,7 +32,9 @@ class OptionsController < ApplicationController
   def update
     respond_to do |format|
       if @option.update(option_params)
-        format.turbo_stream { flash.now[:notice] = "Option was successfully updated." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -42,7 +45,9 @@ class OptionsController < ApplicationController
   def destroy
     respond_to do |format|
       if @option.destroy
-        format.turbo_stream { flash.now[:notice] = "Option was successfully destroyed." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("destroy.success")
+        end
       else
         format.turbo_stream do
           flash.now[:alert] = @option.errors.full_messages.to_sentence
@@ -68,16 +73,12 @@ class OptionsController < ApplicationController
     @option_group = @product.option_groups.find(params.expect(:option_group_id))
   end
 
-  def build_option_with_params
-    @option = @option_group.options.build(option_params)
-  end
-
   def set_option
     @option = @option_group.options.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def option_params
-    params.expect(option: [ :name, :price_variation, :visible ])
+    params.expect(option: %i[name visible])
   end
 end

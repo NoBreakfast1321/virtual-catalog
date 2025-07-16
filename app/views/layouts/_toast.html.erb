@@ -1,19 +1,26 @@
+<%# locals: (flash: []) %>
+
 <% flash.each do |flash_type, message| %>
+  <% is_alert = flash_type == "alert" %>
+
   <div
     data-controller="toast"
     data-toast-timeout-value="5000"
-    class="toast <%= "toast--alert" if flash_type == "alert" %>"
+    class="toast <%= "toast--alert" if is_alert %>"
   >
-    <i class="<%= flash_type == "notice" ? "ri-checkbox-circle-line toast__icon" : "ri-alert-line toast__icon--alert" %>"></i>
-    <p
-      class="toast__message <%= "toast__message--alert" if flash_type == "alert" %>"
-    >
+    <% if is_alert %>
+      <i class="toast__icon--alert ri-alert-line"></i>
+    <% else %>
+      <i class="toast__icon ri-checkbox-circle-line"></i>
+    <% end %>
+
+    <p class="toast__message <%= "toast__message--alert" if is_alert %>">
       <%= message %>
     </p>
 
     <button
       data-action="toast#dismiss"
-      class="toast__dismiss-button <%= "toast__dismiss-button--alert" if flash_type == "alert" %>"
+      class="toast__dismiss-button <%= "toast__dismiss-button--alert" if is_alert %>"
     >
       <i class="ri-close-line"></i>
     </button>

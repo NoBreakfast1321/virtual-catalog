@@ -1,4 +1,4 @@
-<%= custom_form_with model: [ @business, @product, variant ], class: "form" do |form| %>
+<%= errable_form_with model: [@business, @product, variant], class: "form" do |form| %>
   <div class="form__group form__group--inline">
     <%= form.checkbox :visible, class: "form__checkbox" %>
     <%= form.label :visible, class: "form__label" %>
@@ -19,7 +19,13 @@
   >
     <%= form.label :price, class: "form__label" %>
     <%= form.hidden_field :price, data: { "currency-target": "hidden" }, id: nil %>
-    <input id="variant_price" data-currency-target="input" data-action="currency#format" inputmode="numeric" class="form__input">
+    <input
+      id="variant_price"
+      data-currency-target="input"
+      data-action="currency#format"
+      inputmode="numeric"
+      class="form__input"
+    />
     <%= form.error :price, "form__error" %>
   </div>
 
@@ -30,7 +36,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", [ @business, @product ], class: "button" %>
+    <%= link_to "Cancel", [@business, @product], class: "button" %>
     <%= form.submit nil, class: "button button--action" %>
   </footer>
 <% end %>

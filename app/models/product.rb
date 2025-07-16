@@ -37,8 +37,6 @@ class Product < ApplicationRecord
   include SlugRestricter
   include VisibilityFilterer
 
-  monetize :price_cents
-
   has_many_attached :images
 
   belongs_to :business
@@ -47,30 +45,74 @@ class Product < ApplicationRecord
   has_many :categories, through: :product_categories
 
   has_many :option_groups, dependent: :destroy
-  has_many :property_groups, dependent: :destroy
+  has_many :options, through: :option_groups
 
+  has_many :property_groups, dependent: :destroy
   has_many :properties, through: :property_groups
 
   has_many :variants, dependent: :destroy
 
+  monetize :price_cents
+
   validates :images,
-    limit: { max: 10 },
-    content_type: { in: [ "image/jpeg", "image/png", "image/webp" ], spoofing_protection: true },
-    size: { less_than: 1.megabyte }
+            limit: {
+              max: 10
+            },
+            content_type: {
+              in: %w[image/jpeg image/png image/webp],
+              spoofing_protection: true
+            },
+            size: {
+              less_than: 1.megabyte
+            }
 
   validates :adult_only, inclusion: { in: [ true, false ] }
   validates :available_until, absence: true, if: -> { available_from.nil? }
-  validates :available_until, comparison: { greater_than: :available_from }, allow_nil: true
-  validates :code, length: { maximum: 50 }, uniqueness: { scope: :business_id }, allow_blank: true
+  validates :available_until,
+            comparison: {
+              greater_than: :available_from
+            },
+            allow_nil: true
+
+  validates :code,
+            length: {
+              maximum: 50
+            },
+            uniqueness: {
+              scope: :business_id
+            },
+            allow_blank: true
+
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :featured, inclusion: { in: [ true, false ] }
-  validates :name, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
-  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :slug, length: { maximum: 150 }, presence: true, uniqueness: { scope: :business_id }
+  validates :name,
+            length: {
+              maximum: 150
+            },
+            presence: true,
+            uniqueness: {
+              scope: :business_id
+            }
+
+  validates :price_cents,
+            numericality: {
+              greater_than_or_equal_to: 0
+            },
+            presence: true
+
+  validates :slug,
+            length: {
+              maximum: 150
+            },
+            presence: true,
+            uniqueness: {
+              scope: :business_id
+            }
+
   validates :visible, inclusion: { in: [ true, false ] }
   validates :categories, presence: true
 
-  before_validation :generate_slug, on: %i[ create update ]
+  before_validation :generate_slug, on: %i[create update]
   before_validation :normalize_code
 
   # 🔞 Audience scopes
@@ -78,9 +120,22 @@ class Product < ApplicationRecord
   scope :non_adult, -> { where(adult_only: false) }
 
   # 📆 Availability scopes
-  scope :available, -> { where("available_from IS NULL OR available_from <= ?", Time.current) }
-  scope :expired, -> { where.not(available_until: nil).where(available_until: ...Time.current) }
-  scope :not_expired, -> { where("available_until IS NULL OR available_until >= ?", Time.current) }
+  scope :available,
+        -> do
+          where("available_from IS NULL OR available_from <= ?", Time.current)
+        end
+
+  scope :expired,
+        -> do
+          where.not(available_until: nil).where(
+            available_until: ...Time.current
+          )
+        end
+
+  scope :not_expired,
+        -> do
+          where("available_until IS NULL OR available_until >= ?", Time.current)
+        end
 
   # 🔥 Featured scopes
   scope :featured, -> { where(featured: true) }
@@ -89,12 +144,24 @@ class Product < ApplicationRecord
   # 🚩 General state scopes
   scope :active, -> { visible.available.not_expired }
 
-  def self.ransackable_attributes(auth_object = nil)
-    %w[ available_from available_until code description featured name price slug visible created_at updated_at ]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[
+      available_from
+      available_until
+      code
+      description
+      featured
+      name
+      price
+      slug
+      visible
+      created_at
+      updated_at
+    ]
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    %w[ categories ]
+  def self.ransackable_associations(_auth_object = nil)
+    %w[categories]
   end
 
   def active?
@@ -113,7 +180,7 @@ class Product < ApplicationRecord
     self.slug = name.parameterize[0..49]
 
     if slug.blank?
-      errors.add(:name, "cannot be used to generate a valid slug")
+      errors.add(:name, :invalid_slug)
 
       throw(:abort)
     end

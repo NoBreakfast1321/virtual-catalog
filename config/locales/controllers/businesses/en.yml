@@ -1,0 +1,9 @@
+en:
+  controllers:
+    businesses:
+      create:
+        success: "Business was successfully created."
+      update:
+        success: "Business was successfully updated."
+      destroy:
+        success: "Business was successfully destroyed."

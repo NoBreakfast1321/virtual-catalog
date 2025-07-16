@@ -1,10 +1,7 @@
 class BusinessesController < ApplicationController
   include Pagy::Backend
 
-  before_action :build_business_with_params, only: %i[ create ]
-  before_action :set_business, only: %i[ show edit update destroy ]
-
-  before_action :set_audit_comment, only: %i[ create update destroy ]
+  before_action :set_business, only: %i[show edit update destroy]
 
   # GET /businesses
   def index
@@ -12,13 +9,13 @@ class BusinessesController < ApplicationController
     @pagy, @businesses = pagy(@q.result(distinct: true))
   end
 
+  # GET /businesses/:id
+  def show
+  end
+
   # GET /businesses/new
   def new
     @business = current_user.businesses.build
-  end
-
-  # GET /businesses/:id
-  def show
   end
 
   # GET /businesses/:id/edit
@@ -27,9 +24,13 @@ class BusinessesController < ApplicationController
 
   # POST /businesses
   def create
+    @business = current_user.businesses.build(business_params)
+
     respond_to do |format|
       if @business.save
-        format.html { redirect_to @business, notice: "Business was successfully created." }
+        format.html do
+          redirect_to @business, notice: t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -40,7 +41,9 @@ class BusinessesController < ApplicationController
   def update
     respond_to do |format|
       if @business.update(business_params)
-        format.html { redirect_to @business, notice: "Business was successfully updated." }
+        format.html do
+          redirect_to @business, notice: t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -51,7 +54,11 @@ class BusinessesController < ApplicationController
   def destroy
     respond_to do |format|
       if @business.destroy
-        format.html { redirect_to @business, status: :see_other, notice: "Business was successfully destroyed." }
+        format.html do
+          redirect_to businesses_path,
+                      notice: t_controller("destroy.success"),
+                      status: :see_other
+        end
       else
         format.html do
           flash.now[:alert] = @business.errors.full_messages.to_sentence
@@ -65,16 +72,12 @@ class BusinessesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def build_business_with_params
-    @business = current_user.businesses.build(business_params)
-  end
-
   def set_business
     @business = current_user.businesses.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def business_params
-    params.expect(business: [ :description, :name, :slug, :visible ])
+    params.expect(business: %i[description name slug visible])
   end
 end

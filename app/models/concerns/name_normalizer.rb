@@ -1,9 +1,7 @@
 module NameNormalizer
   extend ActiveSupport::Concern
 
-  included do
-    before_validation :normalize_name
-  end
+  included { before_validation :normalize_name }
 
   private
 

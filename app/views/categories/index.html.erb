@@ -2,16 +2,14 @@
 
 <section class="card">
   <header class="card__header">
-    <h2 class="card__heading">
-      Category Filters
-    </h2>
+    <h2 class="card__heading">Category Filters</h2>
     <p class="card__description">
       Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
     </p>
   </header>
 
   <div class="card__body">
-    <%= search_form_for [ @business, @q ], html: { class: "form" } do |form| %>
+    <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
         <%= form.label :name_start, class: "form__label" %>
         <%= form.search_field :name_start, class: "form__input" %>
@@ -43,15 +41,15 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">
-        Categories
-      </h2>
+      <h2 class="card__heading">Categories</h2>
       <p class="card__description">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
       </p>
     </div>
     <div class="card__actions">
-      <%= link_to "New category", new_business_category_path(@business), class: "button button--action" %>
+      <%= link_to "New category",
+              new_business_category_path(@business),
+              class: "button button--action" %>
     </div>
   </header>
 
@@ -61,11 +59,21 @@
         <thead>
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
-            <th class="table__head-cell"><%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %></th>
-            <th class="table__head-cell"><%= sort_link(@q, :updated_at, "Updated at", class: "table__head-cell-link group") %></th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :updated_at, "Updated at", class: "table__head-cell-link group") %>
+            </th>
             <th class="table__head-cell">Products count</th>
             <th class="table__head-cell"></th>
           </tr>
@@ -73,14 +81,22 @@
         <tbody class="table__body">
           <% @categories.each do |category| %>
             <tr class="table__body-row">
-              <td class="table__body-cell table__body-cell--numeric"><%= category.id %></td>
-              <td class="table__body-cell"><%= category.visible? ? "Yes" : "No" %></td>
+              <td class="table__body-cell table__body-cell--numeric">
+                <%= category.id %>
+              </td>
+              <td class="table__body-cell">
+                <%= category.visible? ? "Yes" : "No" %>
+              </td>
               <td class="table__body-cell"><%= category.name %></td>
               <td class="table__body-cell"><%= category.description %></td>
               <td class="table__body-cell"><%= category.created_at %></td>
               <td class="table__body-cell"><%= category.updated_at %></td>
-              <td class="table__body-cell table__body-cell--numeric"><%= category.products.count %></td>
-              <td class="table__body-cell table__body-cell--actions"><%= link_to "Show category", [ @business, category ] %></td>
+              <td class="table__body-cell table__body-cell--numeric">
+                <%= category.products.count %>
+              </td>
+              <td class="table__body-cell table__body-cell--actions">
+                <%= link_to "Show category", [@business, category] %>
+              </td>
             </tr>
           <% end %>
         </tbody>

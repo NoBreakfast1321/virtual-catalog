@@ -1,0 +1,8 @@
+en:
+  views:
+    businesses:
+      edit:
+        header:
+          description: "Update your business details below."
+          heading: "Editing Business"
+        title: "Editing Business"

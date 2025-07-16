@@ -1,10 +1,7 @@
 class PropertyGroupsController < ApplicationController
   before_action :set_business
   before_action :set_product
-  before_action :build_property_group_with_params, only: %i[ create ]
-  before_action :set_property_group, only: %i[ edit update destroy ]
-
-  before_action :set_audit_comment, only: %i[ create update destroy ]
+  before_action :set_property_group, only: %i[edit update destroy]
 
   # GET /businesses/:business_id/products/:product_id/property_groups/new
   def new
@@ -17,9 +14,13 @@ class PropertyGroupsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/property_groups
   def create
+    @property_group = @product.property_groups.build(property_group_params)
+
     respond_to do |format|
       if @property_group.save
-        format.turbo_stream { flash.now[:notice] = "Property group was successfully created." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("create.success")
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -30,7 +31,9 @@ class PropertyGroupsController < ApplicationController
   def update
     respond_to do |format|
       if @property_group.update(property_group_params)
-        format.turbo_stream { flash.now[:notice] = "Property group was successfully updated." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("update.success")
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -41,9 +44,9 @@ class PropertyGroupsController < ApplicationController
   def destroy
     respond_to do |format|
       if @property_group.destroy
-        Products::VariantsRebuilder.call(product: @product, user: current_user, audit_comment: audit_comment)
-
-        format.turbo_stream { flash.now[:notice] = "Property group was successfully destroyed." }
+        format.turbo_stream do
+          flash.now[:notice] = t_controller("destroy.success")
+        end
       else
         format.turbo_stream do
           flash.now[:alert] = @property_group.errors.full_messages.to_sentence
@@ -63,10 +66,6 @@ class PropertyGroupsController < ApplicationController
 
   def set_product
     @product = @business.products.find(params.expect(:product_id))
-  end
-
-  def build_property_group_with_params
-    @property_group = @product.property_groups.build(property_group_params)
   end
 
   def set_property_group

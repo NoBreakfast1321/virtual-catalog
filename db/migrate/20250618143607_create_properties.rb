@@ -4,10 +4,14 @@ class CreateProperties < ActiveRecord::Migration[8.0]
       t.string :name, null: false, limit: 50
       t.timestamps
 
-      t.belongs_to :property_group, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :property_group,
+                   null: false,
+                   foreign_key: {
+                     on_delete: :cascade
+                   }
     end
 
-    add_index :properties, %i[ property_group_id name ], unique: true
+    add_index :properties, %i[property_group_id name], unique: true
 
     add_check_constraint(
       :properties,
@@ -17,7 +21,8 @@ class CreateProperties < ActiveRecord::Migration[8.0]
 
     reversible do |direction|
       direction.down do
-        remove_check_constraint :properties, name: "check_properties_name_length"
+        remove_check_constraint :properties,
+                                name: "check_properties_name_length"
       end
     end
   end

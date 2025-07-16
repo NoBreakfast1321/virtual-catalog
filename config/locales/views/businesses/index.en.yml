@@ -1,0 +1,22 @@
+en:
+  views:
+    businesses:
+      index:
+        actions:
+          new_business: "New business"
+        filters:
+          header:
+            description: "Filter your businesses by attributes below."
+            heading: "Business Filters"
+        header:
+          description: "Here is a list of all your businesses."
+          heading: "Businesses"
+        table:
+          head:
+            description: "Description"
+            name: "Name"
+            slug: "Slug"
+            visible: "Visible?"
+            created_at: "Created at"
+            updated_at: "Updated at"
+        title: "Businesses"

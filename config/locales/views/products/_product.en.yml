@@ -1,0 +1,10 @@
+en:
+  views:
+    categories:
+      _category:
+        actions:
+          new_product: "New product"
+        description: "Description"
+        name: "Name"
+        products: "Products"
+        visible: "Visible?"

@@ -1,0 +1,9 @@
+en:
+  controllers:
+    options:
+      create:
+        success: "Option was successfully created."
+      update:
+        success: "Option was successfully updated."
+      destroy:
+        success: "Option was successfully destroyed."

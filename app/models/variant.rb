@@ -26,16 +26,35 @@ class Variant < ApplicationRecord
 
   include CodeNormalizer
 
-  monetize :price_cents
-
   belongs_to :product
 
   has_many :variant_properties, -> { order(:position) }, dependent: :destroy
   has_many :properties, through: :variant_properties
 
-  validates :code, length: { maximum: 50 }, uniqueness: { scope: :product_id }, allow_blank: true
-  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :stock_quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
+  monetize :price_cents
+
+  validates :code,
+            length: {
+              maximum: 50
+            },
+            uniqueness: {
+              scope: :product_id
+            },
+            allow_blank: true
+
+  validates :price_cents,
+            numericality: {
+              greater_than_or_equal_to: 0
+            },
+            presence: true
+
+  validates :stock_quantity,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: 0
+            },
+            allow_nil: true
+
   validates :visible, inclusion: { in: [ true, false ] }
 
   def label

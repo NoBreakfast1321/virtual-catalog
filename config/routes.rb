@@ -130,6 +130,14 @@ Rails.application.routes.draw do
   resources :businesses do
     resources :categories
 
+    # resources :option_groups do
+    #   resources :options
+    # end
+
+    # resources :property_groups do
+    #   resources :properties
+    # end
+
     resources :products do
       resources :option_groups do
         resources :options

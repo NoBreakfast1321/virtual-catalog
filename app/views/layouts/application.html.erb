@@ -2,9 +2,9 @@
 <html>
   <head>
     <title><%= content_for(:title) || "Virtual Catalog" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,23 +13,21 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/icon.png" type="image/png" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon.png" />
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
     <%# https://rsms.me/inter/#usage %>
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
   </head>
 
   <body>
-    <div id="toaster">
-      <%= render "layouts/toast" %>
-    </div>
+    <div id="toaster"><%= render "layouts/toast" %></div>
 
     <main>
       <% if user_signed_in? %>
@@ -39,16 +37,26 @@
               <h2 class="card__heading mb-1">Navigation</h2>
 
               <ul>
-                <li>
-                  <%= link_to "Categories", business_categories_path(@business), class: "button" %>
-                  <%= link_to "Products", business_products_path(@business), class: "button" %>
+                <li class="flex gap-2">
                   <%= link_to "Businesses", businesses_path, class: "button" %>
+                  <%= link_to "Categories", business_categories_path(@business), class: "button" %>
+                  <%# <%= link_to "Options", business_option_groups_path(@business), class: "button" %> %>
+                  <%= link_to "Products", business_products_path(@business), class: "button" %>
+                  <%# <%= link_to "Properties", business_property_groups_path(@business), class: "button" %> %>
                 </li>
               </ul>
             </div>
           <% end %>
 
-          <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "button button--danger" %>
+          <div class="ml-auto">
+            <%= button_to "Sign out",
+                      destroy_user_session_path,
+                      method: :delete,
+                      data: {
+                        turbo_confirm: t("application.destroy_confirm")
+                      },
+                      class: "button button--danger" %>
+          </div>
         </nav>
       <% end %>
 
