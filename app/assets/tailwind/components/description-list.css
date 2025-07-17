@@ -21,11 +21,11 @@
 
 @layer components {
   .description-list {
-    @apply divide-y divide-gray-100;
+    @apply -my-4 divide-y divide-gray-100;
   }
 
   .description-list__item {
-    @apply px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0;
+    @apply py-4 sm:grid sm:grid-cols-3 sm:gap-4;
   }
 
   .description-list__term {

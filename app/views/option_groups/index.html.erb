@@ -1,12 +1,12 @@
 <% content_for :title, "Option Groups" %>
 
-<section class="card">
-  <header class="card__header">
+<details class="card">
+  <summary class="card__header">
     <h2 class="card__heading">Option Group Filters</h2>
     <p class="card__description">
       Filter your option groups by attributes below.
     </p>
-  </header>
+  </summary>
 
   <div class="card__body">
     <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
@@ -41,7 +41,7 @@
       </footer>
     <% end %>
   </div>
-</section>
+</details>
 
 <section class="card">
   <header class="card__header card__header--with-actions">
@@ -72,6 +72,12 @@
             <th class="table__head-cell">
               <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
             </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :created_at, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :updated_at, class: "table__head-cell-link group") %>
+            </th>
             <th class="table__head-cell">Options</th>
             <th class="table__head-cell"></th>
           </tr>
@@ -92,6 +98,8 @@
               <td class="table__body-cell table__body-cell--numeric">
                 <%= option_group.options.count %>
               </td>
+              <td class="table__body-cell"><%= option_group.created_at %></td>
+              <td class="table__body-cell"><%= option_group.updated_at %></td>
               <td class="table__body-cell table__body-cell--actions">
                 <%= link_to "Show", [@business, option_group] %>
               </td>

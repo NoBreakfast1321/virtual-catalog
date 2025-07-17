@@ -17,20 +17,4 @@
       <%= category.visible? ? "Yes" : "No" %>
     </dd>
   </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">Products</dt>
-    <dd class="description-list__definition space-y-4">
-      <span>
-        <%= safe_join(
-          category.products.map { |product| link_to product.name, [business, product] },
-          ", "
-        ) %>
-      </span>
-
-      <%= link_to "New",
-              new_business_product_path(business),
-              class: "button button--action" %>
-    </dd>
-  </div>
 </dl>

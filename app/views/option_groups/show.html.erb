@@ -36,11 +36,11 @@
   </footer>
 </section>
 
-<section class="card">
-  <header class="card__header card__header--with-actions">
+<details class="card">
+  <summary class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Options</h2>
-      <p class="card__description">Here is a list of all your options.</p>
+      <p class="card__description">Here is a list of all associated options.</p>
     </div>
 
     <div class="card__actions">
@@ -51,7 +51,7 @@
               },
               class: "button button--action" %>
     </div>
-  </header>
+  </summary>
 
   <div class="card__body">
     <%= turbo_frame_tag turbo_frame_id(Option.new) %>
@@ -65,4 +65,4 @@
       <% end %>
     <% end %>
   </div>
-</section>
+</details>

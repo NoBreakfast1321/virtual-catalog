@@ -31,3 +31,29 @@
     </div>
   </footer>
 </section>
+
+<details class="card">
+  <summary class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Products</h2>
+      <p class="card__description">
+        Here is a list of all associated products.
+      </p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_business_product_path(@business),
+              class: "button button--action" %>
+    </div>
+  </summary>
+
+  <div class="card__body">
+    <%= safe_join(
+      @category.products.map do |product|
+        link_to product.name, [@business, product]
+      end,
+      ", "
+    ) %>
+  </div>
+</details>
