@@ -1,0 +1,68 @@
+<% content_for :title, @option_group.name %>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Option Group Details</h2>
+      <p class="card__description">
+        See the details of your option group below.
+      </p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "Edit",
+              edit_business_option_group_path(@business, @option_group),
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= render "option_groups/option_group",
+           business: @business,
+           option_group: @option_group %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Return", business_option_groups_path(@business), class: "button" %>
+      <%= button_to "Destroy",
+                [@business, @option_group],
+                method: :delete,
+                data: {
+                  turbo_confirm: "Are you sure you want to destroy this option group?"
+                },
+                class: "button button--danger" %>
+    </div>
+  </footer>
+</section>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Options</h2>
+      <p class="card__description">Here is a list of all your options.</p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_business_option_group_option_path(@business, @option_group),
+              data: {
+                turbo_frame: turbo_frame_id(Option.new)
+              },
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= turbo_frame_tag turbo_frame_id(Option.new) %>
+
+    <%= turbo_frame_tag turbo_frame_id(:options) do %>
+      <% @option_group.options.each do |option| %>
+        <%= render "options/option",
+               business: @business,
+               option_group: @option_group,
+               option: option %>
+      <% end %>
+    <% end %>
+  </div>
+</section>

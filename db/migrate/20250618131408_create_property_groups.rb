@@ -4,10 +4,10 @@ class CreatePropertyGroups < ActiveRecord::Migration[8.0]
       t.string :name, null: false, limit: 30
       t.timestamps
 
-      t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
     end
 
-    add_index :property_groups, %i[product_id name], unique: true
+    add_index :property_groups, %i[business_id name], unique: true
 
     add_check_constraint(
       :property_groups,

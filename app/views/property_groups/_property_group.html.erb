@@ -1,52 +1,8 @@
-<%= turbo_frame_tag turbo_frame_id(property_group) do %>
-  <div class="card mb-6">
-    <div class="card__body">
-      <dl id="<%= dom_id property_group %>" class="description-list">
-        <div class="description-list__item">
-          <dt class="description-list__term">Name</dt>
-          <dd class="description-list__definition">
-            <%= property_group.name %>
-          </dd>
-        </div>
-      </dl>
+<%# locals: (business:, property_group:) %>
 
-      <%= turbo_frame_tag turbo_frame_id(property_group, :properties) do %>
-        <% property_group.properties.each do |property| %>
-          <%= render property %>
-        <% end %>
-      <% end %>
-
-      <%= turbo_frame_tag turbo_frame_id(property_group, Property.new) %>
-    </div>
-
-    <footer class="card__footer card__footer--end">
-      <%= button_to "Destroy property group",
-                [@business, @product, property_group],
-                method: :delete,
-                data: {
-                  turbo_confirm: "Are you sure?"
-                },
-                class: "button button--danger" %>
-      <%= link_to "Edit property group",
-              edit_business_product_property_group_path(
-                @business,
-                @product,
-                property_group
-              ),
-              data: {
-                turbo_frame: turbo_frame_id(property_group)
-              },
-              class: "button" %>
-      <%= link_to "New property",
-              new_business_product_property_group_property_path(
-                @business,
-                @product,
-                property_group
-              ),
-              data: {
-                turbo_frame: turbo_frame_id(property_group, Property.new)
-              },
-              class: "button button--action" %>
-    </footer>
+<dl class="description-list">
+  <div class="description-list__item">
+    <dt class="description-list__term">Name</dt>
+    <dd class="description-list__definition"><%= property_group.name %></dd>
   </div>
-<% end %>
+</dl>

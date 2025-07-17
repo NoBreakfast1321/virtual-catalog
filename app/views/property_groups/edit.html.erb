@@ -1,7 +1,14 @@
-<%= turbo_frame_tag turbo_frame_id(@property_group) do %>
-  <div class="card mb-6">
-    <div class="card__body">
-      <%= render "form", property_group: @property_group %>
-    </div>
+<% content_for :title, "Editing Property Group" %>
+
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">Editing Property Group</h2>
+    <p class="card__description">Update your property group details below.</p>
+  </header>
+
+  <div class="card__body">
+    <%= render "property_groups/form",
+           business: @business,
+           property_group: @property_group %>
   </div>
-<% end %>
+</section>

@@ -104,6 +104,7 @@ class ProductsController < ApplicationController
   def product_params
     params.expect(
       product: [
+        :adult_only,
         :available_from,
         :available_until,
         :code,

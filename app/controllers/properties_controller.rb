@@ -1,19 +1,18 @@
 class PropertiesController < ApplicationController
   before_action :set_business
-  before_action :set_product
   before_action :set_property_group
   before_action :set_property, only: %i[edit update destroy]
 
-  # GET /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/new
+  # GET /businesses/:business_id/property_groups/:property_group_id/properties/new
   def new
     @property = @property_group.properties.build
   end
 
-  # GET /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/:id/edit
+  # GET /businesses/:business_id/property_groups/:property_group_id/properties/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties
+  # POST /businesses/:business_id/property_groups/:property_group_id/properties
   def create
     @property = @property_group.properties.build(property_params)
 
@@ -28,7 +27,7 @@ class PropertiesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/:id
+  # PATCH/PUT /businesses/:business_id/property_groups/:property_group_id/properties/:id
   def update
     respond_to do |format|
       if @property.update(property_params)
@@ -41,7 +40,7 @@ class PropertiesController < ApplicationController
     end
   end
 
-  # DELETE /businesses/:business_id/products/:product_id/property_groups/:property_group_id/properties/:id
+  # DELETE /businesses/:business_id/property_groups/:property_group_id/properties/:id
   def destroy
     respond_to do |format|
       if @property.destroy
@@ -65,13 +64,9 @@ class PropertiesController < ApplicationController
     @business = current_user.businesses.find(params.expect(:business_id))
   end
 
-  def set_product
-    @product = @business.products.find(params.expect(:product_id))
-  end
-
   def set_property_group
     @property_group =
-      @product.property_groups.find(params.expect(:property_group_id))
+      @business.property_groups.find(params.expect(:property_group_id))
   end
 
   def set_property

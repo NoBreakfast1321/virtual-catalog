@@ -4,121 +4,30 @@
   <header class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Product Details</h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
+      <p class="card__description">See the details of your product below.</p>
     </div>
+
     <div class="card__actions">
-      <%= link_to "Edit product",
+      <%= link_to "Edit",
               edit_business_product_path(@business, @product),
               class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
-    <%= render partial: "products/product", locals: { product: @product } %>
+    <%= render "products/product", business: @business, product: @product %>
   </div>
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to "Back to products", business_products_path(@business), class: "button" %>
-      <%= button_to "Destroy product",
+      <%= link_to "Return", business_products_path(@business), class: "button" %>
+      <%= button_to "Destroy",
                 [@business, @product],
                 method: :delete,
                 data: {
-                  turbo_confirm: "Are you sure?"
+                  turbo_confirm: "Are you sure you want to destroy this product?"
                 },
                 class: "button button--danger" %>
     </div>
   </footer>
-</section>
-
-<div>
-  <section class="card">
-    <header class="card__header card__header--with-actions">
-      <div>
-        <h2 class="card__heading">Product Variants</h2>
-        <p class="card__description">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-        </p>
-      </div>
-
-      <div class="card__actions">
-        <%= link_to "New variant",
-                new_business_product_variant_path(@business, @product),
-                data: {
-                  turbo_frame: turbo_frame_id(Variant.new)
-                },
-                class: "button button--action" %>
-      </div>
-    </header>
-
-    <div class="card__body">
-      <%= turbo_frame_tag turbo_frame_id(Variant.new) %>
-
-      <%= turbo_frame_tag turbo_frame_id(:variants) do %>
-        <% @product.variants.each do |variant| %>
-          <%= render variant %>
-        <% end %>
-      <% end %>
-    </div>
-  </section>
-</div>
-
-<section class="card">
-  <header class="card__header card__header--with-actions">
-    <div>
-      <h2 class="card__heading">Product Options</h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
-    </div>
-    <div class="card__actions">
-      <%= link_to "New option group",
-              new_business_product_option_group_path(@business, @product),
-              data: {
-                turbo_frame: turbo_frame_id(OptionGroup.new)
-              },
-              class: "button button--action" %>
-    </div>
-  </header>
-
-  <div class="card__body">
-    <%= turbo_frame_tag turbo_frame_id(OptionGroup.new) %>
-
-    <%= turbo_frame_tag turbo_frame_id(:option_groups) do %>
-      <% @product.option_groups.each do |option_group| %>
-        <%= render option_group %>
-      <% end %>
-    <% end %>
-  </div>
-</section>
-
-<section class="card">
-  <header class="card__header card__header--with-actions">
-    <div>
-      <h2 class="card__heading">Product Properties</h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
-    </div>
-    <div class="card__actions">
-      <%= link_to "New property group",
-              new_business_product_property_group_path(@business, @product),
-              data: {
-                turbo_frame: turbo_frame_id(PropertyGroup.new)
-              },
-              class: "button button--action" %>
-    </div>
-  </header>
-
-  <div class="card__body">
-    <%= turbo_frame_tag turbo_frame_id(PropertyGroup.new) %>
-
-    <%= turbo_frame_tag turbo_frame_id(:property_groups) do %>
-      <% @product.property_groups.each do |property_group| %>
-        <%= render property_group %>
-      <% end %>
-    <% end %>
-  </div>
 </section>

@@ -1,25 +1,37 @@
 class PropertyGroupsController < ApplicationController
-  before_action :set_business
-  before_action :set_product
-  before_action :set_property_group, only: %i[edit update destroy]
+  include Pagy::Backend
 
-  # GET /businesses/:business_id/products/:product_id/property_groups/new
-  def new
-    @property_group = @product.property_groups.build
+  before_action :set_business
+  before_action :set_property_group, only: %i[show edit update destroy]
+
+  # GET /businesses/:business_id/property_groups
+  def index
+    @q = @business.property_groups.ransack(params[:q])
+    @pagy, @property_groups = pagy(@q.result(distinct: true))
   end
 
-  # GET /businesses/:business_id/products/:product_id/property_groups/:id/edit
+  # GET /businesses/:business_id/property_groups/:id
+  def show
+  end
+
+  # GET /businesses/:business_id/property_groups/new
+  def new
+    @property_group = @business.property_groups.build
+  end
+
+  # GET /businesses/:business_id/property_groups/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/products/:product_id/property_groups
+  # POST /businesses/:business_id/property_groups
   def create
-    @property_group = @product.property_groups.build(property_group_params)
+    @property_group = @business.property_groups.build(property_group_params)
 
     respond_to do |format|
       if @property_group.save
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("create.success")
+        format.html do
+          redirect_to [ @business, @property_group ],
+                      notice: t_controller("create.success")
         end
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -27,12 +39,13 @@ class PropertyGroupsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/products/:product_id/property_groups/:id
+  # PATCH/PUT /businesses/:business_id/property_groups/:id
   def update
     respond_to do |format|
       if @property_group.update(property_group_params)
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("update.success")
+        format.html do
+          redirect_to [ @business, @property_group ],
+                      notice: t_controller("update.success")
         end
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -40,18 +53,20 @@ class PropertyGroupsController < ApplicationController
     end
   end
 
-  # DELETE /businesses/:business_id/products/:product_id/property_groups/:id
+  # DELETE /businesses/:business_id/property_groups/:id
   def destroy
     respond_to do |format|
       if @property_group.destroy
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("destroy.success")
+        format.html do
+          redirect_to business_property_groups_path(@business),
+                      notice: t_controller("destroy.success"),
+                      status: :see_other
         end
       else
-        format.turbo_stream do
+        format.html do
           flash.now[:alert] = @property_group.errors.full_messages.to_sentence
 
-          render turbo_stream: render_toast, status: :unprocessable_entity
+          render :show, status: :unprocessable_entity
         end
       end
     end
@@ -64,16 +79,12 @@ class PropertyGroupsController < ApplicationController
     @business = current_user.businesses.find(params.expect(:business_id))
   end
 
-  def set_product
-    @product = @business.products.find(params.expect(:product_id))
-  end
-
   def set_property_group
-    @property_group = @product.property_groups.find(params.expect(:id))
+    @property_group = @business.property_groups.find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
   def property_group_params
-    params.expect(property_group: [ :name ])
+    params.expect(property_group: %i[name])
   end
 end

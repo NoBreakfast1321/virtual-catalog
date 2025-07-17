@@ -54,18 +54,6 @@ class Product < ApplicationRecord
 
   monetize :price_cents
 
-  validates :images,
-            limit: {
-              max: 10
-            },
-            content_type: {
-              in: %w[image/jpeg image/png image/webp],
-              spoofing_protection: true
-            },
-            size: {
-              less_than: 1.megabyte
-            }
-
   validates :adult_only, inclusion: { in: [ true, false ] }
   validates :available_until, absence: true, if: -> { available_from.nil? }
   validates :available_until,
@@ -110,6 +98,19 @@ class Product < ApplicationRecord
             }
 
   validates :visible, inclusion: { in: [ true, false ] }
+
+  validates :images,
+            limit: {
+              max: 10
+            },
+            content_type: {
+              in: %w[image/jpeg image/png image/webp],
+              spoofing_protection: true
+            },
+            size: {
+              less_than: 1.megabyte
+            }
+
   validates :categories, presence: true
 
   before_validation :generate_slug, on: %i[create update]
@@ -146,6 +147,7 @@ class Product < ApplicationRecord
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
+      adult_only
       available_from
       available_until
       code

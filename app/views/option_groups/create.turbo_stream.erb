@@ -1,5 +1,0 @@
-<%= render_toast %>
-
-<%= turbo_stream.append turbo_frame_id(:option_groups), partial: "option_groups/option_group", locals: { option_group: @option_group } %>
-
-<%= turbo_stream.update turbo_frame_id(OptionGroup.new), "" %>

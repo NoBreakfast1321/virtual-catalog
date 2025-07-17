@@ -1,8 +1,17 @@
-<%= turbo_frame_tag turbo_frame_id(@option_group, Option.new) do %>
-  <div class="card mb-6">
+<%= turbo_frame_tag turbo_frame_id(Option.new) do %>
+  <section class="card">
     <header class="card__header">
-      <h3 class="card__heading">New Option</h3>
+      <h2 class="card__heading">New Option</h2>
+      <p class="card__description">
+        Fill in the fields below to create a new option.
+      </p>
     </header>
-    <div class="card__body"><%= render "form", option: @option %></div>
-  </div>
+
+    <div class="card__body">
+      <%= render "options/form",
+             business: @business,
+             option_group: @option_group,
+             option: @option %>
+    </div>
+  </section>
 <% end %>

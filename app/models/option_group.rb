@@ -2,30 +2,29 @@
 #
 # Table name: option_groups
 #
-#  id          :integer          not null, primary key
-#  max_choices :integer
-#  min_choices :integer          default(1), not null
-#  name        :string(30)       not null
-#  visible     :boolean          default(TRUE), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  product_id  :integer          not null
+#  id                 :integer          not null, primary key
+#  maximum_selections :integer
+#  minimum_selections :integer          default(1), not null
+#  name               :string(30)       not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  business_id        :integer          not null
 #
 # Indexes
 #
-#  index_option_groups_on_product_id           (product_id)
-#  index_option_groups_on_product_id_and_name  (product_id,name) UNIQUE
+#  index_option_groups_on_business_id           (business_id)
+#  index_option_groups_on_business_id_and_name  (business_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  product_id  (product_id => products.id) ON DELETE => cascade
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class OptionGroup < ApplicationRecord
   audited
 
   include NameNormalizer
 
-  belongs_to :product
+  belongs_to :business
 
   has_many :options, dependent: :destroy
 
@@ -49,6 +48,10 @@ class OptionGroup < ApplicationRecord
             },
             presence: true,
             uniqueness: {
-              scope: :product_id
+              scope: :business_id
             }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[maximum_selections minimum_selections name created_at updated_at]
+  end
 end

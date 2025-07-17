@@ -1,50 +1,27 @@
+<%# locals: (business:, option_group:, option:) %>
+
 <%= turbo_frame_tag turbo_frame_id(option) do %>
-  <div class="card mb-6">
-    <header class="card__header">
-      <h3 class="card__heading">Option</h3>
-    </header>
-    <div class="card__body">
-      <dl id="<%= dom_id option %>" class="description-list">
-        <div class="description-list__item">
-          <dt class="description-list__term">Visible?</dt>
-          <dd class="description-list__definition">
-            <%= option.visible? ? "Yes" : "No" %>
-          </dd>
-        </div>
-
-        <div class="description-list__item">
-          <dt class="description-list__term">Name</dt>
-          <dd class="description-list__definition"><%= option.name %></dd>
-        </div>
-
-        <div class="description-list__item">
-          <dt class="description-list__term">Price variation</dt>
-          <dd class="description-list__definition">
-            <%= option.price_variation %>
-          </dd>
-        </div>
-      </dl>
-    </div>
-
-    <footer class="card__footer card__footer--end">
-      <%= button_to "Destroy option",
-                [@business, @product, option.option_group, option],
-                method: :delete,
+  <dl class="description-list">
+    <div class="description-list__item">
+      <dt class="description-list__term"><%= option.name %></dt>
+      <dd
+        class="description-list__definition flex items-center justify-end gap-2"
+      >
+        <%= link_to "Edit",
+                edit_business_option_group_option_path(business, option_group, option),
                 data: {
-                  turbo_confirm: "Are you sure?"
+                  turbo_frame: turbo_frame_id(option)
                 },
-                class: "button button--danger" %>
-      <%= link_to "Edit option",
-              edit_business_product_option_group_option_path(
-                @business,
-                @product,
-                option.option_group,
-                option
-              ),
-              data: {
-                turbo_frame: turbo_frame_id(option)
-              },
-              class: "button" %>
-    </footer>
-  </div>
+                class: "button" %>
+
+        <%= button_to "Destroy",
+                  [business, option_group, option],
+                  method: :delete,
+                  data: {
+                    turbo_confirm: "Are you sure you want to destroy this option?"
+                  },
+                  class: "button button--danger" %>
+      </dd>
+    </div>
+  </dl>
 <% end %>

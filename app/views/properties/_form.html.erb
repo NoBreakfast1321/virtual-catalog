@@ -1,13 +1,14 @@
-<%= errable_form_with model: [@business, @product, @property_group, property],
-                  class: "form" do |form| %>
+<%# locals: (business:, property_group:, property:) %>
+
+<%= errable_form_with model: [business, property_group, property], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :name, class: "form__label" %>
-    <%= form.text_field :name, class: "form__input" %>
+    <%= form.text_field :name, autofocus: true, class: "form__input" %>
     <%= form.error :name, "form__error" %>
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", [@business, @product], class: "button" %>
-    <%= form.submit nil, class: "button button--action" %>
+    <%= link_to "Cancel", [business, property_group], class: "button" %>
+    <%= form.submit "Save", class: "button button--action" %>
   </footer>
 <% end %>

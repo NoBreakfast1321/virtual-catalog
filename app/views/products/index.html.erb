@@ -3,16 +3,29 @@
 <section class="card">
   <header class="card__header">
     <h2 class="card__heading">Product Filters</h2>
-    <p class="card__description">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-    </p>
+    <p class="card__description">Filter your products by attributes below.</p>
   </header>
 
   <div class="card__body">
     <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
+        <%= form.label :available_from_gteq, class: "form__label" %>
+        <%= form.date_field :available_from_gteq, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :available_until_gteq, class: "form__label" %>
+        <%= form.date_field :available_until_gteq, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
         <%= form.label :code_start, class: "form__label" %>
         <%= form.search_field :code_start, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :description_start, class: "form__label" %>
+        <%= form.search_field :description_start, class: "form__input" %>
       </div>
 
       <div class="form__group">
@@ -23,21 +36,6 @@
       <div class="form__group">
         <%= form.label :name_start, class: "form__label" %>
         <%= form.search_field :name_start, class: "form__input" %>
-      </div>
-
-      <div class="form__group">
-        <%= form.label :description_start, class: "form__label" %>
-        <%= form.search_field :description_start, class: "form__input" %>
-      </div>
-
-      <div class="form__group">
-        <%= form.label :available_from_gteq, class: "form__label" %>
-        <%= form.date_field :available_from_gteq, class: "form__input" %>
-      </div>
-
-      <div class="form__group">
-        <%= form.label :available_until_gteq, class: "form__label" %>
-        <%= form.date_field :available_until_gteq, class: "form__input" %>
       </div>
 
       <div class="form__group">
@@ -61,8 +59,8 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset filters", business_products_path(@business), class: "button" %>
-        <%= form.submit "Filter products", class: "button button--action" %>
+        <%= link_to "Reset", business_products_path(@business), class: "button" %>
+        <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
   </div>
@@ -72,12 +70,11 @@
   <header class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Products</h2>
-      <p class="card__description">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-      </p>
+      <p class="card__description">Here is a list of all your products.</p>
     </div>
+
     <div class="card__actions">
-      <%= link_to "New product",
+      <%= link_to "New",
               new_business_product_path(@business),
               class: "button button--action" %>
     </div>
@@ -85,55 +82,45 @@
 
   <div class="card__body">
     <div class="table__wrapper">
-      <table id="products" class="table">
+      <table class="table">
         <thead>
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :adult_only, "Adult only?", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :adult_only, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :visible, "Visible?", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :available_from, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :featured, "Featured?", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :available_until, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :code, "Code", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :code, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :slug, "Slug", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :description, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :name, "Name", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :featured, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :description, "Description", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :price, "Price", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :price, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(
-                @q,
-                :available_from,
-                "Available from",
-                class: "table__head-cell-link group"
-              ) %>
+              <%= sort_link(@q, :slug, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(
-                @q,
-                :available_until,
-                "Available until",
-                class: "table__head-cell-link group"
-              ) %>
+              <%= sort_link(@q, :visible, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :created_at, "Created at", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :created_at, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :updated_at, "Updated at", class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :updated_at, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">Categories</th>
             <th class="table__head-cell"></th>
@@ -148,32 +135,33 @@
               <td class="table__body-cell">
                 <%= product.adult_only? ? "Yes" : "No" %>
               </td>
-              <td class="table__body-cell">
-                <%= product.visible? ? "Yes" : "No" %>
-              </td>
+              <td class="table__body-cell"><%= product.available_from %></td>
+              <td class="table__body-cell"><%= product.available_until %></td>
+              <td class="table__body-cell"><%= product.code %></td>
+              <td class="table__body-cell"><%= product.description %></td>
               <td class="table__body-cell">
                 <%= product.featured? ? "Yes" : "No" %>
               </td>
-              <td class="table__body-cell"><%= product.code %></td>
-              <td class="table__body-cell"><%= product.slug %></td>
               <td class="table__body-cell"><%= product.name %></td>
-              <td class="table__body-cell"><%= product.description %></td>
               <td class="table__body-cell table__body-cell--numeric">
                 <%= product.price %>
               </td>
-              <td class="table__body-cell"><%= product.available_from %></td>
-              <td class="table__body-cell"><%= product.available_until %></td>
+              <td class="table__body-cell"><%= product.slug %></td>
+              <td class="table__body-cell">
+                <%= product.visible? ? "Yes" : "No" %>
+              </td>
               <td class="table__body-cell"><%= product.created_at %></td>
               <td class="table__body-cell"><%= product.updated_at %></td>
               <td class="table__body-cell">
-                <%= product
-                  .categories
-                  .map { |category| link_to category.name, [@business, category] }
-                  .join(", ")
-                  .html_safe %>
+                <%= safe_join(
+                  product.categories.map do |category|
+                    link_to category.name, [@business, category]
+                  end,
+                  ", "
+                ) %>
               </td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show product", [@business, product] %>
+                <%= link_to "Show", [@business, product] %>
               </td>
             </tr>
           <% end %>

@@ -1,113 +1,85 @@
-<dl id="<%= dom_id product %>" class="description-list">
+<%# locals: (business:, product:) %>
+
+<dl class="description-list">
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Adult only?
-    </dt>
+    <dt class="description-list__term">Adult only</dt>
     <dd class="description-list__definition">
       <%= product.adult_only? ? "Yes" : "No" %>
     </dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Visible?
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.visible? ? "Yes" : "No" %>
-    </dd>
+    <dt class="description-list__term">Available from</dt>
+    <dd class="description-list__definition"><%= product.available_from %></dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Featured?
-    </dt>
+    <dt class="description-list__term">Available until</dt>
+    <dd class="description-list__definition"><%= product.available_until %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Code</dt>
+    <dd class="description-list__definition"><%= product.code %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Description</dt>
+    <dd class="description-list__definition"><%= product.description %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Featured</dt>
     <dd class="description-list__definition">
       <%= product.featured? ? "Yes" : "No" %>
     </dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Code
-    </dt>
+    <dt class="description-list__term">Name</dt>
+    <dd class="description-list__definition"><%= product.name %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Price</dt>
+    <dd class="description-list__definition"><%= product.price.format %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Slug</dt>
+    <dd class="description-list__definition"><%= product.slug %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Visible</dt>
     <dd class="description-list__definition">
-      <%= product.code %>
+      <%= product.visible? ? "Yes" : "No" %>
     </dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Slug
-    </dt>
+    <dt class="description-list__term">Categories</dt>
     <dd class="description-list__definition">
-      <%= product.slug %>
+      <%= safe_join(
+        product.categories.map do |category|
+          link_to category.name, [business, category]
+        end,
+        ", "
+      ) %>
     </dd>
   </div>
 
   <div class="description-list__item">
-    <dt class="description-list__term">
-      Name
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.name %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Description
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.description %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Price
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.price %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Available from
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.available_from %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Available until
-    </dt>
-    <dd class="description-list__definition">
-      <%= product.available_until %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Categories
-    </dt>
-    <dd class="description-list__definition">
-      <%= safe_join(product.categories.map { |category| link_to category.name, [ @business, category ] }, ", ") %>
-    </dd>
-  </div>
-
-  <div class="description-list__item">
-    <dt class="description-list__term">
-      Images
-    </dt>
+    <dt class="description-list__term">Images</dt>
     <dd
       data-controller="image-preview"
       data-image-preview-images-value="<%= product.images.map { |image| url_for(image) } %>"
       class="description-list__definition flex flex-wrap gap-3"
     >
-      <div data-image-preview-target="preview" class="mt-2 flex flex-wrap gap-4"></div>
+      <div
+        data-image-preview-target="preview"
+        class="mt-2 flex flex-wrap gap-4"
+      ></div>
     </dd>
   </div>
-</div>
+</dl>

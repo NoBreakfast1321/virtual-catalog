@@ -3,14 +3,12 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading"><%= t(".header.heading") %></h2>
-      <p class="card__description"><%= t(".header.description") %></p>
+      <h2 class="card__heading">Business Details</h2>
+      <p class="card__description">See the details of your business below.</p>
     </div>
 
     <div class="card__actions">
-      <%= link_to t(".actions.edit_business"),
-              edit_business_path(@business),
-              class: "button button--action" %>
+      <%= link_to "Edit", edit_business_path(@business), class: "button button--action" %>
     </div>
   </header>
 
@@ -20,12 +18,12 @@
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to t("application.return"), businesses_path, class: "button" %>
-      <%= button_to t(".actions.destroy_business"),
+      <%= link_to "Return", businesses_path, class: "button" %>
+      <%= button_to "Destroy",
                 @business,
                 method: :delete,
                 data: {
-                  turbo_confirm: t("application.destroy_confirm")
+                  turbo_confirm: "Are you sure you want to destroy this business?"
                 },
                 class: "button button--danger" %>
     </div>

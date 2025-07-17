@@ -2,14 +2,11 @@
 #
 # Table name: options
 #
-#  id                       :integer          not null, primary key
-#  name                     :string(50)       not null
-#  price_variation_cents    :integer
-#  price_variation_currency :string
-#  visible                  :boolean          default(TRUE), not null
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
-#  option_group_id          :integer          not null
+#  id              :integer          not null, primary key
+#  name            :string(50)       not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  option_group_id :integer          not null
 #
 # Indexes
 #

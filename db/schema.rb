@@ -92,33 +92,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
   end
 
   create_table "option_groups", force: :cascade do |t|
-    t.integer "max_choices"
-    t.integer "min_choices", default: 1, null: false
+    t.integer "maximum_selections"
+    t.integer "minimum_selections", default: 1, null: false
     t.string "name", limit: 30, null: false
-    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "product_id", null: false
-    t.index ["product_id", "name"], name: "index_option_groups_on_product_id_and_name", unique: true
-    t.index ["product_id"], name: "index_option_groups_on_product_id"
+    t.integer "business_id", null: false
+    t.index ["business_id", "name"], name: "index_option_groups_on_business_id_and_name", unique: true
+    t.index ["business_id"], name: "index_option_groups_on_business_id"
     t.check_constraint "length(name) <= 30", name: "check_option_groups_name_length"
-    t.check_constraint "max_choices IS NULL OR max_choices >= min_choices", name: "check_option_groups_max_choices_gte_min_choices"
-    t.check_constraint "min_choices >= 1", name: "check_option_groups_min_choices_gte_1"
-    t.check_constraint "visible IN (0, 1)", name: "check_option_groups_visible_boolean"
+    t.check_constraint "maximum_selections IS NULL OR maximum_selections >= minimum_selections", name: "check_option_groups_maximum_selections_gte_minimum_selections"
+    t.check_constraint "minimum_selections >= 1", name: "check_option_groups_minimum_selections_gte_1"
   end
 
   create_table "options", force: :cascade do |t|
     t.string "name", limit: 50, null: false
-    t.integer "price_variation_cents"
-    t.string "price_variation_currency"
-    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "option_group_id", null: false
     t.index ["option_group_id", "name"], name: "index_options_on_option_group_id_and_name", unique: true
     t.index ["option_group_id"], name: "index_options_on_option_group_id"
     t.check_constraint "length(name) <= 50", name: "check_options_name_length"
-    t.check_constraint "visible IN (0, 1)", name: "check_options_visible_boolean"
   end
 
   create_table "product_categories", force: :cascade do |t|
@@ -175,9 +169,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
     t.string "name", limit: 30, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "product_id", null: false
-    t.index ["product_id", "name"], name: "index_property_groups_on_product_id_and_name", unique: true
-    t.index ["product_id"], name: "index_property_groups_on_product_id"
+    t.integer "business_id", null: false
+    t.index ["business_id", "name"], name: "index_property_groups_on_business_id_and_name", unique: true
+    t.index ["business_id"], name: "index_property_groups_on_business_id"
     t.check_constraint "length(name) <= 30", name: "check_property_groups_name_length"
   end
 
@@ -225,13 +219,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "businesses", "users", on_delete: :cascade
   add_foreign_key "categories", "businesses", on_delete: :cascade
-  add_foreign_key "option_groups", "products", on_delete: :cascade
+  add_foreign_key "option_groups", "businesses", on_delete: :cascade
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
   add_foreign_key "products", "businesses", on_delete: :cascade
   add_foreign_key "properties", "property_groups", on_delete: :cascade
-  add_foreign_key "property_groups", "products", on_delete: :cascade
+  add_foreign_key "property_groups", "businesses", on_delete: :cascade
   add_foreign_key "variant_properties", "properties", on_delete: :cascade
   add_foreign_key "variant_properties", "variants", on_delete: :cascade
   add_foreign_key "variants", "products", on_delete: :cascade

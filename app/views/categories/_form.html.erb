@@ -20,7 +20,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to t("application.cancel"),
+    <%= link_to "Cancel",
             (
               if category.persisted?
                 [business, category]
@@ -30,6 +30,6 @@
             ),
             class: "button" %>
 
-    <%= form.submit t("application.save"), class: "button button--action" %>
+    <%= form.submit "Save", class: "button button--action" %>
   </footer>
 <% end %>

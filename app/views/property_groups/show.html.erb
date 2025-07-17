@@ -1,0 +1,69 @@
+<% content_for :title, @property_group.name %>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Property Group Details</h2>
+      <p class="card__description">
+        See the details of your property group below.
+      </p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "Edit",
+              edit_business_property_group_path(@business, @property_group),
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= render "property_groups/property_group",
+           business: @business,
+           property_group: @property_group %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Return", business_property_groups_path(@business), class: "button" %>
+      <%= button_to "Destroy",
+                [@business, @property_group],
+                method: :delete,
+                data: {
+                  turbo_confirm:
+                    "Are you sure you want to destroy this property group?"
+                },
+                class: "button button--danger" %>
+    </div>
+  </footer>
+</section>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Properties</h2>
+      <p class="card__description">Here is a list of all your properties.</p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_business_property_group_property_path(@business, @property_group),
+              data: {
+                turbo_frame: turbo_frame_id(Property.new)
+              },
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= turbo_frame_tag turbo_frame_id(Property.new) %>
+
+    <%= turbo_frame_tag turbo_frame_id(:properties) do %>
+      <% @property_group.properties.each do |property| %>
+        <%= render "properties/property",
+               business: @business,
+               property_group: @property_group,
+               property: property %>
+      <% end %>
+    <% end %>
+  </div>
+</section>

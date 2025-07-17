@@ -1,8 +1,17 @@
-<%= turbo_frame_tag turbo_frame_id(@property_group, Property.new) do %>
-  <div class="card mb-6">
+<%= turbo_frame_tag turbo_frame_id(Property.new) do %>
+  <section class="card">
     <header class="card__header">
-      <h3 class="card__heading">New Property</h3>
+      <h2 class="card__heading">New Property</h2>
+      <p class="card__description">
+        Fill in the fields below to create a new property.
+      </p>
     </header>
-    <div class="card__body"><%= render "form", property: @property %></div>
-  </div>
+
+    <div class="card__body">
+      <%= render "properties/form",
+             business: @business,
+             property_group: @property_group,
+             property: @property %>
+    </div>
+  </section>
 <% end %>

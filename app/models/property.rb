@@ -24,8 +24,6 @@ class Property < ApplicationRecord
 
   belongs_to :property_group
 
-  has_one :product, through: :property_group
-
   validates :name,
             length: {
               maximum: 50

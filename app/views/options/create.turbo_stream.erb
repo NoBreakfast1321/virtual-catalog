@@ -1,9 +1,10 @@
 <%= render_toast %>
 
-<%= turbo_stream.append turbo_frame_id(@option_group, :options),
-                    partial: "options/option",
-                    locals: {
-                      option: @option
-                    } %>
+<%= turbo_stream.append turbo_frame_id(:options) do %>
+  <%= render "options/option",
+         business: @business,
+         option_group: @option_group,
+         option: @option %>
+<% end %>
 
-<%= turbo_stream.update turbo_frame_id(@option_group, Option.new), "" %>
+<%= turbo_stream.update turbo_frame_id(Option.new), "" %>

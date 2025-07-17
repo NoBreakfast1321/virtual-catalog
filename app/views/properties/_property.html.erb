@@ -1,36 +1,31 @@
-<%= turbo_frame_tag turbo_frame_id(property) do %>
-  <div class="card mb-6">
-    <header class="card__header">
-      <h3 class="card__heading">Property</h3>
-    </header>
-    <div class="card__body">
-      <dl id="<%= dom_id property %>" class="description-list">
-        <div class="description-list__item">
-          <dt class="description-list__term">Name</dt>
-          <dd class="description-list__definition"><%= property.name %></dd>
-        </div>
-      </dl>
-    </div>
+<%# locals: (business:, property_group:, property:) %>
 
-    <footer class="card__footer card__footer--end">
-      <%= button_to "Destroy property",
-                [@business, @product, property.property_group, property],
-                method: :delete,
+<%= turbo_frame_tag turbo_frame_id(property) do %>
+  <dl class="description-list">
+    <div class="description-list__item">
+      <dt class="description-list__term"><%= property.name %></dt>
+      <dd
+        class="description-list__definition flex items-center justify-end gap-2"
+      >
+        <%= link_to "Edit",
+                edit_business_property_group_property_path(
+                  business,
+                  property_group,
+                  property
+                ),
                 data: {
-                  turbo_confirm: "Are you sure?"
+                  turbo_frame: turbo_frame_id(property)
                 },
-                class: "button button--danger" %>
-      <%= link_to "Edit property",
-              edit_business_product_property_group_property_path(
-                @business,
-                @product,
-                property.property_group,
-                property
-              ),
-              data: {
-                turbo_frame: turbo_frame_id(property)
-              },
-              class: "button" %>
-    </footer>
-  </div>
+                class: "button" %>
+
+        <%= button_to "Destroy",
+                  [business, property_group, property],
+                  method: :delete,
+                  data: {
+                    turbo_confirm: "Are you sure you want to destroy this property?"
+                  },
+                  class: "button button--danger" %>
+      </dd>
+    </div>
+  </dl>
 <% end %>

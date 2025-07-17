@@ -1,7 +1,12 @@
-<%= turbo_frame_tag turbo_frame_id(@option_group) do %>
-  <div class="card mb-6">
-    <div class="card__body">
-      <%= render "form", option_group: @option_group %>
-    </div>
+<% content_for :title, "Editing Option Group" %>
+
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">Editing Option Group</h2>
+    <p class="card__description">Update your option group details below.</p>
+  </header>
+
+  <div class="card__body">
+    <%= render "option_groups/form", business: @business, option_group: @option_group %>
   </div>
-<% end %>
+</section>

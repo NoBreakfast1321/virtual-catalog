@@ -3,10 +3,10 @@
 <section class="card">
   <header class="card__header">
     <h2 class="card__heading">Editing Product</h2>
-    <p class="card__description">
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores in soluta eius, exercitationem et alias quae.
-    </p>
+    <p class="card__description">Update your product details below.</p>
   </header>
 
-  <div class="card__body"><%= render "form", product: @product %></div>
+  <div class="card__body">
+    <%= render "products/form", business: @business, product: @product %>
+  </div>
 </section>

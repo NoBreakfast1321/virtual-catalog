@@ -1,9 +1,3 @@
 <%= render_toast %>
 
-<%= turbo_stream.replace turbo_frame_id(:variants) do %>
-  <% @product.variants.each do |variant| %>
-    <%= render variant %>
-  <% end %>
-<% end %>
-
 <%= turbo_stream.remove turbo_frame_id(@property) %>

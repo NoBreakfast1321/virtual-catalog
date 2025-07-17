@@ -1,15 +1,10 @@
 <%= render_toast %>
 
-<%= turbo_stream.replace turbo_frame_id(:variants) do %>
-  <% @product.variants.each do |variant| %>
-    <%= render variant %>
-  <% end %>
+<%= turbo_stream.append turbo_frame_id(:properties) do %>
+  <%= render "properties/property",
+         business: @business,
+         property_group: @property_group,
+         property: @property %>
 <% end %>
 
-<%= turbo_stream.append turbo_frame_id(@property_group, :properties),
-                    partial: "properties/property",
-                    locals: {
-                      property: @property
-                    } %>
-
-<%= turbo_stream.update turbo_frame_id(@property_group, Property.new), "" %>
+<%= turbo_stream.update turbo_frame_id(Property.new), "" %>

@@ -1,9 +1,9 @@
-<% content_for :title, t(".title") %>
+<% content_for :title, "Businesses" %>
 
 <section class="card">
   <header class="card__header">
-    <h2 class="card__heading"><%= t(".filters.header.heading") %></h2>
-    <p class="card__description"><%= t(".filters.header.description") %></p>
+    <h2 class="card__heading">Businesses Filters</h2>
+    <p class="card__description">Filter your businesses by attributes below.</p>
   </header>
 
   <div class="card__body">
@@ -24,8 +24,8 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to t("application.reset"), businesses_path, class: "button" %>
-        <%= form.submit t("application.filter"), class: "button button--action" %>
+        <%= link_to "Reset", businesses_path, class: "button" %>
+        <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
   </div>
@@ -34,14 +34,12 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading"><%= t(".header.heading") %></h2>
-      <p class="card__description"><%= t(".header.description") %></p>
+      <h2 class="card__heading">Businesses</h2>
+      <p class="card__description">Here is a list of all your businesses.</p>
     </div>
 
     <div class="card__actions">
-      <%= link_to t(".actions.new_business"),
-              new_business_path,
-              class: "button button--action" %>
+      <%= link_to "New", new_business_path, class: "button button--action" %>
     </div>
   </header>
 
@@ -51,24 +49,12 @@
         <thead>
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :description, t(".table.head.description")) %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :name, t(".table.head.name")) %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :slug, t(".table.head.slug")) %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :visible, t(".table.head.visible")) %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :created_at, t(".table.head.created_at")) %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :updated_at, t(".table.head.updated_at")) %>
-            </th>
+            <th class="table__head-cell"><%= sort_link(@q, :description) %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :name) %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :slug) %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :visible) %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :created_at) %></th>
+            <th class="table__head-cell"><%= sort_link(@q, :updated_at) %></th>
             <th class="table__head-cell"></th>
           </tr>
         </thead>
@@ -82,12 +68,12 @@
               <td class="table__body-cell"><%= business.name %></td>
               <td class="table__body-cell"><%= business.slug %></td>
               <td class="table__body-cell">
-                <%= business.visible? ? t("application.yes") : t("application.no") %>
+                <%= business.visible? ? "Yes" : "No" %>
               </td>
               <td class="table__body-cell"><%= business.created_at %></td>
               <td class="table__body-cell"><%= business.updated_at %></td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to t("application.show"), business %>
+                <%= link_to "Show", business %>
               </td>
             </tr>
           <% end %>

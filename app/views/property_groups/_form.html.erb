@@ -1,4 +1,6 @@
-<%= errable_form_with model: [@business, @product, property_group], class: "form" do |form| %>
+<%# locals: (business:, property_group:) %>
+
+<%= errable_form_with model: [business, property_group], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :name, class: "form__label" %>
     <%= form.text_field :name, class: "form__input" %>
@@ -6,7 +8,16 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", [@business, @product], class: "button" %>
-    <%= form.submit nil, class: "button button--action" %>
+    <%= link_to "Cancel",
+            (
+              if property_group.persisted?
+                [business, property_group]
+              else
+                business_property_groups_path(business)
+              end
+            ),
+            class: "button" %>
+
+    <%= form.submit "Save", class: "button button--action" %>
   </footer>
 <% end %>

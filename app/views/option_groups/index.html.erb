@@ -1,16 +1,23 @@
-<% content_for :title, "Categories" %>
+<% content_for :title, "Option Groups" %>
 
 <section class="card">
   <header class="card__header">
-    <h2 class="card__heading">Category Filters</h2>
-    <p class="card__description">Filter your categories by attributes below.</p>
+    <h2 class="card__heading">Option Group Filters</h2>
+    <p class="card__description">
+      Filter your option groups by attributes below.
+    </p>
   </header>
 
   <div class="card__body">
     <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
-        <%= form.label :description_start, class: "form__label" %>
-        <%= form.search_field :description_start, class: "form__input" %>
+        <%= form.label :maximum_selections_eq, class: "form__label" %>
+        <%= form.search_field :maximum_selections_eq, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :minimum_selections_eq, class: "form__label" %>
+        <%= form.search_field :minimum_selections_eq, class: "form__input" %>
       </div>
 
       <div class="form__group">
@@ -29,7 +36,7 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset", business_categories_path(@business), class: "button" %>
+        <%= link_to "Reset", business_option_groups_path(@business), class: "button" %>
         <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
@@ -39,13 +46,13 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">Categories</h2>
-      <p class="card__description">Here is a list of all your categories.</p>
+      <h2 class="card__heading">Option Groups</h2>
+      <p class="card__description">Here is a list of all your option groups.</p>
     </div>
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_category_path(@business),
+              new_business_option_group_path(@business),
               class: "button button--action" %>
     </div>
   </header>
@@ -57,42 +64,36 @@
           <tr class="table__head-row">
             <th class="table__head-cell">ID</th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :description, class: "table__head-cell-link group") %>
+              <%= sort_link(@q, :maximum_selections, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :minimum_selections, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
               <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
             </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :visible, class: "table__head-cell-link group") %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :created_at, class: "table__head-cell-link group") %>
-            </th>
-            <th class="table__head-cell">
-              <%= sort_link(@q, :updated_at, class: "table__head-cell-link group") %>
-            </th>
-            <th class="table__head-cell">Products</th>
+            <th class="table__head-cell">Options</th>
             <th class="table__head-cell"></th>
           </tr>
         </thead>
         <tbody class="table__body">
-          <% @categories.each do |category| %>
+          <% @option_groups.each do |option_group| %>
             <tr class="table__body-row">
               <td class="table__body-cell table__body-cell--numeric">
-                <%= category.id %>
+                <%= option_group.id %>
               </td>
-              <td class="table__body-cell"><%= category.description %></td>
-              <td class="table__body-cell"><%= category.name %></td>
-              <td class="table__body-cell">
-                <%= category.visible? ? "Yes" : "No" %>
-              </td>
-              <td class="table__body-cell"><%= category.created_at %></td>
-              <td class="table__body-cell"><%= category.updated_at %></td>
               <td class="table__body-cell table__body-cell--numeric">
-                <%= category.products.count %>
+                <%= option_group.maximum_selections %>
+              </td>
+              <td class="table__body-cell table__body-cell--numeric">
+                <%= option_group.minimum_selections %>
+              </td>
+              <td class="table__body-cell"><%= option_group.name %></td>
+              <td class="table__body-cell table__body-cell--numeric">
+                <%= option_group.options.count %>
               </td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show", [@business, category] %>
+                <%= link_to "Show", [@business, option_group] %>
               </td>
             </tr>
           <% end %>

@@ -2,27 +2,27 @@
 #
 # Table name: property_groups
 #
-#  id         :integer          not null, primary key
-#  name       :string(30)       not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  product_id :integer          not null
+#  id          :integer          not null, primary key
+#  name        :string(30)       not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  business_id :integer          not null
 #
 # Indexes
 #
-#  index_property_groups_on_product_id           (product_id)
-#  index_property_groups_on_product_id_and_name  (product_id,name) UNIQUE
+#  index_property_groups_on_business_id           (business_id)
+#  index_property_groups_on_business_id_and_name  (business_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  product_id  (product_id => products.id) ON DELETE => cascade
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
 class PropertyGroup < ApplicationRecord
   audited
 
   include NameNormalizer
 
-  belongs_to :product
+  belongs_to :business
 
   has_many :properties, dependent: :destroy
 
@@ -32,6 +32,10 @@ class PropertyGroup < ApplicationRecord
             },
             presence: true,
             uniqueness: {
-              scope: :product_id
+              scope: :business_id
             }
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name created_at updated_at]
+  end
 end
