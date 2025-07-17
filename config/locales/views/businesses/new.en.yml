@@ -1,8 +1,0 @@
-en:
-  views:
-    businesses:
-      new:
-        header:
-          description: "Fill in the fields below to create a new business."
-          heading: "New Business"
-        title: "New Business"

@@ -1,8 +1,0 @@
-en:
-  views:
-    businesses:
-      _business:
-        description: "Description"
-        name: "Name"
-        slug: "Slug"
-        visible: "Visible?"

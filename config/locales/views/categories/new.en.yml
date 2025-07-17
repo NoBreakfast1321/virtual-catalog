@@ -1,8 +1,0 @@
-en:
-  views:
-    categories:
-      new:
-        header:
-          description: "Fill in the fields below to create a new category."
-          heading: "New Category"
-        title: "New Category"
