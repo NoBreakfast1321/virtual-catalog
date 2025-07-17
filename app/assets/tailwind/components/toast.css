@@ -5,8 +5,12 @@
  *
  */
 
+.toaster {
+  @apply sticky top-0;
+}
+
 .toast {
-  @apply sticky inset-x-4 top-4 flex items-center rounded-md bg-green-50 p-4;
+  @apply absolute inset-x-0 mx-4 mt-4 flex items-center rounded-md bg-green-50 p-4;
 }
 
 .toast--alert {
