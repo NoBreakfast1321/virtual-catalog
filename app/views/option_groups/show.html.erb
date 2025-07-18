@@ -37,7 +37,7 @@
   </footer>
 </section>
 
-<details class="card">
+<details data-controller="details" class="card">
   <summary class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Options</h2>
@@ -48,6 +48,7 @@
       <%= link_to "New",
               new_business_option_group_option_path(@business, @option_group),
               data: {
+                action: "click->details#open",
                 turbo_frame: turbo_frame_id(Option.new),
               },
               class: "button button--action" %>

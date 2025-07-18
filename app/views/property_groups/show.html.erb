@@ -37,7 +37,7 @@
   </footer>
 </section>
 
-<details class="card">
+<details data-controller="details" class="card">
   <summary class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Properties</h2>
@@ -50,6 +50,7 @@
       <%= link_to "New",
               new_business_property_group_property_path(@business, @property_group),
               data: {
+                action: "click->details#open",
                 turbo_frame: turbo_frame_id(Property.new),
               },
               class: "button button--action" %>
