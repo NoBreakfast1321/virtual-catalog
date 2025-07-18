@@ -37,49 +37,49 @@ class CreateProducts < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :products,
       "adult_only IN (0, 1)",
-      name: "check_products_adult_only_boolean"
+      name: "check_products_adult_only_boolean",
     )
 
     add_check_constraint(
       :products,
       "available_from IS NULL OR available_until IS NULL OR available_from < available_until",
-      name: "check_products_available_range"
+      name: "check_products_available_range",
     )
 
     add_check_constraint(
       :products,
       "code IS NULL OR length(code) <= 50",
-      name: "check_products_code_length"
+      name: "check_products_code_length",
     )
 
     add_check_constraint(
       :products,
       "description IS NULL OR length(description) <= 5000",
-      name: "check_products_description_length"
+      name: "check_products_description_length",
     )
 
     add_check_constraint(
       :products,
       "featured IN (0, 1)",
-      name: "check_products_featured_boolean"
+      name: "check_products_featured_boolean",
     )
 
     add_check_constraint(
       :products,
       "length(name) <= 150",
-      name: "check_products_name_length"
+      name: "check_products_name_length",
     )
 
     add_check_constraint(
       :products,
       "price_cents >= 0",
-      name: "check_products_price_nonnegative"
+      name: "check_products_price_nonnegative",
     )
 
     add_check_constraint(
       :products,
       "visible IN (0, 1)",
-      name: "check_products_visible_boolean"
+      name: "check_products_visible_boolean",
     )
 
     reversible do |direction|

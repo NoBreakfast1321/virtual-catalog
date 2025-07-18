@@ -15,25 +15,25 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :businesses,
       "description IS NULL OR length(description) <= 150",
-      name: "check_businesses_description_length"
+      name: "check_businesses_description_length",
     )
 
     add_check_constraint(
       :businesses,
       "length(name) <= 30",
-      name: "check_businesses_name_length"
+      name: "check_businesses_name_length",
     )
 
     add_check_constraint(
       :businesses,
       "length(slug) <= 30 AND slug GLOB '[a-z0-9_-]*'",
-      name: "check_businesses_slug_format"
+      name: "check_businesses_slug_format",
     )
 
     add_check_constraint(
       :businesses,
       "visible IN (0, 1)",
-      name: "check_businesses_visible_boolean"
+      name: "check_businesses_visible_boolean",
     )
 
     reversible do |direction|

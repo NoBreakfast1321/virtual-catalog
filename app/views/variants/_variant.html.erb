@@ -40,13 +40,13 @@
                 [@business, @product, variant],
                 method: :delete,
                 data: {
-                  turbo_confirm: "Are you sure?"
+                  turbo_confirm: "Are you sure?",
                 },
                 class: "button button--danger" %>
       <%= link_to "Edit variant",
               edit_business_product_variant_path(@business, @product, variant),
               data: {
-                turbo_frame: turbo_frame_id(variant)
+                turbo_frame: turbo_frame_id(variant),
               },
               class: "button" %>
     </footer>

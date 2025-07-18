@@ -82,7 +82,7 @@ class VariantsController < ApplicationController
         :stock_quantity,
         :visible,
         property_ids: []
-      ]
+      ],
     )
   end
 end

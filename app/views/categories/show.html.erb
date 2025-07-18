@@ -25,7 +25,7 @@
                 [@business, @category],
                 method: :delete,
                 data: {
-                  turbo_confirm: "Are you sure you want to destroy this category?"
+                  turbo_confirm: "Are you sure you want to destroy this category?",
                 },
                 class: "button button--danger" %>
     </div>
@@ -53,7 +53,7 @@
       @category.products.map do |product|
         link_to product.name, [@business, product]
       end,
-      ", "
+      ", ",
     ) %>
   </div>
 </details>

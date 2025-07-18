@@ -14,19 +14,19 @@ class CreateCategories < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :categories,
       "description IS NULL OR length(description) <= 150",
-      name: "check_categories_description_length"
+      name: "check_categories_description_length",
     )
 
     add_check_constraint(
       :categories,
       "length(name) <= 30",
-      name: "check_categories_name_length"
+      name: "check_categories_name_length",
     )
 
     add_check_constraint(
       :categories,
       "visible IN (0, 1)",
-      name: "check_categories_visible_boolean"
+      name: "check_categories_visible_boolean",
     )
 
     reversible do |direction|

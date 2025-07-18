@@ -129,7 +129,7 @@ class Product < ApplicationRecord
   scope :expired,
         -> do
           where.not(available_until: nil).where(
-            available_until: ...Time.current
+            available_until: ...Time.current,
           )
         end
 

@@ -14,19 +14,19 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :option_groups,
       "maximum_selections IS NULL OR maximum_selections >= minimum_selections",
-      name: "check_option_groups_maximum_selections_gte_minimum_selections"
+      name: "check_option_groups_maximum_selections_gte_minimum_selections",
     )
 
     add_check_constraint(
       :option_groups,
       "minimum_selections >= 1",
-      name: "check_option_groups_minimum_selections_gte_1"
+      name: "check_option_groups_minimum_selections_gte_1",
     )
 
     add_check_constraint(
       :option_groups,
       "length(name) <= 30",
-      name: "check_option_groups_name_length"
+      name: "check_option_groups_name_length",
     )
 
     reversible do |direction|

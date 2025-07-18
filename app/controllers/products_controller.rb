@@ -114,7 +114,7 @@ class ProductsController < ApplicationController
         :price,
         :visible,
         category_ids: []
-      ]
+      ],
     )
   end
 

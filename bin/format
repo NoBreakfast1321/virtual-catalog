@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e  # Exit immediately if any command fails
+
+echo "🔧 Formatting controllers..."
+bundle exec stree write "app/controllers/**/*.rb"
+bundle exec rubocop -A "app/controllers/**/*.rb"
+
+echo "🔧 Formatting migrations..."
+bundle exec stree write "db/migrate/**/*.rb"
+bundle exec rubocop -A "db/migrate/**/*.rb"
+
+echo "🔧 Formatting models..."
+bundle exec stree write "app/models/**/*.rb"
+bundle exec rubocop -A "app/models/**/*.rb"
+
+echo "🔧 Formatting views (ERB)..."
+bundle exec stree write --plugins=erb "app/views/**/*.erb"
+
+# Done
+echo "✅ Formatting completed successfully!"

@@ -6,3 +6,11 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+AllCops:
+  Exclude:
+    - "app/views/layouts/mailer.html.erb"
+    - "app/views/pwa/manifest.json.erb"
+    - "db/migrate/20250511142545_devise_create_users.rb"
+    - "db/migrate/20250607204220_create_active_storage_tables.active_storage.rb"
+    - "db/migrate/20250713193621_install_audited.rb"

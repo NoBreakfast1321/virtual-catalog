@@ -72,11 +72,12 @@
     <%= form.file_field :images,
                     data: {
                       image_preview_target: "input",
-                      action: "change->image-preview#preview"
+                      action: "change->image-preview#preview",
                     },
                     accept: "image/jpeg, image/png, image/webp",
                     multiple: true,
                     class: "form__input" %>
+
     <%= form.error :images, "form__error" %>
 
     <div

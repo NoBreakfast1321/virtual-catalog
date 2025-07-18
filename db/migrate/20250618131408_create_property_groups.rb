@@ -12,7 +12,7 @@ class CreatePropertyGroups < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :property_groups,
       "length(name) <= 30",
-      name: "check_property_groups_name_length"
+      name: "check_property_groups_name_length",
     )
 
     reversible do |direction|

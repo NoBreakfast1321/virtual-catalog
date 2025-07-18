@@ -16,7 +16,7 @@ class CreateOptions < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :options,
       "length(name) <= 50",
-      name: "check_options_name_length"
+      name: "check_options_name_length",
     )
 
     reversible do |direction|

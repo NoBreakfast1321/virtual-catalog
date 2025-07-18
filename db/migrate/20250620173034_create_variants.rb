@@ -28,25 +28,25 @@ class CreateVariants < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :variants,
       "code IS NULL OR length(code) <= 50",
-      name: "check_variants_code_length"
+      name: "check_variants_code_length",
     )
 
     add_check_constraint(
       :variants,
       "price_cents >= 0",
-      name: "check_variants_price_nonnegative"
+      name: "check_variants_price_nonnegative",
     )
 
     add_check_constraint(
       :variants,
       "stock_quantity IS NULL OR stock_quantity >= 0",
-      name: "check_variants_stock_quantity_nonnegative"
+      name: "check_variants_stock_quantity_nonnegative",
     )
 
     add_check_constraint(
       :variants,
       "visible IN (0, 1)",
-      name: "check_variants_visible_boolean"
+      name: "check_variants_visible_boolean",
     )
 
     reversible do |direction|

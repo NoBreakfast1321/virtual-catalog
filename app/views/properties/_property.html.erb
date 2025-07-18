@@ -11,10 +11,10 @@
                 edit_business_property_group_property_path(
                   business,
                   property_group,
-                  property
+                  property,
                 ),
                 data: {
-                  turbo_frame: turbo_frame_id(property)
+                  turbo_frame: turbo_frame_id(property),
                 },
                 class: "button" %>
 
@@ -22,7 +22,7 @@
                   [business, property_group, property],
                   method: :delete,
                   data: {
-                    turbo_confirm: "Are you sure you want to destroy this property?"
+                    turbo_confirm: "Are you sure you want to destroy this property?",
                   },
                   class: "button button--danger" %>
       </dd>

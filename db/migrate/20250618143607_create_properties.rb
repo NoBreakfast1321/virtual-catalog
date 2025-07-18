@@ -16,7 +16,7 @@ class CreateProperties < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :properties,
       "length(name) <= 50",
-      name: "check_properties_name_length"
+      name: "check_properties_name_length",
     )
 
     reversible do |direction|
