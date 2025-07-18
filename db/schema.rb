@@ -134,8 +134,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
     t.text "description", limit: 5000
     t.boolean "featured", default: false, null: false
     t.string "name", limit: 150, null: false
-    t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "USD", null: false
     t.string "slug", limit: 150, null: false
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
@@ -151,7 +149,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
     t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"
     t.check_constraint "featured IN (0, 1)", name: "check_products_featured_boolean"
     t.check_constraint "length(name) <= 150", name: "check_products_name_length"
-    t.check_constraint "price_cents >= 0", name: "check_products_price_nonnegative"
     t.check_constraint "visible IN (0, 1)", name: "check_products_visible_boolean"
   end
 
@@ -199,6 +196,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
   end
 
   create_table "variants", force: :cascade do |t|
+    t.boolean "base", default: false, null: false
     t.string "code", limit: 50
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
@@ -209,6 +207,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
     t.integer "product_id", null: false
     t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
     t.index ["product_id"], name: "index_variants_on_product_id"
+    t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = true"
+    t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"
     t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_variants_code_length"
     t.check_constraint "price_cents >= 0", name: "check_variants_price_nonnegative"
     t.check_constraint "stock_quantity IS NULL OR stock_quantity >= 0", name: "check_variants_stock_quantity_nonnegative"

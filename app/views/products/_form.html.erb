@@ -50,7 +50,13 @@
     class="form__group"
   >
     <%= form.label :price, class: "form__label" %>
-    <%= form.hidden_field :price, data: { "currency-target": "hidden" }, id: nil %>
+    <%= form.hidden_field :price,
+                      id: nil,
+                      data: {
+                        "currency-target": "hidden",
+                      },
+                      value: (product.base_variant&.price_cents || 0) / 100.0 %>
+
     <input
       id="product_price"
       data-currency-target="input"
@@ -58,6 +64,7 @@
       inputmode="numeric"
       class="form__input"
     />
+
     <%= form.error :price, "form__error" %>
   </div>
 
@@ -102,6 +109,7 @@
                             id: image.id,
                             value: image.id,
                             class: "form__checkbox" %>
+
               <span class="form__label">Remove</span>
             </label>
           </div>
@@ -119,6 +127,7 @@
                            {},
                            multiple: true,
                            class: "form__input" %>
+
     <%= form.error :category_ids, "form__error" %>
   </div>
 

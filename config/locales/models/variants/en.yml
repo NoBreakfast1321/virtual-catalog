@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        variant:
+          attributes:
+            base:
+              already_exists_for_this_product: "already exists for this product"

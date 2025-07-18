@@ -35,12 +35,25 @@ class ProductsController < ApplicationController
     end
 
     respond_to do |format|
-      if @product.save
+      begin
+        ActiveRecord::Base.transaction do
+          @product.save!
+
+          @product.variants.create!(
+            base: true,
+            code: "#{params[:product][:code]}-BASE",
+            price: params[:product][:price],
+            visible: params[:product][:visible],
+          )
+        end
+
         format.html do
           redirect_to [ @business, @product ],
                       notice: t_controller("create.success")
         end
-      else
+      rescue ActiveRecord::RecordInvalid => error
+        flash.now[:alert] = error.record.errors.full_messages.to_sentence
+
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -59,12 +72,24 @@ class ProductsController < ApplicationController
     end
 
     respond_to do |format|
-      if @product.update(product_params)
+      begin
+        ActiveRecord::Base.transaction do
+          @product.update!(product_params)
+
+          @product.base_variant.update!(
+            code: params[:product][:code],
+            price: params[:product][:price],
+            visible: params[:product][:visible],
+          )
+        end
+
         format.html do
           redirect_to [ @business, @product ],
                       notice: t_controller("update.success")
         end
-      else
+      rescue ActiveRecord::RecordInvalid => error
+        flash.now[:alert] = error.record.errors.full_messages.to_sentence
+
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
@@ -111,7 +136,6 @@ class ProductsController < ApplicationController
         :description,
         :featured,
         :name,
-        :price,
         :visible,
         category_ids: []
       ],
@@ -121,7 +145,7 @@ class ProductsController < ApplicationController
   def restrict_product_creation
     if @business.categories.empty?
       redirect_to new_business_category_path(@business),
-                  alert: t_controller("guards.restrict_product_creation")
+                  alert: t_controller("callbacks.restrict_product_creation")
     end
   end
 end

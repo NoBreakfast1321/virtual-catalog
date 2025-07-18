@@ -1,6 +1,7 @@
 class CreateVariants < ActiveRecord::Migration[8.0]
   def change
     create_table :variants do |t|
+      t.boolean :base, null: false, default: false
       t.string :code, limit: 50
 
       t.monetize :price,
@@ -24,6 +25,18 @@ class CreateVariants < ActiveRecord::Migration[8.0]
               %i[product_id code],
               unique: true,
               where: "code IS NOT NULL AND code <> ''"
+
+    add_index :variants,
+              [ :product_id ],
+              unique: true,
+              where: "base = true",
+              name: "index_variants_on_product_id_and_base"
+
+    add_check_constraint(
+      :variants,
+      "base IN (0, 1)",
+      name: "check_variants_base_boolean",
+    )
 
     add_check_constraint(
       :variants,
@@ -51,8 +64,8 @@ class CreateVariants < ActiveRecord::Migration[8.0]
 
     reversible do |direction|
       direction.down do
+        remove_check_constraint :variants, name: "check_variants_base_boolean"
         remove_check_constraint :variants, name: "check_variants_code_length"
-
         remove_check_constraint :variants,
                                 name: "check_variants_price_nonnegative"
 

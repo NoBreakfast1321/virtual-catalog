@@ -1,11 +1,11 @@
 en:
   controllers:
     products:
+      callbacks:
+        restrict_product_creation: "You must create at least one category before creating a product."
       create:
         success: "Product was successfully created."
-      update:
-        success: "Product was successfully updated."
       destroy:
         success: "Product was successfully destroyed."
-      guards:
-        restrict_product_creation: "You must create at least one category before creating a product."
+      update:
+        success: "Product was successfully updated."

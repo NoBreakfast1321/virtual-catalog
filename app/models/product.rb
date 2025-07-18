@@ -10,8 +10,6 @@
 #  description     :text(5000)
 #  featured        :boolean          default(FALSE), not null
 #  name            :string(150)      not null
-#  price_cents     :integer          default(0), not null
-#  price_currency  :string           default("USD"), not null
 #  slug            :string(150)      not null
 #  visible         :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
@@ -52,8 +50,6 @@ class Product < ApplicationRecord
 
   has_many :variants, dependent: :destroy
 
-  monetize :price_cents
-
   validates :adult_only, inclusion: { in: [ true, false ] }
   validates :available_until, absence: true, if: -> { available_from.nil? }
   validates :available_until,
@@ -81,12 +77,6 @@ class Product < ApplicationRecord
             uniqueness: {
               scope: :business_id
             }
-
-  validates :price_cents,
-            numericality: {
-              greater_than_or_equal_to: 0
-            },
-            presence: true
 
   validates :slug,
             length: {
@@ -154,7 +144,6 @@ class Product < ApplicationRecord
       description
       featured
       name
-      price
       slug
       visible
       created_at
@@ -174,6 +163,10 @@ class Product < ApplicationRecord
     return false if available_until && available_until < Time.current
 
     true
+  end
+
+  def base_variant
+    variants.find_by(base: true)
   end
 
   private

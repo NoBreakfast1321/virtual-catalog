@@ -108,9 +108,6 @@
               <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
-              <%= sort_link(@q, :price, class: "table__head-cell-link group") %>
-            </th>
-            <th class="table__head-cell">
               <%= sort_link(@q, :slug, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
@@ -143,9 +140,6 @@
                 <%= product.featured? ? "Yes" : "No" %>
               </td>
               <td class="table__body-cell"><%= product.name %></td>
-              <td class="table__body-cell table__body-cell--numeric">
-                <%= product.price %>
-              </td>
               <td class="table__body-cell"><%= product.slug %></td>
               <td class="table__body-cell">
                 <%= product.visible? ? "Yes" : "No" %>
