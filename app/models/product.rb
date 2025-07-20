@@ -42,11 +42,8 @@ class Product < ApplicationRecord
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
 
-  has_many :option_groups, dependent: :destroy
-  has_many :options, through: :option_groups
-
-  has_many :property_groups, dependent: :destroy
-  has_many :properties, through: :property_groups
+  has_many :product_option_groups, dependent: :destroy
+  has_many :option_groups, through: :product_option_groups
 
   has_many :variants, dependent: :destroy
 

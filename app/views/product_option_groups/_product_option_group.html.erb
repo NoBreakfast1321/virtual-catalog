@@ -1,0 +1,22 @@
+<%# locals: (business:, product:, product_option_group:) %>
+
+<% option_group = product_option_group.option_group %>
+
+<%= turbo_frame_tag turbo_frame_id(product_option_group) do %>
+  <h2><%= option_group.name %></h2>
+
+  <ul>
+    <% option_group.options.each do |option| %>
+      <li><%= option.name %></li>
+    <% end %>
+  </ul>
+
+  <%= button_to "Destroy",
+            [business, product, product_option_group],
+            method: :delete,
+            data: {
+              turbo_confirm:
+                "Are you sure you want to destroy this option group?",
+            },
+            class: "button button--danger" %>
+<% end %>

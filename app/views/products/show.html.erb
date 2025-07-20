@@ -31,3 +31,37 @@
     </div>
   </footer>
 </section>
+
+<details data-controller="details" class="card">
+  <summary class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Option Groups</h2>
+      <p class="card__description">
+        Here is a list of all associated option groups.
+      </p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_business_product_product_option_group_path(@business, @product),
+              data: {
+                turbo_frame: turbo_frame_id(ProductOptionGroup.new),
+                action: "click->details#open",
+              },
+              class: "button button--action" %>
+    </div>
+  </summary>
+
+  <div class="card__body">
+    <%= turbo_frame_tag turbo_frame_id(:product_option_groups) do %>
+      <% @product.product_option_groups.each do |product_option_group| %>
+        <%= render "product_option_groups/product_option_group",
+               business: @business,
+               product: @product,
+               product_option_group: product_option_group %>
+      <% end %>
+    <% end %>
+
+    <%= turbo_frame_tag turbo_frame_id(ProductOptionGroup.new) %>
+  </div>
+</details>

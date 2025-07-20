@@ -50,8 +50,8 @@
       <%= link_to "New",
               new_business_property_group_property_path(@business, @property_group),
               data: {
-                action: "click->details#open",
                 turbo_frame: turbo_frame_id(Property.new),
+                action: "click->details#open",
               },
               class: "button button--action" %>
     </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_18_192914) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -126,6 +126,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
     t.index ["product_id"], name: "index_product_categories_on_product_id"
   end
 
+  create_table "product_option_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "option_group_id", null: false
+    t.integer "product_id", null: false
+    t.index ["option_group_id", "product_id"], name: "index_product_option_groups_on_option_group_id_and_product_id"
+    t.index ["option_group_id"], name: "index_product_option_groups_on_option_group_id"
+    t.index ["product_id", "option_group_id"], name: "index_product_option_groups_on_product_id_and_option_group_id", unique: true
+    t.index ["product_id"], name: "index_product_option_groups_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.boolean "adult_only", default: false, null: false
     t.datetime "available_from"
@@ -223,6 +234,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_13_193621) do
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
+  add_foreign_key "product_option_groups", "option_groups", on_delete: :restrict
+  add_foreign_key "product_option_groups", "products", on_delete: :cascade
   add_foreign_key "products", "businesses", on_delete: :cascade
   add_foreign_key "properties", "property_groups", on_delete: :cascade
   add_foreign_key "property_groups", "businesses", on_delete: :cascade

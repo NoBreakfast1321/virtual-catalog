@@ -23,4 +23,9 @@
 class ProductCategory < ApplicationRecord
   belongs_to :category
   belongs_to :product
+
+  validates :category, presence: true
+  validates :product, presence: true
+
+  validates :category_id, uniqueness: { scope: :product_id }
 end

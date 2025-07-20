@@ -48,8 +48,8 @@
       <%= link_to "New",
               new_business_option_group_option_path(@business, @option_group),
               data: {
-                action: "click->details#open",
                 turbo_frame: turbo_frame_id(Option.new),
+                action: "click->details#open",
               },
               class: "button button--action" %>
     </div>

@@ -1,0 +1,17 @@
+<%= turbo_frame_tag turbo_frame_id(ProductOptionGroup.new) do %>
+  <section class="card">
+    <header class="card__header">
+      <h2 class="card__heading">New Option Group</h2>
+      <p class="card__description">
+        Select an option group below to add it to your product.
+      </p>
+    </header>
+
+    <div class="card__body">
+      <%= render "product_option_groups/form",
+             business: @business,
+             product: @product,
+             product_option_group: @product_option_group %>
+    </div>
+  </section>
+<% end %>

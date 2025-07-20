@@ -1,0 +1,10 @@
+<%= render_toast %>
+
+<%= turbo_stream.append turbo_frame_id(:product_option_groups) do %>
+  <%= render "product_option_groups/product_option_group",
+         business: @business,
+         product: @product,
+         product_option_group: @product_option_group %>
+<% end %>
+
+<%= turbo_stream.update turbo_frame_id(ProductOptionGroup.new), "" %>
