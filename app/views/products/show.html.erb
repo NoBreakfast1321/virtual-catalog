@@ -35,6 +35,42 @@
 <details data-controller="details" class="card">
   <summary class="card__header card__header--with-actions">
     <div>
+      <h2 class="card__heading">Property Groups</h2>
+      <p class="card__description">
+        Here is a list of all associated property groups.
+      </p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_business_product_product_property_group_path(@business, @product),
+              data: {
+                turbo_frame: turbo_frame_id(ProductPropertyGroup.new),
+                action: "click->details#open",
+              },
+              class: "button button--action" %>
+    </div>
+  </summary>
+
+  <div class="card__body">
+    <%= turbo_frame_tag turbo_frame_id(:product_property_groups) do %>
+      <% @product.product_property_groups.each do |product_property_group| %>
+        <%= render "product_property_groups/product_property_group",
+               business: @business,
+               product: @product,
+               product_property_group: product_property_group %>
+
+        <div class="my-4 border-t border-gray-200"></div>
+      <% end %>
+    <% end %>
+
+    <%= turbo_frame_tag turbo_frame_id(ProductPropertyGroup.new) %>
+  </div>
+</details>
+
+<details data-controller="details" class="card">
+  <summary class="card__header card__header--with-actions">
+    <div>
       <h2 class="card__heading">Option Groups</h2>
       <p class="card__description">
         Here is a list of all associated option groups.
@@ -59,6 +95,8 @@
                business: @business,
                product: @product,
                product_option_group: product_option_group %>
+
+        <div class="my-4 border-t border-gray-200"></div>
       <% end %>
     <% end %>
 

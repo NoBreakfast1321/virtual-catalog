@@ -3,7 +3,7 @@
 <% option_group = product_option_group.option_group %>
 
 <%= turbo_frame_tag turbo_frame_id(product_option_group) do %>
-  <h2 class="card__heading"><%= option_group.name %></h2>
+  <h2 class="card__heading mb-2"><%= option_group.name %></h2>
 
   <ul class="card__description mb-4">
     <% option_group.options.each do |option| %>

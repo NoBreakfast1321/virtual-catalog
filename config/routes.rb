@@ -148,6 +148,7 @@ Rails.application.routes.draw do
 
     resources :products do
       resources :product_option_groups
+      resources :product_property_groups
       resources :variants
     end
   end

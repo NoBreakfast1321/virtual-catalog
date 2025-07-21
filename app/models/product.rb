@@ -45,6 +45,9 @@ class Product < ApplicationRecord
   has_many :product_option_groups, dependent: :destroy
   has_many :option_groups, through: :product_option_groups
 
+  has_many :product_property_groups, dependent: :destroy
+  has_many :property_groups, through: :product_property_groups
+
   has_many :variants, dependent: :destroy
 
   validates :adult_only, inclusion: { in: [ true, false ] }

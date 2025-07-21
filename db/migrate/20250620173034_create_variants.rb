@@ -22,15 +22,15 @@ class CreateVariants < ActiveRecord::Migration[8.0]
     end
 
     add_index :variants,
-              %i[product_id code],
-              unique: true,
-              where: "code IS NOT NULL AND code <> ''"
-
-    add_index :variants,
               [ :product_id ],
               unique: true,
               where: "base = true",
               name: "index_variants_on_product_id_and_base"
+
+    add_index :variants,
+              %i[product_id code],
+              unique: true,
+              where: "code IS NOT NULL AND code <> ''"
 
     add_check_constraint(
       :variants,

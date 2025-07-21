@@ -85,6 +85,6 @@ class PropertyGroupsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def property_group_params
-    params.expect(property_group: %i[name])
+    params.expect(property_group: [ :name ])
   end
 end

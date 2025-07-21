@@ -7,7 +7,8 @@ class CreateVariantProperties < ActiveRecord::Migration[8.0]
       t.belongs_to :variant, null: false, foreign_key: { on_delete: :cascade }
     end
 
-    add_index :variant_properties, %i[property_id variant_id]
     add_index :variant_properties, %i[variant_id property_id], unique: true
+
+    add_index :variant_properties, %i[property_id variant_id]
   end
 end
