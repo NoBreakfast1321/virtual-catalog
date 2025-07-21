@@ -4,6 +4,9 @@
 #
 #  id              :integer          not null, primary key
 #  name            :string(50)       not null
+#  price_cents     :integer          default(0), not null
+#  price_currency  :string           default("USD"), not null
+#  visible         :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  option_group_id :integer          not null
@@ -24,6 +27,8 @@ class Option < ApplicationRecord
 
   belongs_to :option_group
 
+  monetize :price_cents
+
   validates :name,
             length: {
               maximum: 50
@@ -32,4 +37,12 @@ class Option < ApplicationRecord
             uniqueness: {
               scope: :option_group
             }
+
+  validates :price_cents,
+            numericality: {
+              greater_than_or_equal_to: 0
+            },
+            presence: true
+
+  validates :visible, inclusion: { in: [ true, false ] }
 end

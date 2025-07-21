@@ -75,6 +75,6 @@ class OptionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def option_params
-    params.expect(option: %i[name visible])
+    params.expect(option: %i[name price visible])
   end
 end

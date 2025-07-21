@@ -7,6 +7,31 @@
     <%= form.error :name, "form__error" %>
   </div>
 
+  <div
+    data-controller="currency"
+    data-currency-currency-value="<%= Money.default_currency.iso_code %>"
+    data-currency-locale-value="<%= I18n.locale %>"
+    class="form__group"
+  >
+    <%= form.label :price, class: "form__label" %>
+    <%= form.hidden_field :price, id: nil, data: { "currency-target": "hidden" } %>
+    <input
+      id="option_price"
+      data-currency-target="input"
+      data-action="currency#format"
+      inputmode="numeric"
+      class="form__input"
+    />
+
+    <%= form.error :price, "form__error" %>
+  </div>
+
+  <div class="form__group form__group--inline">
+    <%= form.checkbox :visible, class: "form__checkbox" %>
+    <%= form.label :visible, class: "form__label" %>
+    <%= form.error :visible, "form__error" %>
+  </div>
+
   <footer class="form__footer">
     <%= link_to "Cancel", [business, option_group], class: "button" %>
     <%= form.submit "Save", class: "button button--action" %>

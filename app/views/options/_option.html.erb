@@ -3,7 +3,9 @@
 <%= turbo_frame_tag turbo_frame_id(option) do %>
   <dl class="description-list">
     <div class="description-list__item">
-      <dt class="description-list__term"><%= option.name %></dt>
+      <dt class="description-list__term">
+        <%= option.name %> - <%= option.price.format %> - <%= option.visible? ? "Yes" : "No" %>
+      </dt>
       <dd
         class="description-list__definition flex items-center justify-end gap-2"
       >

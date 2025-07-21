@@ -7,7 +7,12 @@
 
   <ul class="card__description mb-4">
     <% option_group.options.each do |option| %>
-      <li><%= option.name %></li>
+      <li>
+        <%= render "options/option",
+               business: business,
+               option_group: option_group,
+               option: option %>
+      </li>
     <% end %>
   </ul>
 
