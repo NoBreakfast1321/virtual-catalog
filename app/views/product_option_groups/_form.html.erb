@@ -2,7 +2,6 @@
 
 <%= errable_form_with model: [business, product, product_option_group],
                   class: "form" do |form| %>
-
   <div class="form__group">
     <%= form.label :option_group_id, "Option group", class: "form__label" %>
     <%= form.collection_select :option_group_id,

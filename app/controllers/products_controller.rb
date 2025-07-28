@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
   def create
     @product = @business.products.build(product_params)
 
-    # Attach newly uploaded images to the product
+    # Attach newly uploaded images to the product.
     if params[:product][:images]
       @product.images.attach(params[:product][:images])
     end
@@ -61,12 +61,12 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /businesses/:business_id/products/:id
   def update
-    # Purge images that were marked for deletion
+    # Purge images that were marked for deletion.
     if (image_ids = params.dig(:product, :purge_image_ids).presence)
       @product.images.attachments.where(id: image_ids.map(&:to_i)).each(&:purge)
     end
 
-    # Attach newly uploaded images to the product
+    # Attach newly uploaded images to the product.
     if params[:product][:images]
       @product.images.attach(params[:product][:images])
     end

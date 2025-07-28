@@ -58,6 +58,8 @@
   <div class="card__body">
     <%= turbo_frame_tag turbo_frame_id(Option.new) %>
 
+    <div class="divider"></div>
+
     <%= turbo_frame_tag turbo_frame_id(:options) do %>
       <% @option_group.options.each do |option| %>
         <%= render "options/option",

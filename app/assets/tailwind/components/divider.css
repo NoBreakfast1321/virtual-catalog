@@ -1,0 +1,11 @@
+/*
+ *
+ * Usage:
+ *
+ * <div class="divider"></div>
+ *
+ */
+
+.divider {
+  @apply my-4 border-t border-gray-200;
+}

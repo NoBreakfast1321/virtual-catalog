@@ -1,0 +1,10 @@
+<%= render_toast %>
+
+<%= turbo_stream.prepend turbo_frame_id(:variants) do %>
+  <%= render "variants/variant",
+         business: @business,
+         product: @product,
+         variant: @variant %>
+<% end %>
+
+<%= turbo_stream.update turbo_frame_id(Variant.new), "" %>

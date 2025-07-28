@@ -60,6 +60,8 @@
   <div class="card__body">
     <%= turbo_frame_tag turbo_frame_id(Property.new) %>
 
+    <div class="divider"></div>
+
     <%= turbo_frame_tag turbo_frame_id(:properties) do %>
       <% @property_group.properties.each do |property| %>
         <%= render "properties/property",

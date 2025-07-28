@@ -24,10 +24,8 @@ class VariantProperty < ApplicationRecord
   belongs_to :property
   belongs_to :variant
 
-  validates :position,
-            presence: true,
-            numericality: {
-              only_integer: true,
-              greater_than_or_equal_to: 0
-            }
+  validates :property, presence: true
+  validates :variant, presence: true
+
+  validates :property_id, uniqueness: { scope: :variant_id }
 end

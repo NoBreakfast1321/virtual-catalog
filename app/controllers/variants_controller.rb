@@ -75,14 +75,7 @@ class VariantsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def variant_params
     params.expect(
-      variant: [
-        :base,
-        :code,
-        :price,
-        :stock_quantity,
-        :visible,
-        property_ids: []
-      ],
+      variant: [ :code, :price, :stock_quantity, :visible, property_ids: [] ],
     )
   end
 end

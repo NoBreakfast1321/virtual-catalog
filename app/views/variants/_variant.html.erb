@@ -1,0 +1,50 @@
+<%# locals: (business:, product:, variant:) %>
+
+<%= turbo_frame_tag turbo_frame_id(variant) do %>
+  <div class="table__body-row table__divider form--grid">
+    <% variant.properties.each do |property| %>
+      <div class="table__body-cell table__body-cell--center">
+        <%= property.name %>
+      </div>
+    <% end %>
+
+    <div class="table__body-cell table__body-cell--center">
+      <%= variant.code %>
+    </div>
+
+    <div
+      class="table__body-cell table__body-cell--center table__body-cell--numeric"
+    >
+      <%= variant.price.format %>
+    </div>
+
+    <div
+      class="table__body-cell table__body-cell--center table__body-cell--numeric"
+    >
+      <%= variant.stock_quantity %>
+    </div>
+
+    <div class="table__body-cell table__body-cell--center">
+      <%= variant.visible? ? "Yes" : "No" %>
+    </div>
+
+    <div
+      class="table__body-cell table__body-cell--center table__body-cell--actions gap-2"
+    >
+      <%= link_to "Edit",
+              edit_business_product_variant_path(business, product, variant),
+              data: {
+                turbo_frame: turbo_frame_id(variant),
+              },
+              class: "button" %>
+
+      <%= button_to "Destroy",
+                [business, product, variant],
+                method: :delete,
+                data: {
+                  turbo_confirm: "Are you sure you want to destroy this variant?",
+                },
+                class: "button button--danger" %>
+    </div>
+  </div>
+<% end %>

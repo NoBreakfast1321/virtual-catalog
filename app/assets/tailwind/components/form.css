@@ -14,6 +14,10 @@
     @apply flex flex-col gap-y-4;
   }
 
+  .form--grid {
+    @apply grid auto-cols-fr grid-flow-col;
+  }
+
   .form__group {
     @apply flex flex-col;
   }

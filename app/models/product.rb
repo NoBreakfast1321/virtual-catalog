@@ -88,7 +88,6 @@ class Product < ApplicationRecord
             }
 
   validates :visible, inclusion: { in: [ true, false ] }
-
   validates :images,
             limit: {
               max: 10

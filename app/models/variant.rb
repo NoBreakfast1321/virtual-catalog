@@ -30,7 +30,7 @@ class Variant < ApplicationRecord
 
   belongs_to :product
 
-  has_many :variant_properties, -> { order(:position) }, dependent: :destroy
+  has_many :variant_properties, dependent: :destroy
   has_many :properties, through: :variant_properties
 
   monetize :price_cents
@@ -62,6 +62,7 @@ class Variant < ApplicationRecord
 
   validate :ensure_single_base_variant, if: :base?
 
+  scope :base, -> { where(base: true) }
   scope :non_base, -> { where(base: false) }
 
   def label
