@@ -6,86 +6,59 @@ class PropertyGroupsController < ApplicationController
   before_action :set_property_group_with_params, only: %i[create]
   before_action :set_non_base_variants, only: %i[create destroy]
 
-  # GET /businesses/:business_id/property_groups
   def index
     @q = @business.property_groups.ransack(params[:q])
     @pagy, @property_groups = pagy(@q.result(distinct: true))
   end
 
-  # GET /businesses/:business_id/property_groups/:id
   def show
   end
 
-  # GET /businesses/:business_id/property_groups/new
   def new
     @property_group = @business.property_groups.build
   end
 
-  # GET /businesses/:business_id/property_groups/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/property_groups
   def create
+    ActiveRecord::Base.transaction do
+      @property_group.save!
+
+      @non_base_variants.each(&:destroy!)
+    end
+
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @non_base_variants.find_each(&:destroy!)
-
-          @property_group.save!
-        end
-
-        format.html do
-          redirect_to [ @business, @property_group ],
-                      notice: t_controller("create.success")
-        end
-      rescue ActiveRecord::RecordInvalid
-        format.html { render :new, status: :unprocessable_entity }
-      rescue StandardError => error
-        format.html do
-          flash.now[:alert] = error.message
-
-          render :new, status: :unprocessable_entity
-        end
+      format.html do
+        redirect_to [ @business, @property_group ],
+                    notice: t_controller("create.success")
       end
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/property_groups/:id
   def update
+    @property_group.update!(property_group_params)
+
     respond_to do |format|
-      if @property_group.update(property_group_params)
-        format.html do
-          redirect_to [ @business, @property_group ],
-                      notice: t_controller("update.success")
-        end
-      else
-        format.html { render :edit, status: :unprocessable_entity }
+      format.html do
+        redirect_to [ @business, @property_group ],
+                    notice: t_controller("update.success")
       end
     end
   end
 
-  # DELETE /businesses/:business_id/property_groups/:id
   def destroy
+    ActiveRecord::Base.transaction do
+      @non_base_variants.each(&:destroy!)
+
+      @property_group.destroy!
+    end
+
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @non_base_variants.find_each(&:destroy!)
-
-          @property_group.destroy!
-        end
-
-        format.html do
-          redirect_to business_property_groups_path(@business),
-                      notice: t_controller("destroy.success"),
-                      status: :see_other
-        end
-      rescue StandardError => error
-        format.html do
-          flash.now[:alert] = error.message
-
-          render :show, status: :unprocessable_entity
-        end
+      format.html do
+        redirect_to business_property_groups_path(@business),
+                    notice: t_controller("destroy.success"),
+                    status: :see_other
       end
     end
   end
