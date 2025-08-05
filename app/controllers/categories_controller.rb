@@ -46,17 +46,17 @@ class CategoriesController < ApplicationController
                     notice: t_controller("update.success")
       end
     end
+  end
 
-    # DELETE /businesses/:business_id/categories/:id
-    def destroy
-      @category.destroy!
+  # DELETE /businesses/:business_id/categories/:id
+  def destroy
+    @category.destroy!
 
-      respond_to do |format|
-        format.html do
-          redirect_to business_categories_path(@business),
-                      notice: t_controller("destroy.success"),
-                      status: :see_other
-        end
+    respond_to do |format|
+      format.html do
+        redirect_to business_categories_path(@business),
+                    notice: t_controller("destroy.success"),
+                    status: :see_other
       end
     end
   end
