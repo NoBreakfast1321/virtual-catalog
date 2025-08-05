@@ -2,6 +2,7 @@ class BusinessesController < ApplicationController
   include Pagy::Backend
 
   before_action :set_business, only: %i[show edit update destroy]
+  before_action :set_business_with_params, only: %i[create]
 
   # GET /businesses
   def index
@@ -24,47 +25,35 @@ class BusinessesController < ApplicationController
 
   # POST /businesses
   def create
-    @business = current_user.businesses.build(business_params)
+    @business.save!
 
     respond_to do |format|
-      if @business.save
-        format.html do
-          redirect_to @business, notice: t_controller("create.success")
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      format.html do
+        redirect_to @business, notice: t_controller("create.success")
       end
     end
   end
 
   # PATCH/PUT /businesses/:id
   def update
+    @business.update!(business_params)
+
     respond_to do |format|
-      if @business.update(business_params)
-        format.html do
-          redirect_to @business, notice: t_controller("update.success")
-        end
-      else
-        format.html { render :edit, status: :unprocessable_entity }
+      format.html do
+        redirect_to @business, notice: t_controller("update.success")
       end
     end
   end
 
   # DELETE /businesses/:id
   def destroy
-    respond_to do |format|
-      if @business.destroy
-        format.html do
-          redirect_to businesses_path,
-                      notice: t_controller("destroy.success"),
-                      status: :see_other
-        end
-      else
-        format.html do
-          flash.now[:alert] = @business.errors.full_messages.to_sentence
+    @business.destroy!
 
-          render :show, status: :unprocessable_entity
-        end
+    respond_to do |format|
+      format.html do
+        redirect_to businesses_path,
+                    notice: t_controller("destroy.success"),
+                    status: :see_other
       end
     end
   end
@@ -74,6 +63,10 @@ class BusinessesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_business
     @business = current_user.businesses.find(params.expect(:id))
+  end
+
+  def set_business_with_params
+    @business = current_user.businesses.build(business_params)
   end
 
   # Only allow a list of trusted parameters through.
