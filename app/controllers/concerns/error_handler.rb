@@ -29,6 +29,12 @@ module ErrorHandler
 
         render template, status: :unprocessable_entity
       end
+
+      format.turbo_stream do
+        flash.now[:alert] = exception.message
+
+        render turbo_stream: render_toast, status: :unprocessable_entity
+      end
     end
   end
 
