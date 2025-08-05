@@ -24,6 +24,9 @@ class PropertyGroup < ApplicationRecord
 
   belongs_to :business
 
+  has_many :product_property_groups, dependent: :destroy
+  has_many :products, through: :product_property_groups
+
   has_many :properties, dependent: :destroy
 
   validates :name,

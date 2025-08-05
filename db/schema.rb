@@ -227,12 +227,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.string "code", limit: 50
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
+    t.string "signature"
     t.integer "stock_quantity"
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
     t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
+    t.index ["product_id", "signature"], name: "index_variants_on_product_id_and_signature", unique: true, where: "base = false AND signature IS NOT NULL AND signature <> ''"
     t.index ["product_id"], name: "index_variants_on_product_id"
     t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = true"
     t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"

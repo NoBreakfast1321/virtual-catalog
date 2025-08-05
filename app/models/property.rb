@@ -24,6 +24,9 @@ class Property < ApplicationRecord
 
   belongs_to :property_group
 
+  has_many :variant_properties, dependent: :destroy
+  has_many :variants, through: :variant_properties
+
   validates :name,
             length: {
               maximum: 50

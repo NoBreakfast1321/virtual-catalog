@@ -69,6 +69,7 @@ end
 gem "active_storage_validations"
 gem "audited"
 gem "devise", "~> 4.9"
+gem "faker"
 gem "money-rails", "~> 1.12"
 gem "pagy", "~> 9.3"
 gem "pry", "~> 0.15.0"

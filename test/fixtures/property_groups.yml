@@ -1,0 +1,40 @@
+# == Schema Information
+#
+# Table name: property_groups
+#
+#  id          :integer          not null, primary key
+#  name        :string(30)       not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  business_id :integer          not null
+#
+# Indexes
+#
+#  index_property_groups_on_business_id           (business_id)
+#  index_property_groups_on_business_id_and_name  (business_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#
+<% n = 3 %>
+
+<% Faker::Commerce.unique.clear %>
+
+<% n.times do |i| %>
+  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+
+  property_group_<%= i + 1 %>:
+    name: <%= name %>
+    business: business_1
+<% end %>
+
+<% Faker::Commerce.unique.clear %>
+
+<% n.times do |i| %>
+  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+
+  property_group_<%= i + 1 + n %>:
+    name: <%= name %>
+    business: business_2
+<% end %>

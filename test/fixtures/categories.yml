@@ -1,0 +1,46 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id          :integer          not null, primary key
+#  description :text(150)
+#  name        :string(30)       not null
+#  visible     :boolean          default(TRUE), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  business_id :integer          not null
+#
+# Indexes
+#
+#  index_categories_on_business_id           (business_id)
+#  index_categories_on_business_id_and_name  (business_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#
+<% n = 20 %>
+
+<% Faker::Commerce.unique.clear %>
+
+<% n.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 6)[0..149] %>
+  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+
+  category_<%= i + 1 %>:
+    description: <%= description %>
+    name: <%= name %>
+    business: business_1
+<% end %>
+
+<% Faker::Commerce.unique.clear %>
+
+<% n.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 6)[0..149] %>
+  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+
+  category_<%= i + 1 + n %>:
+    description: <%= description %>
+    name: <%= name %>
+    business: business_2
+<% end %>

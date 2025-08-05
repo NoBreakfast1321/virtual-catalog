@@ -10,16 +10,25 @@ class ProductPropertyGroupsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/product_property_groups
   def create
-    @product_property_group =
-      @product.product_property_groups.build(product_property_group_params)
+    @product_property_group = @product.product_property_groups.build(product_property_group_params)
 
     respond_to do |format|
-      if @product_property_group.save
+      begin
+        ActiveRecord::Base.transaction do
+          @product.variants.non_base.find_each(&:destroy!)
+
+          @product_property_group.save!
+        end
+
         format.turbo_stream do
           flash.now[:notice] = t_controller("create.success")
         end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      rescue StandardError => error
+        format.html do
+          flash.now[:alert] = error.message
+
+          render :new, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -27,13 +36,19 @@ class ProductPropertyGroupsController < ApplicationController
   # DELETE /businesses/:business_id/products/:product_id/product_property_groups/:id
   def destroy
     respond_to do |format|
-      if @product_property_group.destroy
+      begin
+        ActiveRecord::Base.transaction do
+          @product.variants.non_base.find_each(&:destroy!)
+
+          @product_property_group.destroy!
+        end
+
         format.turbo_stream do
           flash.now[:notice] = t_controller("destroy.success")
         end
-      else
+      rescue StandardError => error
         format.turbo_stream do
-          flash.now[:alert] = @property.errors.full_messages.to_sentence
+          flash.now[:alert] = error.message
 
           render turbo_stream: render_toast, status: :unprocessable_entity
         end

@@ -6,3 +6,5 @@ en:
           attributes:
             base:
               already_exists_for_this_product: "already exists for this product"
+            property_ids:
+              must_select_property: "You must select a property."

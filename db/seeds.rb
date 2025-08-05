@@ -7,3 +7,13 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+fixtures_path = Rails.root.join("test/fixtures")
+
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "users")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "businesses")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "categories")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "products")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "property_groups")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "properties")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "variants")

@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: businesses
+#
+#  id          :integer          not null, primary key
+#  description :text(150)
+#  name        :string(30)       not null
+#  slug        :string(30)       not null
+#  visible     :boolean          default(TRUE), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :integer          not null
+#
+# Indexes
+#
+#  index_businesses_on_slug     (slug) UNIQUE
+#  index_businesses_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id) ON DELETE => cascade
+#
+<% n = 2 %>
+
+<% Faker::Company.unique.clear %>
+
+<% n.times do |i| %>
+  <% name = Faker::Company.unique.name[0..29] %>
+  <% slug = name.parameterize[0..29] %>
+
+  business_<%= i + 1 %>:
+    name: <%= name %>
+    slug: <%= slug %>
+    user: admin_user
+<% end %>

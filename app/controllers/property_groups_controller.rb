@@ -3,6 +3,8 @@ class PropertyGroupsController < ApplicationController
 
   before_action :set_business
   before_action :set_property_group, only: %i[show edit update destroy]
+  before_action :set_property_group_with_params, only: %i[create]
+  before_action :set_non_base_variants, only: %i[create destroy]
 
   # GET /businesses/:business_id/property_groups
   def index
@@ -25,16 +27,26 @@ class PropertyGroupsController < ApplicationController
 
   # POST /businesses/:business_id/property_groups
   def create
-    @property_group = @business.property_groups.build(property_group_params)
-
     respond_to do |format|
-      if @property_group.save
+      begin
+        ActiveRecord::Base.transaction do
+          @non_base_variants.find_each(&:destroy!)
+
+          @property_group.save!
+        end
+
         format.html do
           redirect_to [ @business, @property_group ],
                       notice: t_controller("create.success")
         end
-      else
+      rescue ActiveRecord::RecordInvalid
         format.html { render :new, status: :unprocessable_entity }
+      rescue StandardError => error
+        format.html do
+          flash.now[:alert] = error.message
+
+          render :new, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -56,15 +68,21 @@ class PropertyGroupsController < ApplicationController
   # DELETE /businesses/:business_id/property_groups/:id
   def destroy
     respond_to do |format|
-      if @property_group.destroy
+      begin
+        ActiveRecord::Base.transaction do
+          @non_base_variants.find_each(&:destroy!)
+
+          @property_group.destroy!
+        end
+
         format.html do
           redirect_to business_property_groups_path(@business),
                       notice: t_controller("destroy.success"),
                       status: :see_other
         end
-      else
+      rescue StandardError => error
         format.html do
-          flash.now[:alert] = @property_group.errors.full_messages.to_sentence
+          flash.now[:alert] = error.message
 
           render :show, status: :unprocessable_entity
         end
@@ -81,6 +99,15 @@ class PropertyGroupsController < ApplicationController
 
   def set_property_group
     @property_group = @business.property_groups.find(params.expect(:id))
+  end
+
+  def set_property_group_with_params
+    @property_group = @business.property_groups.build(property_group_params)
+  end
+
+  def set_non_base_variants
+    @non_base_variants =
+      Variant.where(product: @property_group.products).non_base
   end
 
   # Only allow a list of trusted parameters through.

@@ -2,6 +2,8 @@ class PropertiesController < ApplicationController
   before_action :set_business
   before_action :set_property_group
   before_action :set_property, only: %i[edit update destroy]
+  before_action :set_property_with_params, only: %i[create]
+  before_action :set_non_base_variants, only: %i[destroy]
 
   # GET /businesses/:business_id/property_groups/:property_group_id/properties/new
   def new
@@ -43,13 +45,19 @@ class PropertiesController < ApplicationController
   # DELETE /businesses/:business_id/property_groups/:property_group_id/properties/:id
   def destroy
     respond_to do |format|
-      if @property.destroy
+      begin
+        ActiveRecord::Base.transaction do
+          @non_base_variants.find_each(&:destroy!)
+
+          @property.destroy!
+        end
+
         format.turbo_stream do
           flash.now[:notice] = t_controller("destroy.success")
         end
-      else
+      rescue StandardError => error
         format.turbo_stream do
-          flash.now[:alert] = @property.errors.full_messages.to_sentence
+          flash.now[:alert] = error.message
 
           render turbo_stream: render_toast, status: :unprocessable_entity
         end
@@ -71,6 +79,14 @@ class PropertiesController < ApplicationController
 
   def set_property
     @property = @property_group.properties.find(params.expect(:id))
+  end
+
+  def set_property_with_params
+    @property = @property_group.properties.build(property_params)
+  end
+
+  def set_non_base_variants
+    @non_base_variants = @property.variants.non_base
   end
 
   # Only allow a list of trusted parameters through.

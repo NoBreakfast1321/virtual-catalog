@@ -12,6 +12,8 @@
                              id: "variant_property_ids_#{index}",
                              name: "variant[property_ids][]",
                              class: "form__input" %>
+
+      <%= form.error :property_ids, "form__error" %>
     </div>
   <% end %>
 

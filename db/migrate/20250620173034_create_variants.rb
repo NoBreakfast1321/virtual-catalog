@@ -3,7 +3,6 @@ class CreateVariants < ActiveRecord::Migration[8.0]
     create_table :variants do |t|
       t.boolean :base, null: false, default: false
       t.string :code, limit: 50
-
       t.monetize :price,
                  amount: {
                    null: false,
@@ -14,6 +13,7 @@ class CreateVariants < ActiveRecord::Migration[8.0]
                    default: Money.default_currency.iso_code
                  }
 
+      t.string :signature
       t.integer :stock_quantity
       t.boolean :visible, null: false, default: true
       t.timestamps
@@ -31,6 +31,12 @@ class CreateVariants < ActiveRecord::Migration[8.0]
               %i[product_id code],
               unique: true,
               where: "code IS NOT NULL AND code <> ''"
+
+    add_index :variants,
+              %i[product_id signature],
+              unique: true,
+              where:
+                "base = false AND signature IS NOT NULL AND signature <> ''"
 
     add_check_constraint(
       :variants,

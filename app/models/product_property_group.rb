@@ -1,24 +1,24 @@
 # == Schema Information
 #
-# Table name: product_option_groups
+# Table name: product_property_groups
 #
-#  id              :integer          not null, primary key
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  option_group_id :integer          not null
-#  product_id      :integer          not null
+#  id                :integer          not null, primary key
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  product_id        :integer          not null
+#  property_group_id :integer          not null
 #
 # Indexes
 #
-#  index_product_option_groups_on_option_group_id                 (option_group_id)
-#  index_product_option_groups_on_option_group_id_and_product_id  (option_group_id,product_id)
-#  index_product_option_groups_on_product_id                      (product_id)
-#  index_product_option_groups_on_product_id_and_option_group_id  (product_id,option_group_id) UNIQUE
+#  idx_on_product_id_property_group_id_a2903aef74      (product_id,property_group_id) UNIQUE
+#  idx_on_property_group_id_product_id_431a475453      (property_group_id,product_id)
+#  index_product_property_groups_on_product_id         (product_id)
+#  index_product_property_groups_on_property_group_id  (property_group_id)
 #
 # Foreign Keys
 #
-#  option_group_id  (option_group_id => option_groups.id) ON DELETE => restrict
-#  product_id       (product_id => products.id) ON DELETE => cascade
+#  product_id         (product_id => products.id) ON DELETE => cascade
+#  property_group_id  (property_group_id => property_groups.id) ON DELETE => restrict
 #
 class ProductPropertyGroup < ApplicationRecord
   belongs_to :product
