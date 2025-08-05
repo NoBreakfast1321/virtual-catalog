@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include ErrorHandler
   include Toaster
 
   before_action :authenticate_user!, unless: :devise_controller?
