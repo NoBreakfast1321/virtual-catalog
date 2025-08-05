@@ -10,7 +10,8 @@ class ProductPropertyGroupsController < ApplicationController
 
   # POST /businesses/:business_id/products/:product_id/product_property_groups
   def create
-    @product_property_group = @product.product_property_groups.build(product_property_group_params)
+    @product_property_group =
+      @product.product_property_groups.build(product_property_group_params)
 
     respond_to do |format|
       begin
