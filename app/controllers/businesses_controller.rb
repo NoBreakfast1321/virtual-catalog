@@ -2,7 +2,8 @@ class BusinessesController < ApplicationController
   include Pagy::Backend
 
   before_action :set_business, only: %i[show edit update destroy]
-  before_action :set_business_with_params, only: %i[create]
+  before_action :build_business_with_params, only: %i[create]
+  before_action :build_business_without_params, only: %i[new]
 
   def index
     @q = current_user.businesses.ransack(params[:q])
@@ -13,7 +14,6 @@ class BusinessesController < ApplicationController
   end
 
   def new
-    @business = current_user.businesses.build
   end
 
   def edit
@@ -58,8 +58,12 @@ class BusinessesController < ApplicationController
     @business = current_user.businesses.find(params.expect(:id))
   end
 
-  def set_business_with_params
+  def build_business_with_params
     @business = current_user.businesses.build(business_params)
+  end
+
+  def build_business_without_params
+    @business = current_user.businesses.build
   end
 
   # Only allow a list of trusted parameters through.

@@ -3,7 +3,8 @@ class ProductsController < ApplicationController
 
   before_action :set_business
   before_action :set_product, only: %i[show edit update destroy]
-  before_action :set_product_with_params, only: %i[create]
+  before_action :build_product_with_params, only: %i[create]
+  before_action :build_product_without_params, only: %i[new]
 
   before_action :restrict_product_creation, only: %i[new create]
 
@@ -16,7 +17,6 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = @business.products.build
   end
 
   def edit
@@ -99,8 +99,12 @@ class ProductsController < ApplicationController
     @product = @business.products.find(params.expect(:id))
   end
 
-  def set_product_with_params
+  def build_product_with_params
     @product = @business.products.build(product_params)
+  end
+
+  def build_product_without_params
+    @product = @business.products.build
   end
 
   # Only allow a list of trusted parameters through.

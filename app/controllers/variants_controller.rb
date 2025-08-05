@@ -2,10 +2,10 @@ class VariantsController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_variant, only: %i[edit update destroy]
-  before_action :set_variant_with_params, only: %i[create]
+  before_action :build_variant_with_params, only: %i[create]
+  before_action :build_variant_without_params, only: %i[new]
 
   def new
-    @variant = @product.variants.build
   end
 
   def edit
@@ -56,8 +56,12 @@ class VariantsController < ApplicationController
     @variant = @product.variants.find(params.expect(:id))
   end
 
-  def set_variant_with_params
+  def build_variant_with_params
     @variant = @product.variants.build(variant_params)
+  end
+
+  def build_variant_without_params
+    @variant = @product.variants.build
   end
 
   # Only allow a list of trusted parameters through.

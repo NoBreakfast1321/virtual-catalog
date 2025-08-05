@@ -3,7 +3,8 @@ class OptionGroupsController < ApplicationController
 
   before_action :set_business
   before_action :set_option_group, only: %i[show edit update destroy]
-  before_action :set_option_group_with_params, only: %i[create]
+  before_action :build_option_group_with_params, only: %i[create]
+  before_action :build_option_group_without_params, only: %i[new]
 
   def index
     @q = @business.option_groups.ransack(params[:q])
@@ -14,7 +15,6 @@ class OptionGroupsController < ApplicationController
   end
 
   def new
-    @option_group = @business.option_groups.build
   end
 
   def edit
@@ -65,8 +65,12 @@ class OptionGroupsController < ApplicationController
     @option_group = @business.option_groups.find(params.expect(:id))
   end
 
-  def set_option_group_with_params
+  def build_option_group_with_params
     @option_group = @business.option_groups.build(option_group_params)
+  end
+
+  def build_option_group_without_params
+    @option_group = @business.option_groups.build
   end
 
   # Only allow a list of trusted parameters through.

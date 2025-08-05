@@ -3,7 +3,8 @@ class PropertyGroupsController < ApplicationController
 
   before_action :set_business
   before_action :set_property_group, only: %i[show edit update destroy]
-  before_action :set_property_group_with_params, only: %i[create]
+  before_action :build_property_group_with_params, only: %i[create]
+  before_action :build_property_group_without_params, only: %i[new]
   before_action :set_non_base_variants, only: %i[create destroy]
 
   def index
@@ -15,7 +16,6 @@ class PropertyGroupsController < ApplicationController
   end
 
   def new
-    @property_group = @business.property_groups.build
   end
 
   def edit
@@ -74,8 +74,12 @@ class PropertyGroupsController < ApplicationController
     @property_group = @business.property_groups.find(params.expect(:id))
   end
 
-  def set_property_group_with_params
+  def build_property_group_with_params
     @property_group = @business.property_groups.build(property_group_params)
+  end
+
+  def build_property_group_without_params
+    @property_group = @business.property_groups.build
   end
 
   def set_non_base_variants

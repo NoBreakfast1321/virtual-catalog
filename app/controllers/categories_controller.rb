@@ -3,7 +3,8 @@ class CategoriesController < ApplicationController
 
   before_action :set_business
   before_action :set_category, only: %i[show edit update destroy]
-  before_action :set_category_with_params, only: %i[create]
+  before_action :build_category_with_params, only: %i[create]
+  before_action :build_category_without_params, only: %i[new]
 
   def index
     @q = @business.categories.ransack(params[:q])
@@ -14,7 +15,6 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @category = @business.categories.build
   end
 
   def edit
@@ -65,8 +65,12 @@ class CategoriesController < ApplicationController
     @category = @business.categories.find(params.expect(:id))
   end
 
-  def set_category_with_params
+  def build_category_with_params
     @category = @business.categories.build(category_params)
+  end
+
+  def build_category_without_params
+    @category = @business.categories.build
   end
 
   # Only allow a list of trusted parameters through.
