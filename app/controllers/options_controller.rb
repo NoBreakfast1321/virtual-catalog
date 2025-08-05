@@ -2,57 +2,41 @@ class OptionsController < ApplicationController
   before_action :set_business
   before_action :set_option_group
   before_action :set_option, only: %i[edit update destroy]
+  before_action :build_option_with_params, only: %i[create]
+  before_action :build_option_without_params, only: %i[new]
 
-  # GET /businesses/:business_id/option_groups/:option_group_id/options/new
   def new
-    @option = @option_group.options.build
   end
 
-  # GET /businesses/:business_id/option_groups/:option_group_id/options/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/option_groups/:option_group_id/options
   def create
-    @option = @option_group.options.build(option_params)
+    @option.save!
 
     respond_to do |format|
-      if @option.save
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("create.success")
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("create.success")
       end
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/option_groups/:option_group_id/options/:id
   def update
+    @option.update!(option_params)
+
     respond_to do |format|
-      if @option.update(option_params)
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("update.success")
-        end
-      else
-        format.html { render :edit, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("update.success")
       end
     end
   end
 
-  # DELETE /businesses/:business_id/option_groups/:option_group_id/options/:id
   def destroy
-    respond_to do |format|
-      if @option.destroy
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("destroy.success")
-        end
-      else
-        format.turbo_stream do
-          flash.now[:alert] = @option.errors.full_messages.to_sentence
+    @option.destroy!
 
-          render turbo_stream: render_toast, status: :unprocessable_entity
-        end
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("destroy.success")
       end
     end
   end
@@ -71,6 +55,14 @@ class OptionsController < ApplicationController
 
   def set_option
     @option = @option_group.options.find(params.expect(:id))
+  end
+
+  def build_option_with_params
+    @option = @option_group.options.build(option_params)
+  end
+
+  def build_option_without_params
+    @option = @option_group.options.build
   end
 
   # Only allow a list of trusted parameters through.

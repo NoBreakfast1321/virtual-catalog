@@ -2,65 +2,46 @@ class PropertiesController < ApplicationController
   before_action :set_business
   before_action :set_property_group
   before_action :set_property, only: %i[edit update destroy]
-  before_action :set_property_with_params, only: %i[create]
+  before_action :build_property_with_params, only: %i[create]
+  before_action :build_property_without_params, only: %i[new]
   before_action :set_non_base_variants, only: %i[destroy]
 
-  # GET /businesses/:business_id/property_groups/:property_group_id/properties/new
   def new
-    @property = @property_group.properties.build
   end
 
-  # GET /businesses/:business_id/property_groups/:property_group_id/properties/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/property_groups/:property_group_id/properties
   def create
-    @property = @property_group.properties.build(property_params)
+    @property.save!
 
     respond_to do |format|
-      if @property.save
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("create.success")
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("create.success")
       end
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/property_groups/:property_group_id/properties/:id
   def update
+    @property.update!(property_params)
+
     respond_to do |format|
-      if @property.update(property_params)
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("update.success")
-        end
-      else
-        format.html { render :edit, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("update.success")
       end
     end
   end
 
-  # DELETE /businesses/:business_id/property_groups/:property_group_id/properties/:id
   def destroy
+    ActiveRecord::Base.transaction do
+      @non_base_variants.each(&:destroy!)
+
+      @property.destroy!
+    end
+
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @non_base_variants.find_each(&:destroy!)
-
-          @property.destroy!
-        end
-
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("destroy.success")
-        end
-      rescue StandardError => error
-        format.turbo_stream do
-          flash.now[:alert] = error.message
-
-          render turbo_stream: render_toast, status: :unprocessable_entity
-        end
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("destroy.success")
       end
     end
   end
@@ -81,8 +62,12 @@ class PropertiesController < ApplicationController
     @property = @property_group.properties.find(params.expect(:id))
   end
 
-  def set_property_with_params
+  def build_property_with_params
     @property = @property_group.properties.build(property_params)
+  end
+
+  def build_property_without_params
+    @property = @property_group.properties.build
   end
 
   def set_non_base_variants
