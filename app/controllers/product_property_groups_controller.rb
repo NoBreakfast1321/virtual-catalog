@@ -2,57 +2,37 @@ class ProductPropertyGroupsController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_product_property_group, only: %i[destroy]
+  before_action :build_product_property_group_with_params, only: %i[create]
+  before_action :build_product_property_group_without_params, only: %i[new]
+  before_action :set_non_base_variants, only: %i[create destroy]
 
-  # GET /businesses/:business_id/products/:product_id/product_property_groups/new
   def new
-    @product_property_group = @product.product_property_groups.build
   end
 
-  # POST /businesses/:business_id/products/:product_id/product_property_groups
   def create
-    @product_property_group =
-      @product.product_property_groups.build(product_property_group_params)
+    ActiveRecord::Base.transaction do
+      @non_base_variants.each(&:destroy!)
+
+      @product_property_group.save!
+    end
 
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @product.variants.non_base.find_each(&:destroy!)
-
-          @product_property_group.save!
-        end
-
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("create.success")
-        end
-      rescue StandardError => error
-        format.html do
-          flash.now[:alert] = error.message
-
-          render :new, status: :unprocessable_entity
-        end
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("create.success")
       end
     end
   end
 
-  # DELETE /businesses/:business_id/products/:product_id/product_property_groups/:id
   def destroy
+    ActiveRecord::Base.transaction do
+      @non_base_variants.each(&:destroy!)
+
+      @product_property_group.destroy!
+    end
+
     respond_to do |format|
-      begin
-        ActiveRecord::Base.transaction do
-          @product.variants.non_base.find_each(&:destroy!)
-
-          @product_property_group.destroy!
-        end
-
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("destroy.success")
-        end
-      rescue StandardError => error
-        format.turbo_stream do
-          flash.now[:alert] = error.message
-
-          render turbo_stream: render_toast, status: :unprocessable_entity
-        end
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("destroy.success")
       end
     end
   end
@@ -71,6 +51,19 @@ class ProductPropertyGroupsController < ApplicationController
   def set_product_property_group
     @product_property_group =
       @product.product_property_groups.find(params.expect(:id))
+  end
+
+  def build_product_property_group_with_params
+    @product_property_group =
+      @product.product_property_groups.build(product_property_group_params)
+  end
+
+  def build_product_property_group_without_params
+    @product_property_group = @product.product_property_groups.build
+  end
+
+  def set_non_base_variants
+    @non_base_variants = @product.variants.non_base
   end
 
   # Only allow a list of trusted parameters through.

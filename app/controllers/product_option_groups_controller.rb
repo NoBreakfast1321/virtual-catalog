@@ -2,41 +2,29 @@ class ProductOptionGroupsController < ApplicationController
   before_action :set_business
   before_action :set_product
   before_action :set_product_option_group, only: %i[destroy]
+  before_action :build_product_option_group_with_params, only: %i[create]
+  before_action :build_product_option_group_without_params, only: %i[new]
+  before_action :set_non_base_variants, only: %i[create destroy]
 
-  # GET /businesses/:business_id/products/:product_id/product_option_groups/new
   def new
-    @product_option_group = @product.product_option_groups.build
   end
 
-  # POST /businesses/:business_id/products/:product_id/product_option_groups
   def create
-    @product_option_group =
-      @product.product_option_groups.build(product_option_group_params)
+    @product_option_group.save!
 
     respond_to do |format|
-      if @product_option_group.save
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("create.success")
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("create.success")
       end
     end
   end
 
-  # DELETE /businesses/:business_id/products/:product_id/product_option_groups/:id
   def destroy
-    respond_to do |format|
-      if @product_option_group.destroy
-        format.turbo_stream do
-          flash.now[:notice] = t_controller("destroy.success")
-        end
-      else
-        format.turbo_stream do
-          flash.now[:alert] = @option.errors.full_messages.to_sentence
+    @product_option_group.destroy!
 
-          render turbo_stream: render_toast, status: :unprocessable_entity
-        end
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = t_controller("destroy.success")
       end
     end
   end
@@ -55,6 +43,19 @@ class ProductOptionGroupsController < ApplicationController
   def set_product_option_group
     @product_option_group =
       @product.product_option_groups.find(params.expect(:id))
+  end
+
+  def build_product_option_group_with_params
+    @product_option_group =
+      @product.product_option_groups.build(product_option_group_params)
+  end
+
+  def build_product_option_group_without_params
+    @product_option_group = @product.product_option_groups.build
+  end
+
+  def set_non_base_variants
+    @non_base_variants = @product.variants.non_base
   end
 
   # Only allow a list of trusted parameters through.
