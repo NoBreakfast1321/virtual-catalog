@@ -5,26 +5,21 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: %i[show edit update destroy]
   before_action :set_category_with_params, only: %i[create]
 
-  # GET /businesses/:business_id/categories
   def index
     @q = @business.categories.ransack(params[:q])
     @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
-  # GET /businesses/:business_id/categories/:id
   def show
   end
 
-  # GET /businesses/:business_id/categories/new
   def new
     @category = @business.categories.build
   end
 
-  # GET /businesses/:business_id/categories/:id/edit
   def edit
   end
 
-  # POST /businesses/:business_id/categories
   def create
     @category.save!
 
@@ -36,7 +31,6 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /businesses/:business_id/categories/:id
   def update
     @category.update!(category_params)
 
@@ -48,7 +42,6 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /businesses/:business_id/categories/:id
   def destroy
     @category.destroy!
 

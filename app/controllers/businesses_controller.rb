@@ -4,26 +4,21 @@ class BusinessesController < ApplicationController
   before_action :set_business, only: %i[show edit update destroy]
   before_action :set_business_with_params, only: %i[create]
 
-  # GET /businesses
   def index
     @q = current_user.businesses.ransack(params[:q])
     @pagy, @businesses = pagy(@q.result(distinct: true))
   end
 
-  # GET /businesses/:id
   def show
   end
 
-  # GET /businesses/new
   def new
     @business = current_user.businesses.build
   end
 
-  # GET /businesses/:id/edit
   def edit
   end
 
-  # POST /businesses
   def create
     @business.save!
 
@@ -34,7 +29,6 @@ class BusinessesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /businesses/:id
   def update
     @business.update!(business_params)
 
@@ -45,7 +39,6 @@ class BusinessesController < ApplicationController
     end
   end
 
-  # DELETE /businesses/:id
   def destroy
     @business.destroy!
 
