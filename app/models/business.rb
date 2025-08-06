@@ -25,15 +25,13 @@ class Business < ApplicationRecord
 
   include NameNormalizer
   include SlugRestricter
+  include VisibilityFilterer
 
   belongs_to :user
 
   has_many :categories, dependent: :destroy
-
   has_many :option_groups, dependent: :destroy
-
   has_many :products, dependent: :destroy
-
   has_many :property_groups, dependent: :destroy
 
   validates :description, length: { maximum: 150 }, allow_blank: true

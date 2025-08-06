@@ -51,13 +51,15 @@ class Product < ApplicationRecord
   has_many :variants, dependent: :destroy
 
   validates :adult_only, inclusion: { in: [ true, false ] }
-  validates :available_until, absence: true, if: -> { available_from.nil? }
 
   validates :available_until,
-            comparison: {
-              greater_than: :available_from
+            absence: {
+              if: -> { available_from.nil? }
             },
-            allow_nil: true
+            comparison: {
+              greater_than: :available_from,
+              allow_nil: true
+            }
 
   validates :code,
             length: {
@@ -113,22 +115,12 @@ class Product < ApplicationRecord
   scope :non_adult, -> { where(adult_only: false) }
 
   # 📆 Availability scopes
-  scope :available,
-        -> do
-          where("available_from IS NULL OR available_from <= ?", Time.current)
-        end
+  scope :available, -> { where("available_from >= :now", now: Time.current) }
+  scope :not_available,
+        -> { where("available_from <= :now", now: Time.current) }
 
-  scope :expired,
-        -> do
-          where.not(available_until: nil).where(
-            available_until: ...Time.current,
-          )
-        end
-
-  scope :not_expired,
-        -> do
-          where("available_until IS NULL OR available_until >= ?", Time.current)
-        end
+  scope :expired, -> { where("available_until <= :now", now: Time.current) }
+  scope :not_expired, -> { where("available_until >= :now", now: Time.current) }
 
   # 🔥 Featured scopes
   scope :featured, -> { where(featured: true) }
@@ -158,13 +150,19 @@ class Product < ApplicationRecord
   end
 
   def active?
-    return false unless visible
+    visible? && available? && !expired?
+  end
 
-    return false if available_from && available_from > Time.current
+  def available?
+    return true if available_from.nil?
 
-    return false if available_until && available_until < Time.current
+    available_from <= Time.current
+  end
 
-    true
+  def expired?
+    return false if available_until.nil?
+
+    available_until < Time.current
   end
 
   def base_variant

@@ -5,6 +5,6 @@ en:
         variant:
           attributes:
             base:
-              already_exists_for_this_product: "already exists for this product"
+              property_combination_already_used: "property combination already used"
             property_ids:
               must_select_property: "You must select a property."

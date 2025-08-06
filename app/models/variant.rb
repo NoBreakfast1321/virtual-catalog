@@ -102,7 +102,7 @@ class Variant < ApplicationRecord
     return unless base?
 
     if product.variants.where(base: true).where.not(id: id).exists?
-      errors.add(:base, :already_exists_for_this_product)
+      errors.add(:base, :property_combination_already_used)
     end
   end
 
