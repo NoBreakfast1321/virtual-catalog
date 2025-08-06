@@ -25,12 +25,10 @@
 <% Faker::Company.unique.clear %>
 
 <% count.times do |i| %>
-  <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Company.unique.name[0..29] %>
   <% slug = name.parameterize[0..29] %>
 
   business_<%= i %>:
-    description: <%= description %>
     name: <%= name %>
     slug: <%= slug %>
     user: admin_user
