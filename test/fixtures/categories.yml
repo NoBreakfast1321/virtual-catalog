@@ -26,13 +26,11 @@
 <% count.times do |i| %>
   <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
-  <% visible = i.even? %>
 
   category_<%= i %>:
     description: <%= description %>
     name: <%= name %>
-    visible: <%= visible %>
-    business: business_1
+    business: business_0
 <% end %>
 
 <% Faker::Commerce.unique.clear %>
@@ -40,11 +38,9 @@
 <% count.times do |i| %>
   <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
-  <% visible = i.even? %>
 
   category_<%= i + n %>:
     description: <%= description %>
     name: <%= name %>
-    visible: <%= visible %>
-    business: business_2
+    business: business_1
 <% end %>

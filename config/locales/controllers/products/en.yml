@@ -5,7 +5,7 @@ en:
         restrict_product_creation: "You must create at least one category before creating a product."
       create:
         success: "Product was successfully created."
-      destroy:
-        success: "Product was successfully destroyed."
       update:
         success: "Product was successfully updated."
+      destroy:
+        success: "Product was successfully destroyed."

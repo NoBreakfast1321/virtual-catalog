@@ -15,11 +15,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
     end
 
-    add_index :products,
-              %i[business_id code],
-              unique: true,
-              where: "code IS NOT NULL AND code <> ''"
-
+    add_index :products, %i[business_id code], unique: true, where: "code <> ''"
     add_index :products, %i[business_id name], unique: true
     add_index :products, %i[business_id slug], unique: true
 
@@ -31,19 +27,19 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :products,
-      "available_from IS NULL OR available_until IS NULL OR available_from < available_until",
+      "NOT (available_from >= available_until)",
       name: "check_products_available_range",
     )
 
     add_check_constraint(
       :products,
-      "code IS NULL OR length(code) <= 50",
+      "length(code) <= 50",
       name: "check_products_code_length",
     )
 
     add_check_constraint(
       :products,
-      "description IS NULL OR length(description) <= 5000",
+      "length(description) <= 5000",
       name: "check_products_description_length",
     )
 
@@ -61,6 +57,18 @@ class CreateProducts < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :products,
+      "length(slug) <= 150",
+      name: "check_products_slug_length",
+    )
+
+    add_check_constraint(
+      :products,
+      "slug GLOB '[a-z0-9_-]*'",
+      name: "check_products_slug_format",
+    )
+
+    add_check_constraint(
+      :products,
       "visible IN (0, 1)",
       name: "check_products_visible_boolean",
     )
@@ -74,6 +82,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
                                 name: "check_products_available_range"
 
         remove_check_constraint :products, name: "check_products_code_length"
+
         remove_check_constraint :products,
                                 name: "check_products_description_length"
 
@@ -81,6 +90,9 @@ class CreateProducts < ActiveRecord::Migration[8.0]
                                 name: "check_products_featured_boolean"
 
         remove_check_constraint :products, name: "check_products_name_length"
+        remove_check_constraint :products, name: "check_products_slug_length"
+        remove_check_constraint :products, name: "check_products_slug_format"
+
         remove_check_constraint :products,
                                 name: "check_products_visible_boolean"
       end

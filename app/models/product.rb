@@ -52,6 +52,7 @@ class Product < ApplicationRecord
 
   validates :adult_only, inclusion: { in: [ true, false ] }
   validates :available_until, absence: true, if: -> { available_from.nil? }
+
   validates :available_until,
             comparison: {
               greater_than: :available_from
@@ -69,6 +70,7 @@ class Product < ApplicationRecord
 
   validates :description, length: { maximum: 5000 }, allow_blank: true
   validates :featured, inclusion: { in: [ true, false ] }
+
   validates :name,
             length: {
               maximum: 150
@@ -88,6 +90,7 @@ class Product < ApplicationRecord
             }
 
   validates :visible, inclusion: { in: [ true, false ] }
+
   validates :images,
             limit: {
               max: 10

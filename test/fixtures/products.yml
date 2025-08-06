@@ -27,41 +27,41 @@
 #
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
-<% n = 30 %>
+<% count = 30 %>
 
 <% Faker::Commerce.unique.clear %>
 
-<% n.times do |i| %>
+<% count.times do |i| %>
   <% description = Faker::Lorem.sentence(word_count: 50)[0..4999] %>
   <% name = Faker::Commerce.unique.product_name[0..149] %>
   <% code = name.parameterize[0..49] %>
   <% slug = name.parameterize[0..149] %>
 
-  product_<%= i + 1 %>:
+  product_<%= i %>:
+    code: <%= code %>
+    description: <%= description %>
+    name: <%= name %>
+    slug: <%= slug %>
+    business: business_0
+    categories:
+      - category_0
+<% end %>
+
+<% Faker::Commerce.unique.clear %>
+
+<% count.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 50)[0..4999] %>
+  <% name = Faker::Commerce.unique.product_name[0..149] %>
+  <% code = name.parameterize[0..49] %>
+  <% slug = name.parameterize[0..149] %>
+
+  product_<%= i + n %>:
     code: <%= code %>
     description: <%= description %>
     name: <%= name %>
     slug: <%= slug %>
     business: business_1
     categories:
+      - category_0
       - category_1
-<% end %>
-
-<% Faker::Commerce.unique.clear %>
-
-<% n.times do |i| %>
-  <% description = Faker::Lorem.sentence(word_count: 50)[0..4999] %>
-  <% name = Faker::Commerce.unique.product_name[0..149] %>
-  <% code = name.parameterize[0..49] %>
-  <% slug = name.parameterize[0..149] %>
-
-  product_<%= i + 1 + n %>:
-    code: <%= code %>
-    description: <%= description %>
-    name: <%= name %>
-    slug: <%= slug %>
-    business: business_2
-    categories:
-      - category_1
-      - category_2
 <% end %>

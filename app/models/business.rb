@@ -37,6 +37,7 @@ class Business < ApplicationRecord
   has_many :property_groups, dependent: :destroy
 
   validates :description, length: { maximum: 150 }, allow_blank: true
+
   validates :name,
             length: {
               maximum: 30

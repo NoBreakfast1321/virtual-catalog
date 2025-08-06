@@ -11,7 +11,6 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
     end
 
     add_index :businesses, :slug, unique: true
-
     add_index :businesses, %i[user_id name], unique: true
 
     add_check_constraint(
