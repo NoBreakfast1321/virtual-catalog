@@ -73,6 +73,9 @@
               <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
+              <%= sort_link(@q, :visible, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
               <%= sort_link(@q, :created_at, class: "table__head-cell-link group") %>
             </th>
             <th class="table__head-cell">
@@ -95,6 +98,9 @@
                 <%= option_group.minimum_selections %>
               </td>
               <td class="table__body-cell"><%= option_group.name %></td>
+              <td class="table__body-cell">
+                <%= option_group.visible? ? "Yes" : "No" %>
+              </td>
               <td class="table__body-cell table__body-cell--numeric">
                 <%= option_group.options.count %>
               </td>

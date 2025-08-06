@@ -23,10 +23,14 @@ class OptionGroup < ApplicationRecord
   audited
 
   include NameNormalizer
+  include VisibilityFilterer
 
   belongs_to :business
 
   has_many :options, dependent: :destroy
+
+  has_many :product_option_groups, dependent: :destroy
+  has_many :products, through: :product_option_groups
 
   validates :maximum_selections,
             numericality: {
@@ -51,7 +55,9 @@ class OptionGroup < ApplicationRecord
               scope: :business_id
             }
 
+  validates :visible, inclusion: { in: [ true, false ] }
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[maximum_selections minimum_selections name created_at updated_at]
+    %w[maximum_selections minimum_selections name visible created_at updated_at]
   end
 end

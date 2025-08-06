@@ -3,7 +3,7 @@ en:
     option_groups:
       create:
         success: "Option group was successfully created."
-      destroy:
-        success: "Option group was successfully destroyed."
       update:
         success: "Option group was successfully updated."
+      destroy:
+        success: "Option group was successfully destroyed."

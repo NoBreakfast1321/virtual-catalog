@@ -4,6 +4,7 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       t.integer :maximum_selections
       t.integer :minimum_selections, null: false, default: 1
       t.string :name, null: false, limit: 30
+      t.boolean :visible, null: false, default: true
       t.timestamps
 
       t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
@@ -13,7 +14,7 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :option_groups,
-      "maximum_selections IS NULL OR maximum_selections >= minimum_selections",
+      "maximum_selections >= minimum_selections",
       name: "check_option_groups_maximum_selections_gte_minimum_selections",
     )
 
@@ -29,6 +30,12 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       name: "check_option_groups_name_length",
     )
 
+    add_check_constraint(
+      :option_groups,
+      "visible IN (0, 1)",
+      name: "check_option_groups_visible_boolean",
+    )
+
     reversible do |direction|
       direction.down do
         remove_check_constraint :option_groups,
@@ -41,6 +48,9 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
 
         remove_check_constraint :option_groups,
                                 name: "check_option_groups_name_length"
+
+        remove_check_constraint :option_groups,
+                                name: "check_option_groups_visible_boolean"
       end
     end
   end

@@ -19,6 +19,12 @@
     <%= form.error :name, "form__error" %>
   </div>
 
+  <div class="form__group form__group--inline">
+    <%= form.checkbox :visible, class: "form__checkbox" %>
+    <%= form.label :visible, class: "form__label" %>
+    <%= form.error :visible, "form__error" %>
+  </div>
+
   <footer class="form__footer">
     <%= link_to "Cancel",
             (

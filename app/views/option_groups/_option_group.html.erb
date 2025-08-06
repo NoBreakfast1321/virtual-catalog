@@ -19,4 +19,11 @@
     <dt class="description-list__term">Name</dt>
     <dd class="description-list__definition"><%= option_group.name %></dd>
   </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Visible</dt>
+    <dd class="description-list__definition">
+      <%= option_group.visible? ? "Yes" : "No" %>
+    </dd>
+  </div>
 </dl>
