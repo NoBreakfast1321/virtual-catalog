@@ -19,28 +19,32 @@
 #
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
-<% n = 20 %>
+<% count = 20 %>
 
 <% Faker::Commerce.unique.clear %>
 
-<% n.times do |i| %>
-  <% description = Faker::Lorem.sentence(word_count: 6)[0..149] %>
+<% count.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+  <% visible = i.even? %>
 
-  category_<%= i + 1 %>:
+  category_<%= i %>:
     description: <%= description %>
     name: <%= name %>
+    visible: <%= visible %>
     business: business_1
 <% end %>
 
 <% Faker::Commerce.unique.clear %>
 
-<% n.times do |i| %>
-  <% description = Faker::Lorem.sentence(word_count: 6)[0..149] %>
+<% count.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+  <% visible = i.even? %>
 
-  category_<%= i + 1 + n %>:
+  category_<%= i + n %>:
     description: <%= description %>
     name: <%= name %>
+    visible: <%= visible %>
     business: business_2
 <% end %>

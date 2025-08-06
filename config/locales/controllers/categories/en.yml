@@ -3,7 +3,7 @@ en:
     categories:
       create:
         success: "Category was successfully created."
-      destroy:
-        success: "Category was successfully destroyed."
       update:
         success: "Category was successfully updated."
+      destroy:
+        success: "Category was successfully destroyed."
