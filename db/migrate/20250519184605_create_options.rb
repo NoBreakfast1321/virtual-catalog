@@ -2,6 +2,7 @@ class CreateOptions < ActiveRecord::Migration[8.0]
   def change
     create_table :options do |t|
       t.string :name, null: false, limit: 50
+
       t.monetize :price,
                  amount: {
                    null: false,
@@ -33,7 +34,7 @@ class CreateOptions < ActiveRecord::Migration[8.0]
     add_check_constraint(
       :options,
       "price_cents >= 0",
-      name: "check_options_price_nonnegative",
+      name: "check_options_price_cents_nonnegative",
     )
 
     add_check_constraint(
@@ -45,8 +46,9 @@ class CreateOptions < ActiveRecord::Migration[8.0]
     reversible do |direction|
       direction.down do
         remove_check_constraint :options, name: "check_options_name_length"
+
         remove_check_constraint :options,
-                                name: "check_options_price_nonnegative"
+                                name: "check_options_price_cents_nonnegative"
 
         remove_check_constraint :options, name: "check_options_visible_boolean"
       end
