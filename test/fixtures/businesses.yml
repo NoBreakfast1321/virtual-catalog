@@ -28,7 +28,7 @@
   <% name = Faker::Company.unique.name[0..29] %>
   <% slug = name.parameterize[0..29] %>
 
-  business_<%= i %>:
+  business_<%= i + 1 %>:
     name: <%= name %>
     slug: <%= slug %>
     user: admin_user

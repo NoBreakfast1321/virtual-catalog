@@ -17,24 +17,26 @@
 #
 #  business_id  (business_id => businesses.id) ON DELETE => cascade
 #
-<% n = 3 %>
+property_group_1:
+  name: "Color"
+  business: business_1
 
-<% Faker::Commerce.unique.clear %>
+property_group_2:
+  name: "Color"
+  business: business_2
 
-<% n.times do |i| %>
-  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+property_group_3:
+  name: "Construction"
+  business: business_1
 
-  property_group_<%= i + 1 %>:
-    name: <%= name %>
-    business: business_1
-<% end %>
+property_group_4:
+  name: "Construction"
+  business: business_2
 
-<% Faker::Commerce.unique.clear %>
+property_group_5:
+  name: "Measurement"
+  business: business_1
 
-<% n.times do |i| %>
-  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
-
-  property_group_<%= i + 1 + n %>:
-    name: <%= name %>
-    business: business_2
-<% end %>
+property_group_6:
+  name: "Measurement"
+  business: business_1

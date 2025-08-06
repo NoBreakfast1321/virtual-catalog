@@ -24,19 +24,19 @@
 <% Faker::Commerce.unique.clear %>
 
 <% count.times do |i| %>
-  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+  <% name = Faker::Commerce.unique.department(max: 1, fixed_amount: true)[0..29] %>
 
-  category_<%= i %>:
+  category_<%= i + 1 %>:
     name: <%= name %>
-    business: business_0
+    business: business_1
 <% end %>
 
 <% Faker::Commerce.unique.clear %>
 
 <% count.times do |i| %>
-  <% name = Faker::Commerce.unique.department(fixed_amount: true, max: 1)[0..29] %>
+  <% name = Faker::Commerce.unique.department(max: 1, fixed_amount: true)[0..29] %>
 
-  category_<%= i + n %>:
+  category_<%= i + 1 + count %>:
     name: <%= name %>
-    business: business_1
+    business: business_2
 <% end %>
