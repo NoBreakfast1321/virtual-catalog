@@ -25,9 +25,9 @@
 #
 #  product_id  (product_id => products.id) ON DELETE => cascade
 #
-<% n = 60 %>
+<% count = 60 %>
 
-<% n.times do |i| %>
+<% count.times do |i| %>
   <% code = "product-#{i + 1}-BASE" %>
   <% price_cents = rand(1000..5000) %>
 
