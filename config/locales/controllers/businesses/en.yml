@@ -3,7 +3,7 @@ en:
     businesses:
       create:
         success: "Business was successfully created."
-      destroy:
-        success: "Business was successfully destroyed."
       update:
         success: "Business was successfully updated."
+      destroy:
+        success: "Business was successfully destroyed."

@@ -37,7 +37,15 @@ class Business < ApplicationRecord
   has_many :property_groups, dependent: :destroy
 
   validates :description, length: { maximum: 150 }, allow_blank: true
-  validates :name, length: { maximum: 30 }, presence: true
+  validates :name,
+            length: {
+              maximum: 30
+            },
+            presence: true,
+            uniqueness: {
+              scope: :user_id
+            }
+
   validates :slug,
             format: {
               with: /\A[a-z0-9_-]+\z/

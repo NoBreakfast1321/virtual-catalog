@@ -20,16 +20,20 @@
 #
 #  user_id  (user_id => users.id) ON DELETE => cascade
 #
-<% n = 2 %>
+<% count = 2 %>
 
 <% Faker::Company.unique.clear %>
 
-<% n.times do |i| %>
+<% count.times do |i| %>
+  <% description = Faker::Lorem.sentence(word_count: 10)[0..149] %>
   <% name = Faker::Company.unique.name[0..29] %>
   <% slug = name.parameterize[0..29] %>
+  <% visible = i.even? %>
 
-  business_<%= i + 1 %>:
+  business_<%= i %>:
+    description: <%= description %>
     name: <%= name %>
     slug: <%= slug %>
+    visible: <%= visible %>
     user: admin_user
 <% end %>

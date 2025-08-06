@@ -12,9 +12,11 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
 
     add_index :businesses, :slug, unique: true
 
+    add_index :businesses, %i[user_id name], unique: true
+
     add_check_constraint(
       :businesses,
-      "description IS NULL OR length(description) <= 150",
+      "length(description) <= 150",
       name: "check_businesses_description_length",
     )
 
@@ -26,7 +28,13 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
 
     add_check_constraint(
       :businesses,
-      "length(slug) <= 30 AND slug GLOB '[a-z0-9_-]*'",
+      "length(slug) <= 30",
+      name: "check_businesses_slug_length",
+    )
+
+    add_check_constraint(
+      :businesses,
+      "slug GLOB '[a-z0-9_-]*'",
       name: "check_businesses_slug_format",
     )
 
@@ -43,6 +51,9 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
 
         remove_check_constraint :businesses,
                                 name: "check_businesses_name_length"
+
+        remove_check_constraint :businesses,
+                                name: "check_businesses_slug_length"
 
         remove_check_constraint :businesses,
                                 name: "check_businesses_slug_format"
