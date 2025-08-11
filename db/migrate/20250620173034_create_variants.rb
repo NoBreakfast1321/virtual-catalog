@@ -23,8 +23,10 @@ class CreateVariants < ActiveRecord::Migration[8.0]
 
       t.check_constraint("base IN (0, 1)", name: "check_variants_base_boolean")
 
-      t.check_constraint "base = 1 OR NULLIF(TRIM(signature), '') IS NOT NULL",
-                         name: "check_variants_signature_present_when_non_base"
+      t.check_constraint(
+        "base = 1 OR NULLIF(TRIM(signature), '') IS NOT NULL",
+        name: "check_variants_signature_present_when_non_base",
+      )
 
       t.check_constraint(
         "length(code) <= 50",
