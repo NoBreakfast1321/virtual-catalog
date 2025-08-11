@@ -17,9 +17,9 @@
 # Indexes
 #
 #  index_variants_on_product_id                (product_id)
-#  index_variants_on_product_id_and_base       (product_id) UNIQUE WHERE base = true
-#  index_variants_on_product_id_and_code       (product_id,code) UNIQUE WHERE code IS NOT NULL AND code <> ''
-#  index_variants_on_product_id_and_signature  (product_id,signature) UNIQUE WHERE base = false AND signature IS NOT NULL AND signature <> ''
+#  index_variants_on_product_id_and_base       (product_id) UNIQUE WHERE base = 1
+#  index_variants_on_product_id_and_code       (product_id,code) UNIQUE WHERE NULLIF(TRIM(code), '') IS NOT NULL
+#  index_variants_on_product_id_and_signature  (product_id,signature) UNIQUE WHERE base = 0 AND NULLIF(TRIM(signature), '') IS NOT NULL
 #
 # Foreign Keys
 #

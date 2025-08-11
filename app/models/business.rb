@@ -13,8 +13,9 @@
 #
 # Indexes
 #
-#  index_businesses_on_slug     (slug) UNIQUE
-#  index_businesses_on_user_id  (user_id)
+#  index_businesses_on_slug              (slug) UNIQUE
+#  index_businesses_on_user_id           (user_id)
+#  index_businesses_on_user_id_and_name  (user_id,name) UNIQUE
 #
 # Foreign Keys
 #

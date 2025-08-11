@@ -6,6 +6,7 @@
 #  maximum_selections :integer
 #  minimum_selections :integer          default(1), not null
 #  name               :string(30)       not null
+#  visible            :boolean          default(TRUE), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  business_id        :integer          not null

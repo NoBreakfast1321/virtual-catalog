@@ -70,10 +70,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["slug"], name: "index_businesses_on_slug", unique: true
+    t.index ["user_id", "name"], name: "index_businesses_on_user_id_and_name", unique: true
     t.index ["user_id"], name: "index_businesses_on_user_id"
-    t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_businesses_description_length"
+    t.check_constraint "length(description) <= 150", name: "check_businesses_description_length"
     t.check_constraint "length(name) <= 30", name: "check_businesses_name_length"
-    t.check_constraint "length(slug) <= 30 AND slug GLOB '[a-z0-9_-]*'", name: "check_businesses_slug_format"
+    t.check_constraint "length(slug) <= 30", name: "check_businesses_slug_length"
+    t.check_constraint "slug GLOB '[a-z0-9_-]*'", name: "check_businesses_slug_format"
     t.check_constraint "visible IN (0, 1)", name: "check_businesses_visible_boolean"
   end
 
@@ -86,7 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.integer "business_id", null: false
     t.index ["business_id", "name"], name: "index_categories_on_business_id_and_name", unique: true
     t.index ["business_id"], name: "index_categories_on_business_id"
-    t.check_constraint "description IS NULL OR length(description) <= 150", name: "check_categories_description_length"
+    t.check_constraint "length(description) <= 150", name: "check_categories_description_length"
     t.check_constraint "length(name) <= 30", name: "check_categories_name_length"
     t.check_constraint "visible IN (0, 1)", name: "check_categories_visible_boolean"
   end
@@ -95,14 +97,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.integer "maximum_selections"
     t.integer "minimum_selections", default: 1, null: false
     t.string "name", limit: 30, null: false
+    t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "business_id", null: false
     t.index ["business_id", "name"], name: "index_option_groups_on_business_id_and_name", unique: true
     t.index ["business_id"], name: "index_option_groups_on_business_id"
     t.check_constraint "length(name) <= 30", name: "check_option_groups_name_length"
-    t.check_constraint "maximum_selections IS NULL OR maximum_selections >= minimum_selections", name: "check_option_groups_maximum_selections_gte_minimum_selections"
+    t.check_constraint "maximum_selections >= minimum_selections", name: "check_option_groups_maximum_selections_gte_minimum_selections"
     t.check_constraint "minimum_selections >= 1", name: "check_option_groups_minimum_selections_gte_1"
+    t.check_constraint "visible IN (0, 1)", name: "check_option_groups_visible_boolean"
   end
 
   create_table "options", force: :cascade do |t|
@@ -116,15 +120,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.index ["option_group_id", "name"], name: "index_options_on_option_group_id_and_name", unique: true
     t.index ["option_group_id"], name: "index_options_on_option_group_id"
     t.check_constraint "length(name) <= 50", name: "check_options_name_length"
-    t.check_constraint "price_cents >= 0", name: "check_options_price_nonnegative"
+    t.check_constraint "price_cents >= 0", name: "check_options_price_cents_nonnegative"
     t.check_constraint "visible IN (0, 1)", name: "check_options_visible_boolean"
   end
 
   create_table "product_categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "category_id", null: false
     t.integer "product_id", null: false
+    t.integer "category_id", null: false
     t.index ["category_id", "product_id"], name: "index_product_categories_on_category_id_and_product_id"
     t.index ["category_id"], name: "index_product_categories_on_category_id"
     t.index ["product_id", "category_id"], name: "index_product_categories_on_product_id_and_category_id", unique: true
@@ -134,8 +138,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   create_table "product_option_groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "option_group_id", null: false
     t.integer "product_id", null: false
+    t.integer "option_group_id", null: false
     t.index ["option_group_id", "product_id"], name: "index_product_option_groups_on_option_group_id_and_product_id"
     t.index ["option_group_id"], name: "index_product_option_groups_on_option_group_id"
     t.index ["product_id", "option_group_id"], name: "index_product_option_groups_on_product_id_and_option_group_id", unique: true
@@ -166,16 +170,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "business_id", null: false
-    t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
+    t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true, where: "NULLIF(TRIM(code), '') IS NOT NULL"
     t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
     t.index ["business_id", "slug"], name: "index_products_on_business_id_and_slug", unique: true
     t.index ["business_id"], name: "index_products_on_business_id"
+    t.check_constraint "NOT (available_from >= available_until)", name: "check_products_available_range"
     t.check_constraint "adult_only IN (0, 1)", name: "check_products_adult_only_boolean"
-    t.check_constraint "available_from IS NULL OR available_until IS NULL OR available_from < available_until", name: "check_products_available_range"
-    t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_products_code_length"
-    t.check_constraint "description IS NULL OR length(description) <= 5000", name: "check_products_description_length"
     t.check_constraint "featured IN (0, 1)", name: "check_products_featured_boolean"
+    t.check_constraint "length(code) <= 50", name: "check_products_code_length"
+    t.check_constraint "length(description) <= 5000", name: "check_products_description_length"
     t.check_constraint "length(name) <= 150", name: "check_products_name_length"
+    t.check_constraint "length(slug) <= 150", name: "check_products_slug_length"
+    t.check_constraint "slug GLOB '[a-z0-9_-]*'", name: "check_products_slug_format"
     t.check_constraint "visible IN (0, 1)", name: "check_products_visible_boolean"
   end
 
@@ -214,8 +220,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   create_table "variant_properties", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "property_id", null: false
     t.integer "variant_id", null: false
+    t.integer "property_id", null: false
     t.index ["property_id", "variant_id"], name: "index_variant_properties_on_property_id_and_variant_id"
     t.index ["property_id"], name: "index_variant_properties_on_property_id"
     t.index ["variant_id", "property_id"], name: "index_variant_properties_on_variant_id_and_property_id", unique: true
@@ -233,14 +239,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
-    t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "code IS NOT NULL AND code <> ''"
-    t.index ["product_id", "signature"], name: "index_variants_on_product_id_and_signature", unique: true, where: "base = false AND signature IS NOT NULL AND signature <> ''"
+    t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true, where: "NULLIF(TRIM(code), '') IS NOT NULL"
+    t.index ["product_id", "signature"], name: "index_variants_on_product_id_and_signature", unique: true, where: "base = 0 AND NULLIF(TRIM(signature), '') IS NOT NULL"
     t.index ["product_id"], name: "index_variants_on_product_id"
-    t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = true"
+    t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = 1"
+    t.check_constraint "base = 1 OR NULLIF(TRIM(signature), '') IS NOT NULL", name: "check_variants_signature_present_when_non_base"
     t.check_constraint "base IN (0, 1)", name: "check_variants_base_boolean"
-    t.check_constraint "code IS NULL OR length(code) <= 50", name: "check_variants_code_length"
-    t.check_constraint "price_cents >= 0", name: "check_variants_price_nonnegative"
-    t.check_constraint "stock_quantity IS NULL OR stock_quantity >= 0", name: "check_variants_stock_quantity_nonnegative"
+    t.check_constraint "length(code) <= 50", name: "check_variants_code_length"
+    t.check_constraint "price_cents >= 0", name: "check_variants_price_cents_nonnegative"
+    t.check_constraint "stock_quantity >= 0", name: "check_variants_stock_quantity_nonnegative"
     t.check_constraint "visible IN (0, 1)", name: "check_variants_visible_boolean"
   end
 
