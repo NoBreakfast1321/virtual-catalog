@@ -5,6 +5,7 @@ en:
         variant:
           attributes:
             base:
+              only_one_base_variant_can_be_created: "only one base variant can be created"
               property_combination_already_used: "property combination already used"
             property_ids:
               must_select_property: "You must select a property."

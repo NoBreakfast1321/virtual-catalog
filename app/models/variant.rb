@@ -38,7 +38,16 @@ class Variant < ApplicationRecord
 
   monetize :price_cents
 
-  validates :base, inclusion: { in: [ true, false ] }
+  validates :base,
+            inclusion: {
+              in: [ true, false ]
+            },
+            uniqueness: {
+              scope: :product_id,
+              conditions: -> { where(base: true) },
+              message: :only_one_base_variant_can_be_created
+            },
+            if: :base?
 
   validates :code,
             length: {
@@ -71,8 +80,7 @@ class Variant < ApplicationRecord
 
   validates :visible, inclusion: { in: [ true, false ] }
 
-  validate :ensure_property_selection
-  validate :ensure_single_base_variant
+  validate :ensure_one_selection_per_group
 
   before_validation :generate_signature, on: %i[create update]
 
@@ -85,27 +93,25 @@ class Variant < ApplicationRecord
 
   private
 
-  def ensure_property_selection
-    return if base?
+  def ensure_one_selection_per_group
+    business = product&.business
 
-    return if product.blank?
+    return if business.blank?
 
-    return if product.business.blank?
+    required_ids = business.property_groups.select(:id).pluck(:id).sort
 
-    required_ids = product.business.property_groups.ids.sort
-    selected_ids = properties.map(&:property_group_id).uniq.sort
+    selected_ids =
+      properties
+        .select(:property_group_id)
+        .distinct
+        .pluck(:property_group_id)
+        .sort
 
     missing_ids = required_ids - selected_ids
 
+    return if missing_ids.empty?
+
     missing_ids.each { errors.add(:property_ids, :must_select_property) }
-  end
-
-  def ensure_single_base_variant
-    return unless base?
-
-    if product.variants.where(base: true).where.not(id: id).exists?
-      errors.add(:base, :property_combination_already_used)
-    end
   end
 
   def generate_signature
