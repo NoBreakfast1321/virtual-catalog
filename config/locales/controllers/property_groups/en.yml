@@ -3,7 +3,7 @@ en:
     property_groups:
       create:
         success: "Property group was successfully created."
-      destroy:
-        success: "Property group was successfully destroyed."
       update:
         success: "Property group was successfully updated."
+      destroy:
+        success: "Property group was successfully destroyed."

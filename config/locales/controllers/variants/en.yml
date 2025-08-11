@@ -3,7 +3,7 @@ en:
     variants:
       create:
         success: "Variant was successfully created."
-      destroy:
-        success: "Variant was successfully destroyed."
       update:
         success: "Variant was successfully updated."
+      destroy:
+        success: "Variant was successfully destroyed."

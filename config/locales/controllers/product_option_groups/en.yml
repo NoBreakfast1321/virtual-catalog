@@ -5,5 +5,3 @@ en:
         success: "Option group was successfully created."
       destroy:
         success: "Option group was successfully destroyed."
-      update:
-        success: "Option group was successfully updated."

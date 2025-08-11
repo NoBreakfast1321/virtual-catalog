@@ -5,5 +5,3 @@ en:
         success: "Property group was successfully created."
       destroy:
         success: "Property group was successfully destroyed."
-      update:
-        success: "Property group was successfully updated."
