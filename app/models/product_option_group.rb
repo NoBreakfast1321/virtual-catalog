@@ -21,11 +21,11 @@
 #  product_id       (product_id => products.id) ON DELETE => cascade
 #
 class ProductOptionGroup < ApplicationRecord
-  belongs_to :option_group
   belongs_to :product
+  belongs_to :option_group
 
-  validates :option_group, presence: true
   validates :product, presence: true
+  validates :option_group, presence: true
 
   validates :option_group_id, uniqueness: { scope: :product_id }
 end

@@ -24,6 +24,7 @@ class Option < ApplicationRecord
   audited
 
   include NameNormalizer
+  include VisibilityFilterer
 
   belongs_to :option_group
 

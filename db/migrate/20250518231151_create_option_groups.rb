@@ -8,50 +8,28 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
+
+      t.check_constraint(
+        "maximum_selections >= minimum_selections",
+        name: "check_option_groups_maximum_selections_gte_minimum_selections",
+      )
+
+      t.check_constraint(
+        "minimum_selections >= 1",
+        name: "check_option_groups_minimum_selections_gte_1",
+      )
+
+      t.check_constraint(
+        "length(name) <= 30",
+        name: "check_option_groups_name_length",
+      )
+
+      t.check_constraint(
+        "visible IN (0, 1)",
+        name: "check_option_groups_visible_boolean",
+      )
     end
 
     add_index :option_groups, %i[business_id name], unique: true
-
-    add_check_constraint(
-      :option_groups,
-      "maximum_selections >= minimum_selections",
-      name: "check_option_groups_maximum_selections_gte_minimum_selections",
-    )
-
-    add_check_constraint(
-      :option_groups,
-      "minimum_selections >= 1",
-      name: "check_option_groups_minimum_selections_gte_1",
-    )
-
-    add_check_constraint(
-      :option_groups,
-      "length(name) <= 30",
-      name: "check_option_groups_name_length",
-    )
-
-    add_check_constraint(
-      :option_groups,
-      "visible IN (0, 1)",
-      name: "check_option_groups_visible_boolean",
-    )
-
-    reversible do |direction|
-      direction.down do
-        remove_check_constraint :option_groups,
-                                name:
-                                  "check_option_groups_maximum_selections_gte_minimum_selections"
-
-        remove_check_constraint :option_groups,
-                                name:
-                                  "check_option_groups_minimum_selections_gte_1"
-
-        remove_check_constraint :option_groups,
-                                name: "check_option_groups_name_length"
-
-        remove_check_constraint :option_groups,
-                                name: "check_option_groups_visible_boolean"
-      end
-    end
   end
 end

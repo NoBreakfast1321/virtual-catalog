@@ -21,11 +21,11 @@
 #  variant_id   (variant_id => variants.id) ON DELETE => cascade
 #
 class VariantProperty < ApplicationRecord
-  belongs_to :property
   belongs_to :variant
+  belongs_to :property
 
-  validates :property, presence: true
   validates :variant, presence: true
+  validates :property, presence: true
 
   validates :property_id, uniqueness: { scope: :variant_id }
 end

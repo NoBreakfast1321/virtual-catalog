@@ -8,58 +8,34 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
+
+      t.check_constraint(
+        "length(description) <= 150",
+        name: "check_businesses_description_length",
+      )
+
+      t.check_constraint(
+        "length(name) <= 30",
+        name: "check_businesses_name_length",
+      )
+
+      t.check_constraint(
+        "length(slug) <= 30",
+        name: "check_businesses_slug_length",
+      )
+
+      t.check_constraint(
+        "slug GLOB '[a-z0-9_-]*'",
+        name: "check_businesses_slug_format",
+      )
+
+      t.check_constraint(
+        "visible IN (0, 1)",
+        name: "check_businesses_visible_boolean",
+      )
     end
 
     add_index :businesses, :slug, unique: true
     add_index :businesses, %i[user_id name], unique: true
-
-    add_check_constraint(
-      :businesses,
-      "length(description) <= 150",
-      name: "check_businesses_description_length",
-    )
-
-    add_check_constraint(
-      :businesses,
-      "length(name) <= 30",
-      name: "check_businesses_name_length",
-    )
-
-    add_check_constraint(
-      :businesses,
-      "length(slug) <= 30",
-      name: "check_businesses_slug_length",
-    )
-
-    add_check_constraint(
-      :businesses,
-      "slug GLOB '[a-z0-9_-]*'",
-      name: "check_businesses_slug_format",
-    )
-
-    add_check_constraint(
-      :businesses,
-      "visible IN (0, 1)",
-      name: "check_businesses_visible_boolean",
-    )
-
-    reversible do |direction|
-      direction.down do
-        remove_check_constraint :businesses,
-                                name: "check_businesses_description_length"
-
-        remove_check_constraint :businesses,
-                                name: "check_businesses_name_length"
-
-        remove_check_constraint :businesses,
-                                name: "check_businesses_slug_length"
-
-        remove_check_constraint :businesses,
-                                name: "check_businesses_slug_format"
-
-        remove_check_constraint :businesses,
-                                name: "check_businesses_visible_boolean"
-      end
-    end
   end
 end

@@ -21,11 +21,11 @@
 #  product_id   (product_id => products.id) ON DELETE => cascade
 #
 class ProductCategory < ApplicationRecord
-  belongs_to :category
   belongs_to :product
+  belongs_to :category
 
-  validates :category, presence: true
   validates :product, presence: true
+  validates :category, presence: true
 
   validates :category_id, uniqueness: { scope: :product_id }
 end

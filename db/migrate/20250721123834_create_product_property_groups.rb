@@ -4,6 +4,7 @@ class CreateProductPropertyGroups < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
+
       t.belongs_to :property_group,
                    null: false,
                    foreign_key: {

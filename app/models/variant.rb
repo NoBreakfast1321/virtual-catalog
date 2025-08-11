@@ -29,6 +29,7 @@ class Variant < ApplicationRecord
   audited
 
   include CodeNormalizer
+  include VisibilityFilterer
 
   belongs_to :product
 
@@ -38,6 +39,7 @@ class Variant < ApplicationRecord
   monetize :price_cents
 
   validates :base, inclusion: { in: [ true, false ] }
+
   validates :code,
             length: {
               maximum: 50

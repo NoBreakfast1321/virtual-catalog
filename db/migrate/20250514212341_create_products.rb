@@ -13,89 +13,58 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
+
+      t.check_constraint(
+        "adult_only IN (0, 1)",
+        name: "check_products_adult_only_boolean",
+      )
+
+      t.check_constraint(
+        "NOT (available_from >= available_until)",
+        name: "check_products_available_range",
+      )
+
+      t.check_constraint(
+        "length(code) <= 50",
+        name: "check_products_code_length",
+      )
+
+      t.check_constraint(
+        "length(description) <= 5000",
+        name: "check_products_description_length",
+      )
+
+      t.check_constraint(
+        "featured IN (0, 1)",
+        name: "check_products_featured_boolean",
+      )
+
+      t.check_constraint(
+        "length(name) <= 150",
+        name: "check_products_name_length",
+      )
+
+      t.check_constraint(
+        "length(slug) <= 150",
+        name: "check_products_slug_length",
+      )
+
+      t.check_constraint(
+        "slug GLOB '[a-z0-9_-]*'",
+        name: "check_products_slug_format",
+      )
+
+      t.check_constraint(
+        "visible IN (0, 1)",
+        name: "check_products_visible_boolean",
+      )
     end
 
-    add_index :products, %i[business_id code], unique: true, where: "code <> ''"
+    add_index :products,
+              %i[business_id code],
+              unique: true,
+              where: "NULLIF(TRIM(code), '') IS NOT NULL"
     add_index :products, %i[business_id name], unique: true
     add_index :products, %i[business_id slug], unique: true
-
-    add_check_constraint(
-      :products,
-      "adult_only IN (0, 1)",
-      name: "check_products_adult_only_boolean",
-    )
-
-    add_check_constraint(
-      :products,
-      "NOT (available_from >= available_until)",
-      name: "check_products_available_range",
-    )
-
-    add_check_constraint(
-      :products,
-      "length(code) <= 50",
-      name: "check_products_code_length",
-    )
-
-    add_check_constraint(
-      :products,
-      "length(description) <= 5000",
-      name: "check_products_description_length",
-    )
-
-    add_check_constraint(
-      :products,
-      "featured IN (0, 1)",
-      name: "check_products_featured_boolean",
-    )
-
-    add_check_constraint(
-      :products,
-      "length(name) <= 150",
-      name: "check_products_name_length",
-    )
-
-    add_check_constraint(
-      :products,
-      "length(slug) <= 150",
-      name: "check_products_slug_length",
-    )
-
-    add_check_constraint(
-      :products,
-      "slug GLOB '[a-z0-9_-]*'",
-      name: "check_products_slug_format",
-    )
-
-    add_check_constraint(
-      :products,
-      "visible IN (0, 1)",
-      name: "check_products_visible_boolean",
-    )
-
-    reversible do |direction|
-      direction.down do
-        remove_check_constraint :products,
-                                name: "check_products_adult_only_boolean"
-
-        remove_check_constraint :products,
-                                name: "check_products_available_range"
-
-        remove_check_constraint :products, name: "check_products_code_length"
-
-        remove_check_constraint :products,
-                                name: "check_products_description_length"
-
-        remove_check_constraint :products,
-                                name: "check_products_featured_boolean"
-
-        remove_check_constraint :products, name: "check_products_name_length"
-        remove_check_constraint :products, name: "check_products_slug_length"
-        remove_check_constraint :products, name: "check_products_slug_format"
-
-        remove_check_constraint :products,
-                                name: "check_products_visible_boolean"
-      end
-    end
   end
 end
