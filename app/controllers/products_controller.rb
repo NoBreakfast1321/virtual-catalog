@@ -23,11 +23,6 @@ class ProductsController < ApplicationController
   end
 
   def create
-    # Attach newly uploaded images to the product.
-    if params[:product][:images]
-      @product.images.attach(params[:product][:images])
-    end
-
     ActiveRecord::Base.transaction do
       @product.save!
 
@@ -48,16 +43,6 @@ class ProductsController < ApplicationController
   end
 
   def update
-    # Purge images that were marked for deletion.
-    if (image_ids = params.dig(:product, :purge_image_ids).presence)
-      @product.images.attachments.where(id: image_ids.map(&:to_i)).each(&:purge)
-    end
-
-    # Attach newly uploaded images to the product.
-    if params[:product][:images]
-      @product.images.attach(params[:product][:images])
-    end
-
     ActiveRecord::Base.transaction do
       @product.update!(product_params)
 

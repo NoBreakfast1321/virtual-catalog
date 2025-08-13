@@ -33,6 +33,21 @@
 </section>
 
 <details data-controller="details" class="card">
+  <summary class="card__header">
+    <div>
+      <h2 class="card__heading">Images</h2>
+      <p class="card__description">Here is a preview of all attached images.</p>
+    </div>
+  </summary>
+
+  <div class="card__body">
+    <%= turbo_frame_tag turbo_frame_id(:product_images) do %>
+      <%= render "product_images/form", business: @business, product: @product %>
+    <% end %>
+  </div>
+</details>
+
+<details data-controller="details" class="card">
   <summary class="card__header card__header--with-actions">
     <div>
       <h2 class="card__heading">Variants</h2>

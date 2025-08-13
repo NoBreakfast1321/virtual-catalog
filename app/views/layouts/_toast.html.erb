@@ -1,11 +1,7 @@
 <% flash.each do |flash_type, message| %>
   <% is_alert = flash_type == "alert" %>
 
-  <div
-    data-controller="toast"
-    data-toast-timeout-value="5000"
-    class="toast <%= "toast--alert" if is_alert %>"
-  >
+  <div data-controller="toast" class="toast <%= "toast--alert" if is_alert %>">
     <% if is_alert %>
       <i class="toast__icon--alert ri-alert-line"></i>
     <% else %>

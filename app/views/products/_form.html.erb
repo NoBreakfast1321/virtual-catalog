@@ -74,50 +74,6 @@
     <%= form.error :visible, "form__error" %>
   </div>
 
-  <div data-controller="image-preview" class="form__group">
-    <%= form.label :images, class: "form__label" %>
-    <%= form.file_field :images,
-                    data: {
-                      image_preview_target: "input",
-                      action: "change->image-preview#preview",
-                    },
-                    accept: "image/jpeg, image/png, image/webp",
-                    multiple: true,
-                    class: "form__input" %>
-
-    <%= form.error :images, "form__error" %>
-
-    <div
-      data-image-preview-target="preview"
-      class="mt-2 flex flex-wrap gap-4"
-    ></div>
-  </div>
-
-  <% if product.persisted? && product.images.attached? %>
-    <div class="mt-2 grid grid-cols-3 gap-4">
-      <% product.images.each do |image| %>
-        <% if image.persisted? %>
-          <div class="relative">
-            <%= image_tag image.variant(resize_to_limit: [300, 300]),
-                      class:
-                        "w-full rounded-md outline outline-1 -outline-offset-1 outline-gray-300" %>
-
-            <label
-              class="form__group form__group--inline absolute right-1 top-1 rounded-md bg-white px-2 py-0.5"
-            >
-              <%= check_box_tag "product[purge_image_ids][]",
-                            id: image.id,
-                            value: image.id,
-                            class: "form__checkbox" %>
-
-              <span class="form__label">Remove</span>
-            </label>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-
   <div class="form__group">
     <%= form.label :category_ids, "Categories", class: "form__label" %>
     <%= form.collection_select :category_ids,

@@ -1,0 +1,7 @@
+<%= render_toast %>
+
+<%= turbo_stream.replace turbo_frame_id(:product_images) do %>
+  <%= turbo_frame_tag turbo_frame_id(:product_images) do %>
+    <%= render "product_images/form", business: @business, product: @product %>
+  <% end %>
+<% end %>

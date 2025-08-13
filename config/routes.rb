@@ -55,6 +55,8 @@
 #                                             PATCH  /businesses/:business_id/property_groups/:id(.:format)                                            property_groups#update
 #                                             PUT    /businesses/:business_id/property_groups/:id(.:format)                                            property_groups#update
 #                                             DELETE /businesses/:business_id/property_groups/:id(.:format)                                            property_groups#destroy
+#             business_product_product_images PATCH  /businesses/:business_id/products/:product_id/product_images(.:format)                            product_images#update
+#                                             PUT    /businesses/:business_id/products/:product_id/product_images(.:format)                            product_images#update
 #      business_product_product_option_groups POST   /businesses/:business_id/products/:product_id/product_option_groups(.:format)                     product_option_groups#create
 #   new_business_product_product_option_group GET    /businesses/:business_id/products/:product_id/product_option_groups/new(.:format)                 product_option_groups#new
 #       business_product_product_option_group DELETE /businesses/:business_id/products/:product_id/product_option_groups/:id(.:format)                 product_option_groups#destroy
@@ -140,6 +142,8 @@ Rails.application.routes.draw do
     end
 
     resources :products do
+      resource :product_images, only: [ :update ]
+
       resources :product_option_groups, only: %i[new create destroy]
       resources :product_property_groups, only: %i[new create destroy]
       resources :variants, except: %i[index show]
