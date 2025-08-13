@@ -2,4 +2,4 @@ en:
   controllers:
     product_images:
       update:
-        success: "Success!"
+        success: "Images were successfully uploaded."
