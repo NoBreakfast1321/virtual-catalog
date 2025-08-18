@@ -26,17 +26,17 @@ property_group_2:
   business: business_2
 
 property_group_3:
-  name: "Construction"
+  name: "Material"
   business: business_1
 
 property_group_4:
-  name: "Construction"
+  name: "Material"
   business: business_2
 
 property_group_5:
-  name: "Measurement"
+  name: "Size"
   business: business_1
 
 property_group_6:
-  name: "Measurement"
+  name: "Size"
   business: business_2
