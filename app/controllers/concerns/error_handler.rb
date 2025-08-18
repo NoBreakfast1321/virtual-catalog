@@ -5,20 +5,18 @@ module ErrorHandler
 
   private
 
-  def handle_error
-    def handle_error(exception)
-      case exception
-      when ActiveRecord::RecordInvalid
-        render_validation_error(exception)
-      else
-        render_general_error(exception)
-      end
+  def handle_error(exception)
+    case exception
+    when ActiveRecord::RecordInvalid
+      render_validation_error(exception)
+    else
+      render_general_error(exception)
     end
   end
 
   def render_validation_error(exception)
     respond_to do |format|
-      format.html { render template, status: :unprocessable_entity }
+      format.html { render template, status: :unprocessable_content }
     end
   end
 
@@ -27,13 +25,13 @@ module ErrorHandler
       format.html do
         flash.now[:alert] = exception.message
 
-        render template, status: :unprocessable_entity
+        render template, status: :unprocessable_content
       end
 
       format.turbo_stream do
         flash.now[:alert] = exception.message
 
-        render turbo_stream: render_toast, status: :unprocessable_entity
+        render turbo_stream: render_toast, status: :unprocessable_content
       end
     end
   end
