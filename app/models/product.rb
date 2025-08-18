@@ -108,7 +108,6 @@ class Product < ApplicationRecord
   validates :categories, presence: true
 
   before_validation :generate_slug, on: %i[create update]
-  before_validation :normalize_code
 
   # 🔞 Audience scopes
   scope :adult, -> { where(adult_only: true) }
