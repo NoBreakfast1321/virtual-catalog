@@ -69,7 +69,7 @@
 
   <div class="card__body">
     <header class="table__head-row grid form--grid">
-      <% @business.property_groups.each do |property_group| %>
+      <% @product.property_groups.by_earliest_created.each do |property_group| %>
         <div class="table__head-cell"><%= property_group.name %></div>
       <% end %>
 

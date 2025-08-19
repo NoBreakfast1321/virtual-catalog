@@ -94,29 +94,25 @@ class Variant < ApplicationRecord
   private
 
   def ensure_one_selection_per_group
-    business = product&.business
+    return if product.nil?
 
-    return if business.blank?
+    required_group_ids = product.property_groups.ids
 
-    required_ids = business.property_groups.select(:id).pluck(:id).sort
+    return if required_group_ids.empty?
 
-    selected_ids =
-      properties
-        .select(:property_group_id)
-        .distinct
-        .pluck(:property_group_id)
-        .sort
+    selected_group_ids = properties.map(&:property_group_id).uniq.compact
 
-    missing_ids = required_ids - selected_ids
+    missing_group_ids = required_group_ids - selected_group_ids
 
-    return if missing_ids.empty?
+    return if missing_group_ids.empty?
 
-    missing_ids.each { errors.add(:property_ids, :must_select_property) }
+    errors.add(:property_ids, :must_select_property)
   end
 
   def generate_signature
     return if base?
 
-    self.signature = properties.pluck(:id).sort.join("-")
+    self.signature = properties.by_group_earliest_created.map(&:id).join("-")
+  end
   end
 end

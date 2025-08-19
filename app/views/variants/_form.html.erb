@@ -2,7 +2,7 @@
 
 <%= errable_form_with model: [business, product, variant],
                   class: "table__body-row table__divider form form--grid" do |form| %>
-  <% business.property_groups.each_with_index do |property_group, index| %>
+  <% product.property_groups.by_earliest_created.each_with_index do |property_group, index| %>
     <div class="table__body-cell table__body-cell--center form__group">
       <%= form.collection_select :property_ids,
                              property_group.properties,
