@@ -21,21 +21,6 @@ class CreateOptions < ActiveRecord::Migration[8.0]
                    foreign_key: {
                      on_delete: :cascade
                    }
-
-      t.check_constraint(
-        "length(name) <= 50",
-        name: "check_options_name_length",
-      )
-
-      t.check_constraint(
-        "price_cents >= 0",
-        name: "check_options_price_cents_nonnegative",
-      )
-
-      t.check_constraint(
-        "visible IN (0, 1)",
-        name: "check_options_visible_boolean",
-      )
     end
 
     add_index :options, %i[option_group_id name], unique: true

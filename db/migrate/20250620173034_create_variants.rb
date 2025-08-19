@@ -20,33 +20,6 @@ class CreateVariants < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.belongs_to :product, null: false, foreign_key: { on_delete: :cascade }
-
-      t.check_constraint("base IN (0, 1)", name: "check_variants_base_boolean")
-
-      t.check_constraint(
-        "base = 1 OR NULLIF(TRIM(signature), '') IS NOT NULL",
-        name: "check_variants_signature_present_when_non_base",
-      )
-
-      t.check_constraint(
-        "length(code) <= 50",
-        name: "check_variants_code_length",
-      )
-
-      t.check_constraint(
-        "price_cents >= 0",
-        name: "check_variants_price_cents_nonnegative",
-      )
-
-      t.check_constraint(
-        "stock_quantity >= 0",
-        name: "check_variants_stock_quantity_nonnegative",
-      )
-
-      t.check_constraint(
-        "visible IN (0, 1)",
-        name: "check_variants_visible_boolean",
-      )
     end
 
     add_index :variants,
@@ -55,14 +28,11 @@ class CreateVariants < ActiveRecord::Migration[8.0]
               where: "base = 1",
               name: "index_variants_on_product_id_and_base"
 
-    add_index :variants,
-              %i[product_id code],
-              unique: true,
-              where: "NULLIF(TRIM(code), '') IS NOT NULL"
+    add_index :variants, %i[product_id code], unique: true
 
     add_index :variants,
               %i[product_id signature],
               unique: true,
-              where: "base = 0 AND NULLIF(TRIM(signature), '') IS NOT NULL"
+              where: "base = 0 AND signature IS NOT NULL"
   end
 end

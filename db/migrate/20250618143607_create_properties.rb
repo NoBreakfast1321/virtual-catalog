@@ -9,11 +9,6 @@ class CreateProperties < ActiveRecord::Migration[8.0]
                    foreign_key: {
                      on_delete: :cascade
                    }
-
-      t.check_constraint(
-        "length(name) <= 50",
-        name: "check_properties_name_length",
-      )
     end
 
     add_index :properties, %i[property_group_id name], unique: true
