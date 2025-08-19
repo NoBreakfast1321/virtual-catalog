@@ -4,7 +4,9 @@
 
 <%= turbo_frame_tag turbo_frame_id(product_property_group) do %>
   <div class="flex justify-between items-center mb-4">
-    <h2 class="card__heading mb-2"><%= property_group.name %></h2>
+    <h2 class="card__heading mb-2">
+      <%= link_to property_group.name, [business, property_group] %>
+    </h2>
 
     <%= button_to "Destroy",
               [business, product, product_property_group],
