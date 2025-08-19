@@ -3,25 +3,16 @@
 <% property_group = product_property_group.property_group %>
 
 <%= turbo_frame_tag turbo_frame_id(product_property_group) do %>
-  <h2 class="card__heading mb-2"><%= property_group.name %></h2>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="card__heading mb-2"><%= property_group.name %></h2>
 
-  <ul class="card__description mb-4">
-    <% property_group.properties.each do |property| %>
-      <li>
-        <%= render "properties/property",
-               business: business,
-               property_group: property_group,
-               property: property %>
-      </li>
-    <% end %>
-  </ul>
-
-  <%= button_to "Destroy",
-            [business, product, product_property_group],
-            method: :delete,
-            data: {
-              turbo_confirm:
-                "Are you sure you want to destroy this property group?",
-            },
-            class: "button button--danger" %>
+    <%= button_to "Destroy",
+              [business, product, product_property_group],
+              method: :delete,
+              data: {
+                turbo_confirm:
+                  "Are you sure you want to destroy this property group?",
+              },
+              class: "button button--danger" %>
+  </div>
 <% end %>
