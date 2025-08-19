@@ -64,6 +64,7 @@ class CreateProducts < ActiveRecord::Migration[8.0]
               %i[business_id code],
               unique: true,
               where: "NULLIF(TRIM(code), '') IS NOT NULL"
+
     add_index :products, %i[business_id name], unique: true
     add_index :products, %i[business_id slug], unique: true
   end
