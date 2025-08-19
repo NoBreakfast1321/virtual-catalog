@@ -45,13 +45,13 @@ class CreateProducts < ActiveRecord::Migration[8.0]
       )
 
       t.check_constraint(
-        "length(slug) <= 150",
-        name: "check_products_slug_length",
+        "slug GLOB '[a-z0-9_-]*'",
+        name: "check_products_slug_format",
       )
 
       t.check_constraint(
-        "slug GLOB '[a-z0-9_-]*'",
-        name: "check_products_slug_format",
+        "length(slug) <= 150",
+        name: "check_products_slug_length",
       )
 
       t.check_constraint(
