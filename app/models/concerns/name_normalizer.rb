@@ -6,6 +6,6 @@ module NameNormalizer
   private
 
   def normalize_name
-    self.name = name.strip if name.present?
+    self.name = name&.strip&.presence
   end
 end
