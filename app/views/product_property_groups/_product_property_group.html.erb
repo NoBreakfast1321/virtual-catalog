@@ -3,7 +3,7 @@
 <% property_group = product_property_group.property_group %>
 
 <%= turbo_frame_tag turbo_frame_id(product_property_group) do %>
-  <div class="flex justify-between items-center mb-4">
+  <div class="mb-4 flex items-center justify-between">
     <h2 class="card__heading mb-2">
       <%= link_to property_group.name, [business, property_group] %>
     </h2>
