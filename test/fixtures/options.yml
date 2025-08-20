@@ -1,0 +1,74 @@
+# == Schema Information
+#
+# Table name: options
+#
+#  id              :integer          not null, primary key
+#  name            :string(50)       not null
+#  price_cents     :integer          default(0), not null
+#  price_currency  :string           default("USD"), not null
+#  visible         :boolean          default(TRUE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  option_group_id :integer          not null
+#
+# Indexes
+#
+#  index_options_on_option_group_id           (option_group_id)
+#  index_options_on_option_group_id_and_name  (option_group_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  option_group_id  (option_group_id => option_groups.id) ON DELETE => cascade
+#
+<% count = 10 %>
+
+<% Faker::Food.unique.clear %>
+
+<% count.times do |i| %>
+  <% name = Faker::Food.unique.ingredient.capitalize[0..49] %>
+  <% price_cents = rand(100..500) %>
+
+  property_ingredient_<%= i + 1 %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_1
+
+  property_ingredient_<%= i + 1 + count %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_2
+<% end %>
+
+<% Faker::Food.unique.clear %>
+
+<% count.times do |i| %>
+  <% name = Faker::Food.unique.spice[0..49] %>
+  <% price_cents = rand(100..500) %>
+
+  property_spice_<%= i + 1 %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_3
+
+  property_spice_<%= i + 1 + count %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_4
+<% end %>
+
+<% Faker::Food.unique.clear %>
+
+<% count.times do |i| %>
+  <% name = Faker::Food.unique.vegetables[0..49] %>
+  <% price_cents = rand(100..500) %>
+
+  property_vegetables_<%= i + 1 %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_5
+
+  property_vegetables_<%= i + 1 + count %>:
+    name: <%= name %>
+    price_cents: <%= price_cents %>
+    property_group: property_group_6
+<% end %>

@@ -1,0 +1,45 @@
+# == Schema Information
+#
+# Table name: option_groups
+#
+#  id                 :integer          not null, primary key
+#  maximum_selections :integer
+#  minimum_selections :integer          default(1), not null
+#  name               :string(30)       not null
+#  visible            :boolean          default(TRUE), not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  business_id        :integer          not null
+#
+# Indexes
+#
+#  index_option_groups_on_business_id           (business_id)
+#  index_option_groups_on_business_id_and_name  (business_id,name) UNIQUE
+#
+# Foreign Keys
+#
+#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#
+option_group_1:
+  name: "Ingredient"
+  business: business_1
+
+option_group_2:
+  name: "Ingredient"
+  business: business_2
+
+option_group_3:
+  name: "Spice"
+  business: business_1
+
+option_group_4:
+  name: "Spice"
+  business: business_2
+
+option_group_5:
+  name: "Vegetables"
+  business: business_1
+
+option_group_6:
+  name: "Vegetables"
+  business: business_2
