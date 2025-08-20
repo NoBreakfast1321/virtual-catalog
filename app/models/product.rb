@@ -19,7 +19,7 @@
 # Indexes
 #
 #  index_products_on_business_id           (business_id)
-#  index_products_on_business_id_and_code  (business_id,code) UNIQUE WHERE NULLIF(TRIM(code), '') IS NOT NULL
+#  index_products_on_business_id_and_code  (business_id,code) UNIQUE
 #  index_products_on_business_id_and_name  (business_id,name) UNIQUE
 #  index_products_on_business_id_and_slug  (business_id,slug) UNIQUE
 #
@@ -174,6 +174,9 @@ class Product < ApplicationRecord
     self.slug = name.parameterize[0..49]
 
     if slug.blank?
+      # TODO: Switch to this once the UI supports proper error message display.
+      # errors.add(:slug, :invalid_slug)
+
       errors.add(:name, :invalid_slug)
 
       throw(:abort)
