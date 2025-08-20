@@ -6,6 +6,7 @@ en:
           attributes:
             base:
               only_one_base_variant_can_be_created: "only one base variant can be created"
-              property_combination_already_used: "property combination already used"
+              product_without_property_group: "product must have at least one property group"
             property_ids:
               must_select_property: "You must select a property."
+              property_combination_already_used: "property combination already used"
