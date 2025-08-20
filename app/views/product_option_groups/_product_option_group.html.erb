@@ -3,25 +3,18 @@
 <% option_group = product_option_group.option_group %>
 
 <%= turbo_frame_tag turbo_frame_id(product_option_group) do %>
-  <h2 class="card__heading mb-2"><%= option_group.name %></h2>
+  <div class="mb-4 flex items-center justify-between">
+    <h2 class="card__heading mb-2">
+      <%= link_to option_group.name, [business, option_group] %>
+    </h2>
 
-  <ul class="card__description mb-4">
-    <% option_group.options.each do |option| %>
-      <li>
-        <%= render "options/option",
-               business: business,
-               option_group: option_group,
-               option: option %>
-      </li>
-    <% end %>
-  </ul>
-
-  <%= button_to "Destroy",
-            [business, product, product_option_group],
-            method: :delete,
-            data: {
-              turbo_confirm:
-                "Are you sure you want to destroy this option group?",
-            },
-            class: "button button--danger" %>
+    <%= button_to "Destroy",
+              [business, product, product_option_group],
+              method: :delete,
+              data: {
+                turbo_confirm:
+                  "Are you sure you want to destroy this option group?",
+              },
+              class: "button button--danger" %>
+  </div>
 <% end %>
