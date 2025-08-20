@@ -35,11 +35,4 @@ class Property < ApplicationRecord
             uniqueness: {
               scope: :property_group
             }
-
-  scope :by_group_earliest_created,
-        -> do
-          joins(:property_group).order(
-            "property_groups.created_at ASC, properties.id ASC",
-          )
-        end
 end
