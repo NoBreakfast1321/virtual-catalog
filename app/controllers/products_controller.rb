@@ -110,7 +110,7 @@ class ProductsController < ApplicationController
   end
 
   def restrict_product_creation
-    if @business.categories.empty?
+    unless @business.categories.any?
       redirect_to new_business_category_path(@business),
                   alert: t_controller("callbacks.restrict_product_creation")
     end
