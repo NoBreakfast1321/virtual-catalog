@@ -1,0 +1,48 @@
+<%# locals: (business:, product:) %>
+
+<%= turbo_frame_tag turbo_frame_id(:variants) do %>
+  <% if product.property_groups.exists? %>
+    <details data-controller="details" class="card">
+      <summary class="card__header card__header--with-actions">
+        <div>
+          <h2 class="card__heading">Variants</h2>
+          <p class="card__description">
+            Here is a list of all associated variants.
+          </p>
+        </div>
+
+        <nav class="card__actions">
+          <%= link_to "New",
+                  new_business_product_variant_path(business, product),
+                  data: {
+                    turbo_frame: turbo_frame_id(Variant.new),
+                    action: "click->details#open",
+                  },
+                  class: "button button--action" %>
+        </nav>
+      </summary>
+
+      <div class="card__body">
+        <header class="table__head-row grid form--grid">
+          <% product.property_groups.by_earliest_created.each do |property_group| %>
+            <div class="table__head-cell"><%= property_group.name %></div>
+          <% end %>
+          <div class="table__head-cell">Code</div>
+          <div class="table__head-cell">Price</div>
+          <div class="table__head-cell">Stock quantity</div>
+          <div class="table__head-cell">Visible</div>
+          <div class="table__head-cell"></div>
+        </header>
+
+        <%= turbo_frame_tag turbo_frame_id(Variant.new) %>
+
+        <% product.variants.non_base.by_recently_created.each do |variant| %>
+          <%= render "variants/variant",
+                 business: business,
+                 product: product,
+                 variant: variant %>
+        <% end %>
+      </div>
+    </details>
+  <% end %>
+<% end %>
