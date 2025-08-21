@@ -91,7 +91,9 @@ class Variant < ApplicationRecord
   validate :ensure_one_selection_per_group
   validate :product_must_have_property_group, on: :create, unless: :base?
 
-  before_validation :generate_property_combination, on: %i[create update], unless: :base?
+  before_validation :generate_property_combination,
+                    on: %i[create update],
+                    unless: :base?
 
   scope :base, -> { where(base: true) }
   scope :not_base, -> { where(base: false) }
