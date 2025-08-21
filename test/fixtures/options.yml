@@ -28,15 +28,15 @@
   <% name = Faker::Food.unique.ingredient.capitalize[0..49] %>
   <% price_cents = rand(100..500) %>
 
-  property_ingredient_<%= i + 1 %>:
+  option_ingredient_<%= i + 1 %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_1
+    option_group: option_group_1
 
-  property_ingredient_<%= i + 1 + count %>:
+  option_ingredient_<%= i + 1 + count %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_2
+    option_group: option_group_2
 <% end %>
 
 <% Faker::Food.unique.clear %>
@@ -45,15 +45,15 @@
   <% name = Faker::Food.unique.spice[0..49] %>
   <% price_cents = rand(100..500) %>
 
-  property_spice_<%= i + 1 %>:
+  option_spice_<%= i + 1 %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_3
+    option_group: option_group_3
 
-  property_spice_<%= i + 1 + count %>:
+  option_spice_<%= i + 1 + count %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_4
+    option_group: option_group_4
 <% end %>
 
 <% Faker::Food.unique.clear %>
@@ -62,13 +62,13 @@
   <% name = Faker::Food.unique.vegetables[0..49] %>
   <% price_cents = rand(100..500) %>
 
-  property_vegetables_<%= i + 1 %>:
+  option_vegetables_<%= i + 1 %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_5
+    option_group: option_group_5
 
-  property_vegetables_<%= i + 1 + count %>:
+  option_vegetables_<%= i + 1 + count %>:
     name: <%= name %>
     price_cents: <%= price_cents %>
-    property_group: property_group_6
+    option_group: option_group_6
 <% end %>
