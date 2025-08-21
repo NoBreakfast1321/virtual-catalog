@@ -205,7 +205,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   create_table "variants", force: :cascade do |t|
     t.integer "product_id", null: false
     t.string "code", limit: 50
-    t.string "signature"
+    t.string "property_combination"
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.integer "stock_quantity"
@@ -214,7 +214,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true
-    t.index ["product_id", "signature"], name: "index_variants_on_product_id_and_signature", unique: true, where: "base = 0 AND signature IS NOT NULL"
+    t.index ["product_id", "property_combination"], name: "index_variants_on_product_id_and_property_combination", unique: true, where: "base = 0 AND property_combination IS NOT NULL"
     t.index ["product_id"], name: "index_variants_on_product_id"
     t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = 1"
   end

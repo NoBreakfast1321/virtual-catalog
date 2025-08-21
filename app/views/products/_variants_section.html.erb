@@ -1,7 +1,7 @@
 <%# locals: (business:, product:) %>
 
-<%= turbo_frame_tag turbo_frame_id(:variants) do %>
-  <% if product.property_groups.exists? %>
+<%= turbo_frame_tag turbo_frame_id(:variants_section) do %>
+  <% if product.property_groups.any? %>
     <details data-controller="details" class="card">
       <summary class="card__header card__header--with-actions">
         <div>
@@ -36,11 +36,13 @@
 
         <%= turbo_frame_tag turbo_frame_id(Variant.new) %>
 
-        <% product.variants.non_base.by_recently_created.each do |variant| %>
-          <%= render "variants/variant",
-                 business: business,
-                 product: product,
-                 variant: variant %>
+        <%= turbo_frame_tag turbo_frame_id(:variants) do %>
+          <% product.variants.not_base.by_recently_created.each do |variant| %>
+            <%= render "variants/variant",
+                  business: business,
+                  product: product,
+                  variant: variant %>
+          <% end %>
         <% end %>
       </div>
     </details>

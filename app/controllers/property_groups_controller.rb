@@ -5,7 +5,7 @@ class PropertyGroupsController < ApplicationController
   before_action :set_property_group, only: %i[show edit update destroy]
   before_action :build_property_group_with_params, only: %i[create]
   before_action :build_property_group_without_params, only: %i[new]
-  before_action :set_non_base_variants, only: %i[create destroy]
+  before_action :set_not_base_variants, only: %i[create destroy]
 
   def index
     @q = @business.property_groups.ransack(params[:q])
@@ -25,7 +25,7 @@ class PropertyGroupsController < ApplicationController
     ActiveRecord::Base.transaction do
       @property_group.save!
 
-      @non_base_variants.each(&:destroy!)
+      @not_base_variants.each(&:destroy!)
     end
 
     respond_to do |format|
@@ -49,7 +49,7 @@ class PropertyGroupsController < ApplicationController
 
   def destroy
     ActiveRecord::Base.transaction do
-      @non_base_variants.each(&:destroy!)
+      @not_base_variants.each(&:destroy!)
 
       @property_group.destroy!
     end
@@ -82,9 +82,9 @@ class PropertyGroupsController < ApplicationController
     @property_group = @business.property_groups.build
   end
 
-  def set_non_base_variants
-    @non_base_variants =
-      Variant.where(product: @property_group.products).non_base
+  def set_not_base_variants
+    @not_base_variants =
+      Variant.where(product: @property_group.products).not_base
   end
 
   # Only allow a list of trusted parameters through.

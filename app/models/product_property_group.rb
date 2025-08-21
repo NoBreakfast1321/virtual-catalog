@@ -21,11 +21,19 @@
 #  property_group_id  (property_group_id => property_groups.id) ON DELETE => restrict
 #
 class ProductPropertyGroup < ApplicationRecord
+  # 1) Associations (FKs)
   belongs_to :product
   belongs_to :property_group
 
-  validates :product, presence: true
-  validates :property_group, presence: true
+  # 2) Identifiers / business keys
+  validates :product_id, uniqueness: { scope: %i[property_group_id] }
 
-  validates :property_group_id, uniqueness: { scope: :product_id }
+  # 3) Domain fields
+  # (none here)
+
+  # 4) State flags
+  # (none here)
+
+  # 5) Domain temporal attributes
+  # (none here)
 end

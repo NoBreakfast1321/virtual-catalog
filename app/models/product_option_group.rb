@@ -21,11 +21,19 @@
 #  product_id       (product_id => products.id) ON DELETE => cascade
 #
 class ProductOptionGroup < ApplicationRecord
+  # 1) Associations (FKs)
   belongs_to :product
   belongs_to :option_group
 
-  validates :product, presence: true
-  validates :option_group, presence: true
+  # 2) Identifiers / business keys
+  validates :product_id, uniqueness: { scope: %i[option_group_id] }
 
-  validates :option_group_id, uniqueness: { scope: :product_id }
+  # 3) Domain fields
+  # (none here)
+
+  # 4) State flags
+  # (none here)
+
+  # 5) Domain temporal attributes
+  # (none here)
 end

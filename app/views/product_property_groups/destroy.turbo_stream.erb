@@ -2,6 +2,6 @@
 
 <%= turbo_stream.remove turbo_frame_id(@product_property_group) %>
 
-<%= turbo_stream.replace turbo_frame_id(:variants) do %>
+<%= turbo_stream.replace turbo_frame_id(:variants_section) do %>
   <%= render "products/variants_section", business: @business, product: @product %>
 <% end %>

@@ -33,13 +33,13 @@
 
 <% count.times do |i| %>
   <% name = Faker::Commerce.unique.product_name[0..149] %>
-  <% code = name.parameterize[0..49] %>
   <% slug = name.parameterize[0..149] %>
+  <% code = name.parameterize[0..49] %>
 
   product_<%= i + 1 %>:
-    code: <%= code %>
     name: <%= name %>
     slug: <%= slug %>
+    code: <%= code %>
     business: business_1
     categories:
       - category_1
@@ -49,13 +49,13 @@
 
 <% count.times do |i| %>
   <% name = Faker::Commerce.unique.product_name[0..149] %>
-  <% code = name.parameterize[0..49] %>
   <% slug = name.parameterize[0..149] %>
+  <% code = name.parameterize[0..49] %>
 
   product_<%= i + 1 + count %>:
-    code: <%= code %>
     name: <%= name %>
     slug: <%= slug %>
+    code: <%= code %>
     business: business_2
     categories:
       - category_1

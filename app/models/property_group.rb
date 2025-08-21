@@ -22,6 +22,7 @@ class PropertyGroup < ApplicationRecord
 
   include NameNormalizer
 
+  # 1) Associations (FKs)
   belongs_to :business
 
   has_many :product_property_groups, dependent: :destroy
@@ -29,14 +30,24 @@ class PropertyGroup < ApplicationRecord
 
   has_many :properties, dependent: :destroy
 
+  # 2) Identifiers / business keys
   validates :name,
+            presence: true,
             length: {
               maximum: 30
             },
-            presence: true,
             uniqueness: {
-              scope: :business_id
+              scope: %i[business_id]
             }
+
+  # 3) Domain fields
+  # (none here)
+
+  # 4) State flags
+  # (none here)
+
+  # 5) Domain temporal attributes
+  # (none here)
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name created_at updated_at]

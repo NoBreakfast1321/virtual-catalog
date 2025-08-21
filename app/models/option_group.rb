@@ -26,6 +26,7 @@ class OptionGroup < ApplicationRecord
   include NameNormalizer
   include VisibilityFilterer
 
+  # 1) Associations (FKs)
   belongs_to :business
 
   has_many :options, dependent: :destroy
@@ -33,13 +34,17 @@ class OptionGroup < ApplicationRecord
   has_many :product_option_groups, dependent: :destroy
   has_many :products, through: :product_option_groups
 
-  validates :maximum_selections,
-            numericality: {
-              only_integer: true,
-              greater_than_or_equal_to: :minimum_selections
+  # 2) Identifiers / business keys
+  validates :name,
+            presence: true,
+            length: {
+              maximum: 30
             },
-            allow_nil: true
+            uniqueness: {
+              scope: %i[business_id]
+            }
 
+  # 3) Domain fields
   validates :minimum_selections,
             presence: true,
             numericality: {
@@ -47,18 +52,22 @@ class OptionGroup < ApplicationRecord
               greater_than_or_equal_to: 1
             }
 
-  validates :name,
-            length: {
-              maximum: 30
+  validates :maximum_selections,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: :minimum_selections
             },
-            presence: true,
-            uniqueness: {
-              scope: :business_id
-            }
+            if: -> do
+              minimum_selections.present? && maximum_selections.present?
+            end
 
+  # 4) State flags
   validates :visible, inclusion: { in: [ true, false ] }
 
+  # 5) Domain temporal attributes
+  # (none here)
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[maximum_selections minimum_selections name visible created_at updated_at]
+    %w[name minimum_selections maximum_selections visible created_at updated_at]
   end
 end

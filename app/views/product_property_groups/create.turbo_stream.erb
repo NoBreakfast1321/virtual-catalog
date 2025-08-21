@@ -9,6 +9,6 @@
 
 <%= turbo_stream.update turbo_frame_id(ProductPropertyGroup.new), "" %>
 
-<%= turbo_stream.replace turbo_frame_id(:variants) do %>
+<%= turbo_stream.replace turbo_frame_id(:variants_section) do %>
   <%= render "products/variants_section", business: @business, product: @product %>
 <% end %>

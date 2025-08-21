@@ -1,7 +1,7 @@
 <%= render_toast %>
 
-<% @non_base_variants.each do |non_base_variant| %>
-  <%= turbo_stream.remove turbo_frame_id(non_base_variant) %>
+<% @not_base_variants.each do |not_base_variant| %>
+  <%= turbo_stream.remove turbo_frame_id(not_base_variant) %>
 <% end %>
 
 <%= turbo_stream.remove turbo_frame_id(@property) %>

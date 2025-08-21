@@ -27,9 +27,9 @@ class ProductsController < ApplicationController
       @product.save!
 
       @product.variants.create!(
-        base: true,
         code: "#{params[:product][:code]}-BASE",
         price: params[:product][:price],
+        base: true,
         visible: params[:product][:visible],
       )
     end
@@ -96,14 +96,14 @@ class ProductsController < ApplicationController
   def product_params
     params.expect(
       product: [
-        :adult_only,
-        :available_from,
-        :available_until,
+        :name,
         :code,
         :description,
+        :adult_only,
         :featured,
-        :name,
         :visible,
+        :available_from,
+        :available_until,
         category_ids: []
       ],
     )

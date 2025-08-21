@@ -76,7 +76,7 @@ class OptionGroupsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def option_group_params
     params.expect(
-      option_group: %i[maximum_selections minimum_selections name visible],
+      option_group: %i[name minimum_selections maximum_selections visible],
     )
   end
 end

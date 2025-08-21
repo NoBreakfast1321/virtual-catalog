@@ -21,11 +21,19 @@
 #  variant_id   (variant_id => variants.id) ON DELETE => cascade
 #
 class VariantProperty < ApplicationRecord
+  # 1) Associations (FKs)
   belongs_to :variant
   belongs_to :property
 
-  validates :variant, presence: true
-  validates :property, presence: true
+  # 2) Identifiers / business keys
+  validates :variant_id, uniqueness: { scope: %i[property_id] }
 
-  validates :property_id, uniqueness: { scope: :variant_id }
+  # 3) Domain fields
+  # (none here)
+
+  # 4) State flags
+  # (none here)
+
+  # 5) Domain temporal attributes
+  # (none here)
 end

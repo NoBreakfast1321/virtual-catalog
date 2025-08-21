@@ -1,5 +1,7 @@
 <%# locals: (business:, product:, variant:) %>
 
+<%= render "layouts/validation_errors", object: variant %>
+
 <%= errable_form_with model: [business, product, variant],
                   class: "table__body-row table__divider form form--grid" do |form| %>
   <% product.property_groups.by_earliest_created.each_with_index do |property_group, index| %>

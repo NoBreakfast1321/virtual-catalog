@@ -25,25 +25,32 @@ class Category < ApplicationRecord
   include NameNormalizer
   include VisibilityFilterer
 
+  # 1) Associations (FKs)
   belongs_to :business
 
   has_many :product_categories, dependent: :restrict_with_error
   has_many :products, through: :product_categories
 
-  validates :description, length: { maximum: 150 }, allow_blank: true
-
+  # 2) Identifiers / business keys
   validates :name,
+            presence: true,
             length: {
               maximum: 30
             },
-            presence: true,
             uniqueness: {
-              scope: :business_id
+              scope: %i[business_id]
             }
 
+  # 3) Domain fields
+  validates :description, length: { maximum: 150 }
+
+  # 4) State flags
   validates :visible, inclusion: { in: [ true, false ] }
 
+  # 5) Domain temporal attributes
+  # (none here)
+
   def self.ransackable_attributes(_auth_object = nil)
-    %w[description name visible created_at updated_at]
+    %w[name description visible created_at updated_at]
   end
 end

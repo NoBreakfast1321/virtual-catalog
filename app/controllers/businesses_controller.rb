@@ -68,6 +68,6 @@ class BusinessesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def business_params
-    params.expect(business: %i[description name slug visible])
+    params.expect(business: %i[name slug description visible])
   end
 end

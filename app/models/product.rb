@@ -35,8 +35,7 @@ class Product < ApplicationRecord
   include SlugRestricter
   include VisibilityFilterer
 
-  has_many_attached :images
-
+  # 1) Associations (FKs)
   belongs_to :business
 
   has_many :product_categories, dependent: :destroy
@@ -50,15 +49,25 @@ class Product < ApplicationRecord
 
   has_many :variants, dependent: :destroy
 
-  validates :adult_only, inclusion: { in: [ true, false ] }
+  validates :categories, presence: true
 
-  validates :available_until,
-            absence: {
-              if: -> { available_from.nil? }
+  # 2) Identifiers / business keys
+  validates :name,
+            presence: true,
+            length: {
+              maximum: 150
             },
-            comparison: {
-              greater_than: :available_from,
-              allow_nil: true
+            uniqueness: {
+              scope: %i[business_id]
+            }
+
+  validates :slug,
+            presence: true,
+            length: {
+              maximum: 150
+            },
+            uniqueness: {
+              scope: %i[business_id]
             }
 
   validates :code,
@@ -66,79 +75,95 @@ class Product < ApplicationRecord
               maximum: 50
             },
             uniqueness: {
-              scope: :business_id
-            },
-            allow_blank: true
-
-  validates :description, length: { maximum: 5000 }, allow_blank: true
-  validates :featured, inclusion: { in: [ true, false ] }
-
-  validates :name,
-            length: {
-              maximum: 150
-            },
-            presence: true,
-            uniqueness: {
-              scope: :business_id
+              scope: %i[business_id]
             }
 
-  validates :slug,
-            length: {
-              maximum: 150
-            },
-            presence: true,
-            uniqueness: {
-              scope: :business_id
-            }
+  # 3) Domain fields
+  validates :description, length: { maximum: 5000 }
 
-  validates :visible, inclusion: { in: [ true, false ] }
+  has_many_attached :images
 
   validates :images,
-            limit: {
-              max: 10
-            },
             content_type: {
               in: %w[image/jpeg image/png image/webp],
               spoofing_protection: true
             },
             size: {
               less_than: 1.megabyte
+            },
+            limit: {
+              max: 10
             }
 
-  validates :categories, presence: true
+  # 4) State flags
+  validates :adult_only, inclusion: { in: [ true, false ] }
+  validates :featured, inclusion: { in: [ true, false ] }
+  validates :visible, inclusion: { in: [ true, false ] }
+
+  # 5) Domain temporal attributes
+  validates :available_until,
+            comparison: {
+              greater_than: :available_from
+            },
+            if: -> { available_from.present? && available_until.present? }
 
   before_validation :generate_slug, on: %i[create update]
 
   # 🔞 Audience scopes
   scope :adult, -> { where(adult_only: true) }
-  scope :non_adult, -> { where(adult_only: false) }
+  scope :not_adult, -> { where(adult_only: false) }
 
   # 📆 Availability scopes
-  scope :available, -> { where("available_from >= :now", now: Time.current) }
-  scope :not_available,
-        -> { where("available_from <= :now", now: Time.current) }
+  scope :available,
+        -> do
+          where(
+            "available_from IS NULL OR available_from <= :now",
+            now: Time.current,
+          )
+        end
 
-  scope :expired, -> { where("available_until <= :now", now: Time.current) }
-  scope :not_expired, -> { where("available_until >= :now", now: Time.current) }
+  scope :not_available,
+        -> do
+          where(
+            "available_from IS NOT NULL AND available_from > :now",
+            now: Time.current,
+          )
+        end
+
+  scope :expired,
+        -> do
+          where(
+            "available_until IS NOT NULL AND available_until < :now",
+            now: Time.current,
+          )
+        end
+
+  scope :not_expired,
+        -> do
+          where(
+            "available_until IS NULL OR available_until >= :now",
+            now: Time.current,
+          )
+        end
 
   # 🔥 Featured scopes
   scope :featured, -> { where(featured: true) }
-  scope :unfeatured, -> { where(featured: false) }
+  scope :not_featured, -> { where(featured: false) }
 
   # 🚩 General state scopes
   scope :active, -> { visible.available.not_expired }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
-      adult_only
-      available_from
-      available_until
-      code
-      description
-      featured
       name
       slug
+      code
+      description
+      adult_only
+      featured
       visible
+      available_from
+      available_until
       created_at
       updated_at
     ]
@@ -148,24 +173,24 @@ class Product < ApplicationRecord
     %w[categories]
   end
 
+  def base_variant
+    variants.find_by(base: true)
+  end
+
   def active?
     visible? && available? && !expired?
   end
 
   def available?
-    return true if available_from.nil?
+    return true unless available_from.present?
 
     available_from <= Time.current
   end
 
   def expired?
-    return false if available_until.nil?
+    return false unless available_until.present?
 
     available_until < Time.current
-  end
-
-  def base_variant
-    variants.find_by(base: true)
   end
 
   private
@@ -173,11 +198,8 @@ class Product < ApplicationRecord
   def generate_slug
     self.slug = name.parameterize[0..49]
 
-    if slug.blank?
-      # TODO: Switch to this once the UI supports proper error message display.
-      # errors.add(:slug, :invalid_slug)
-
-      errors.add(:name, :invalid_slug)
+    unless slug.present?
+      errors.add(:name, :cannot_be_used_to_generate_valid_slug)
 
       throw(:abort)
     end

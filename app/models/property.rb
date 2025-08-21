@@ -22,17 +22,28 @@ class Property < ApplicationRecord
 
   include NameNormalizer
 
+  # 1) Associations (FKs)
   belongs_to :property_group
 
   has_many :variant_properties, dependent: :destroy
   has_many :variants, through: :variant_properties
 
+  # 2) Identifiers / business keys
   validates :name,
+            presence: true,
             length: {
               maximum: 50
             },
-            presence: true,
             uniqueness: {
-              scope: :property_group
+              scope: %i[property_group]
             }
+
+  # 3) Domain fields
+  # (none here)
+
+  # 4) State flags
+  # (none here)
+
+  # 5) Domain temporal attributes
+  # (none here)
 end

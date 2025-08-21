@@ -26,24 +26,31 @@ class Option < ApplicationRecord
   include NameNormalizer
   include VisibilityFilterer
 
+  # 1) Associations (FKs)
   belongs_to :option_group
 
-  monetize :price_cents
-
+  # 2) Identifiers / business keys
   validates :name,
+            presence: true,
             length: {
               maximum: 50
             },
-            presence: true,
             uniqueness: {
-              scope: :option_group
+              scope: %i[option_group]
             }
 
+  # 3) Domain fields
+  monetize :price_cents
+
   validates :price_cents,
+            presence: true,
             numericality: {
               greater_than_or_equal_to: 0
-            },
-            presence: true
+            }
 
+  # 4) State flags
   validates :visible, inclusion: { in: [ true, false ] }
+
+  # 5) Domain temporal attributes
+  # (none here)
 end

@@ -4,7 +4,7 @@ class PropertiesController < ApplicationController
   before_action :set_property, only: %i[edit update destroy]
   before_action :build_property_with_params, only: %i[create]
   before_action :build_property_without_params, only: %i[new]
-  before_action :set_non_base_variants, only: %i[destroy]
+  before_action :set_not_base_variants, only: %i[destroy]
 
   def new
   end
@@ -34,7 +34,7 @@ class PropertiesController < ApplicationController
 
   def destroy
     ActiveRecord::Base.transaction do
-      @non_base_variants.each(&:destroy!)
+      @not_base_variants.each(&:destroy!)
 
       @property.destroy!
     end
@@ -70,8 +70,8 @@ class PropertiesController < ApplicationController
     @property = @property_group.properties.build
   end
 
-  def set_non_base_variants
-    @non_base_variants = @property.variants.non_base
+  def set_not_base_variants
+    @not_base_variants = @property.variants.not_base
   end
 
   # Only allow a list of trusted parameters through.
