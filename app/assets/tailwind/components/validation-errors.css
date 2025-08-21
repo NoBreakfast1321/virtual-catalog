@@ -1,0 +1,3 @@
+.validation-errors {
+  @apply my-4 space-y-2 rounded-lg border border-red-500 bg-red-100 p-4 text-sm;
+}

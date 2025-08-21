@@ -1,0 +1,18 @@
+<%# locals: (object:) %>
+
+<% if object.errors.any? %>
+  <ul class="validation-errors">
+    <% object.errors.each do |error| %>
+      <% label =
+        (
+          if error.attribute == :base
+            nil
+          else
+            object.class.human_attribute_name(error.attribute)
+          end
+        ) %>
+
+      <li><%= [label, error.message].compact.join(" ") %></li>
+    <% end %>
+  </ul>
+<% end %>
