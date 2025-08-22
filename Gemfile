@@ -68,6 +68,7 @@ end
 
 gem "active_storage_validations"
 gem "audited"
+gem "chartkick"
 gem "devise", "~> 4.9"
 gem "faker"
 gem "money-rails", "~> 1.12"
