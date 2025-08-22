@@ -8,16 +8,16 @@
 #  visible     :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  business_id :integer          not null
+#  catalog_id  :integer          not null
 #
 # Indexes
 #
-#  index_categories_on_business_id           (business_id)
-#  index_categories_on_business_id_and_name  (business_id,name) UNIQUE
+#  index_categories_on_catalog_id           (catalog_id)
+#  index_categories_on_catalog_id_and_name  (catalog_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 class Category < ApplicationRecord
   audited
@@ -26,7 +26,7 @@ class Category < ApplicationRecord
   include VisibilityFilterer
 
   # 1) Associations (FKs)
-  belongs_to :business
+  belongs_to :catalog
 
   has_many :product_categories, dependent: :restrict_with_error
   has_many :products, through: :product_categories
@@ -38,7 +38,7 @@ class Category < ApplicationRecord
               maximum: 30
             },
             uniqueness: {
-              scope: %i[business_id]
+              scope: %i[catalog_id]
             }
 
   # 3) Domain fields
@@ -49,6 +49,9 @@ class Category < ApplicationRecord
 
   # 5) Domain temporal attributes
   # (none here)
+
+  scope :with_products, -> { where.associated(:products) }
+  scope :without_products, -> { where.missing(:products) }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name description visible created_at updated_at]

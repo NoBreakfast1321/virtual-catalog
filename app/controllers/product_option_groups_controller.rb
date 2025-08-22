@@ -1,5 +1,5 @@
 class ProductOptionGroupsController < ApplicationController
-  before_action :set_business
+  before_action :set_catalog
   before_action :set_product
   before_action :set_product_option_group, only: %i[destroy]
   before_action :build_product_option_group_with_params, only: %i[create]
@@ -32,12 +32,12 @@ class ProductOptionGroupsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_business
-    @business = current_user.businesses.find(params.expect(:business_id))
+  def set_catalog
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_product
-    @product = @business.products.find(params.expect(:product_id))
+    @product = @catalog.products.find(params.expect(:product_id))
   end
 
   def set_product_option_group

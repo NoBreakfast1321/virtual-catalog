@@ -1,0 +1,14 @@
+<% content_for :title, "New Catalog" %>
+
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">New Catalog</h2>
+    <p class="card__description">
+      Fill in the fields below to create a new catalog.
+    </p>
+  </header>
+
+  <div class="card__body">
+    <%= render "catalogs/form", catalog: @catalog %>
+  </div>
+</section>

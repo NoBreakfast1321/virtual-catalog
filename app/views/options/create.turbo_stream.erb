@@ -2,7 +2,7 @@
 
 <%= turbo_stream.append turbo_frame_id(:options) do %>
   <%= render "options/option",
-         business: @business,
+         catalog: @catalog,
          option_group: @option_group,
          option: @option %>
 <% end %>

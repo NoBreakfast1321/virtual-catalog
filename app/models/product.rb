@@ -14,18 +14,18 @@
 #  visible         :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  business_id     :integer          not null
+#  catalog_id      :integer          not null
 #
 # Indexes
 #
-#  index_products_on_business_id           (business_id)
-#  index_products_on_business_id_and_code  (business_id,code) UNIQUE
-#  index_products_on_business_id_and_name  (business_id,name) UNIQUE
-#  index_products_on_business_id_and_slug  (business_id,slug) UNIQUE
+#  index_products_on_catalog_id           (catalog_id)
+#  index_products_on_catalog_id_and_code  (catalog_id,code) UNIQUE
+#  index_products_on_catalog_id_and_name  (catalog_id,name) UNIQUE
+#  index_products_on_catalog_id_and_slug  (catalog_id,slug) UNIQUE
 #
 # Foreign Keys
 #
-#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
   audited
@@ -36,7 +36,7 @@ class Product < ApplicationRecord
   include VisibilityFilterer
 
   # 1) Associations (FKs)
-  belongs_to :business
+  belongs_to :catalog
 
   has_many :product_categories, dependent: :destroy
   has_many :categories, through: :product_categories
@@ -58,7 +58,7 @@ class Product < ApplicationRecord
               maximum: 150
             },
             uniqueness: {
-              scope: %i[business_id]
+              scope: %i[catalog_id]
             }
 
   validates :slug,
@@ -67,7 +67,7 @@ class Product < ApplicationRecord
               maximum: 150
             },
             uniqueness: {
-              scope: %i[business_id]
+              scope: %i[catalog_id]
             }
 
   validates :code,
@@ -75,7 +75,7 @@ class Product < ApplicationRecord
               maximum: 50
             },
             uniqueness: {
-              scope: %i[business_id]
+              scope: %i[catalog_id]
             }
 
   # 3) Domain fields

@@ -7,7 +7,7 @@
   </summary>
 
   <div class="card__body">
-    <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
+    <%= search_form_for [@catalog, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
         <%= form.label :available_from_gteq, class: "form__label" %>
         <%= form.date_field :available_from_gteq, class: "form__input" %>
@@ -51,7 +51,7 @@
       <div class="form__group">
         <%= form.label :categories_name_in, "Categories", class: "form__label" %>
         <%= form.collection_select :categories_name_in,
-                               @business.categories.order(:name),
+                               @catalog.categories.order(:name),
                                :name,
                                :name,
                                { multiple: true },
@@ -59,7 +59,7 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset", business_products_path(@business), class: "button" %>
+        <%= link_to "Reset", catalog_products_path(@catalog), class: "button" %>
         <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
@@ -75,7 +75,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_product_path(@business),
+              new_catalog_product_path(@catalog),
               class: "button button--action" %>
     </div>
   </header>
@@ -149,13 +149,13 @@
               <td class="table__body-cell">
                 <%= safe_join(
                   product.categories.map do |category|
-                    link_to category.name, [@business, category]
+                    link_to category.name, [@catalog, category]
                   end,
                   ", ",
                 ) %>
               </td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show", [@business, product] %>
+                <%= link_to "Show", [@catalog, product] %>
               </td>
             </tr>
           <% end %>

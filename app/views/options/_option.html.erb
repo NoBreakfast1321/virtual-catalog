@@ -1,4 +1,4 @@
-<%# locals: (business:, option_group:, option:) %>
+<%# locals: (catalog:, option_group:, option:) %>
 
 <%= turbo_frame_tag turbo_frame_id(option) do %>
   <dl class="description-list">
@@ -10,14 +10,14 @@
         class="description-list__definition flex items-center justify-end gap-2"
       >
         <%= link_to "Edit",
-                edit_business_option_group_option_path(business, option_group, option),
+                edit_catalog_option_group_option_path(catalog, option_group, option),
                 data: {
                   turbo_frame: turbo_frame_id(option),
                 },
                 class: "button" %>
 
         <%= button_to "Destroy",
-                  [business, option_group, option],
+                  [catalog, option_group, option],
                   method: :delete,
                   data: {
                     turbo_confirm: "Are you sure you want to destroy this option?",

@@ -9,7 +9,7 @@
   </summary>
 
   <div class="card__body">
-    <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
+    <%= search_form_for [@catalog, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
         <%= form.label :name_start, class: "form__label" %>
         <%= form.search_field :name_start, class: "form__input" %>
@@ -26,7 +26,7 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset", business_property_groups_path(@business), class: "button" %>
+        <%= link_to "Reset", catalog_property_groups_path(@catalog), class: "button" %>
         <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
@@ -44,7 +44,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_property_group_path(@business),
+              new_catalog_property_group_path(@catalog),
               class: "button button--action" %>
     </div>
   </header>
@@ -81,7 +81,7 @@
               <td class="table__body-cell"><%= property_group.created_at %></td>
               <td class="table__body-cell"><%= property_group.updated_at %></td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show", [@business, property_group] %>
+                <%= link_to "Show", [@catalog, property_group] %>
               </td>
             </tr>
           <% end %>

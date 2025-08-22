@@ -1,0 +1,9 @@
+en:
+  controllers:
+    catalogs:
+      create:
+        success: "Catalog was successfully created."
+      update:
+        success: "Catalog was successfully updated."
+      destroy:
+        success: "Catalog was successfully destroyed."

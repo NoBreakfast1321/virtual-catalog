@@ -1,4 +1,4 @@
-<%# locals: (business:, product:, variant:) %>
+<%# locals: (catalog:, product:, variant:) %>
 
 <%= turbo_frame_tag turbo_frame_id(variant) do %>
   <div class="table__body-row table__divider form--grid">
@@ -32,14 +32,14 @@
       class="table__body-cell table__body-cell--center table__body-cell--actions gap-2"
     >
       <%= link_to "Edit",
-              edit_business_product_variant_path(business, product, variant),
+              edit_catalog_product_variant_path(catalog, product, variant),
               data: {
                 turbo_frame: turbo_frame_id(variant),
               },
               class: "button" %>
 
       <%= button_to "Destroy",
-                [business, product, variant],
+                [catalog, product, variant],
                 method: :delete,
                 data: {
                   turbo_confirm: "Are you sure you want to destroy this variant?",

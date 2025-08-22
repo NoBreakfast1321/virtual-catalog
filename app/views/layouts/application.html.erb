@@ -32,17 +32,17 @@
     <main>
       <% if user_signed_in? %>
         <nav class="flex items-center justify-between">
-          <% if @business&.persisted? %>
+          <% if @catalog&.persisted? %>
             <div>
               <h2 class="card__heading mb-1">Navigation</h2>
 
               <ul>
                 <li class="flex gap-2">
-                  <%= link_to "Businesses", businesses_path, class: "button" %>
-                  <%= link_to "Categories", business_categories_path(@business), class: "button" %>
-                  <%= link_to "Options", business_option_groups_path(@business), class: "button" %>
-                  <%= link_to "Products", business_products_path(@business), class: "button" %>
-                  <%= link_to "Properties", business_property_groups_path(@business), class: "button" %>
+                  <%= link_to "Catalogs", catalogs_path, class: "button" %>
+                  <%= link_to "Categories", catalog_categories_path(@catalog), class: "button" %>
+                  <%= link_to "Options", catalog_option_groups_path(@catalog), class: "button" %>
+                  <%= link_to "Products", catalog_products_path(@catalog), class: "button" %>
+                  <%= link_to "Properties", catalog_property_groups_path(@catalog), class: "button" %>
                 </li>
               </ul>
             </div>

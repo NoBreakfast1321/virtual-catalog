@@ -2,7 +2,7 @@
 
 <%= turbo_stream.append turbo_frame_id(:product_property_groups) do %>
   <%= render "product_property_groups/product_property_group",
-         business: @business,
+         catalog: @catalog,
          product: @product,
          product_property_group: @product_property_group %>
 <% end %>
@@ -10,5 +10,5 @@
 <%= turbo_stream.update turbo_frame_id(ProductPropertyGroup.new), "" %>
 
 <%= turbo_stream.replace turbo_frame_id(:variants_section) do %>
-  <%= render "products/variants_section", business: @business, product: @product %>
+  <%= render "products/variants_section", catalog: @catalog, product: @product %>
 <% end %>

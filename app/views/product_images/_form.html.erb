@@ -1,7 +1,7 @@
-<%# locals: (business:, product:) %>
+<%# locals: (catalog:, product:) %>
 
-<%= errable_form_with url: business_product_product_images_path(business, product),
-                  model: [business, product],
+<%= errable_form_with url: catalog_product_product_images_path(catalog, product),
+                  model: [catalog, product],
                   multipart: true,
                   class: "form" do |form| %>
   <div data-controller="image-preview" class="form__group">

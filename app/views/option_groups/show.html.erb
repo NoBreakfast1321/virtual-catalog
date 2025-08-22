@@ -11,22 +11,22 @@
 
     <div class="card__actions">
       <%= link_to "Edit",
-              edit_business_option_group_path(@business, @option_group),
+              edit_catalog_option_group_path(@catalog, @option_group),
               class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
     <%= render "option_groups/option_group",
-           business: @business,
+           catalog: @catalog,
            option_group: @option_group %>
   </div>
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to "Return", business_option_groups_path(@business), class: "button" %>
+      <%= link_to "Return", catalog_option_groups_path(@catalog), class: "button" %>
       <%= button_to "Destroy",
-                [@business, @option_group],
+                [@catalog, @option_group],
                 method: :delete,
                 data: {
                   turbo_confirm:
@@ -46,7 +46,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_option_group_option_path(@business, @option_group),
+              new_catalog_option_group_option_path(@catalog, @option_group),
               data: {
                 turbo_frame: turbo_frame_id(Option.new),
                 action: "click->details#open",
@@ -63,7 +63,7 @@
     <%= turbo_frame_tag turbo_frame_id(:options) do %>
       <% @option_group.options.each do |option| %>
         <%= render "options/option",
-               business: @business,
+               catalog: @catalog,
                option_group: @option_group,
                option: option %>
       <% end %>

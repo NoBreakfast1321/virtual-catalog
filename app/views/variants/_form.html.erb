@@ -1,8 +1,8 @@
-<%# locals: (business:, product:, variant:) %>
+<%# locals: (catalog:, product:, variant:) %>
 
 <%= render "layouts/validation_errors", object: variant %>
 
-<%= errable_form_with model: [business, product, variant],
+<%= errable_form_with model: [catalog, product, variant],
                   class: "table__body-row table__divider form form--grid" do |form| %>
   <% product.property_groups.by_earliest_created.each_with_index do |property_group, index| %>
     <div class="table__body-cell table__body-cell--center form__group">
@@ -55,7 +55,7 @@
   <div
     class="table__body-cell table__body-cell--center table__body-cell--actions gap-2"
   >
-    <%= link_to "Cancel", [business, product], class: "button" %>
+    <%= link_to "Cancel", [catalog, product], class: "button" %>
     <%= form.submit "Save", class: "button button--action" %>
   </div>
 <% end %>

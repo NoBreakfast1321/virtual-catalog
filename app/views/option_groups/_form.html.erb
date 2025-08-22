@@ -1,6 +1,6 @@
-<%# locals: (business:, option_group:) %>
+<%# locals: (catalog:, option_group:) %>
 
-<%= errable_form_with model: [business, option_group], class: "form" do |form| %>
+<%= errable_form_with model: [catalog, option_group], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :maximum_selections, class: "form__label" %>
     <%= form.number_field :maximum_selections, class: "form__input" %>
@@ -29,9 +29,9 @@
     <%= link_to "Cancel",
             (
               if option_group.persisted?
-                [business, option_group]
+                [catalog, option_group]
               else
-                business_option_groups_path(business)
+                catalog_option_groups_path(catalog)
               end
             ),
             class: "button" %>

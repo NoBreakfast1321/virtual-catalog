@@ -1,6 +1,6 @@
-class CreateBusinesses < ActiveRecord::Migration[8.0]
+class CreateCatalogs < ActiveRecord::Migration[8.0]
   def change
-    create_table :businesses do |t|
+    create_table :catalogs do |t|
       # 1) Associations (FKs)
       t.belongs_to :user, null: false, foreign_key: { on_delete: :cascade }
 
@@ -20,7 +20,7 @@ class CreateBusinesses < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :businesses, %i[user_id name], unique: true
-    add_index :businesses, :slug, unique: true
+    add_index :catalogs, %i[user_id name], unique: true
+    add_index :catalogs, :slug, unique: true
   end
 end

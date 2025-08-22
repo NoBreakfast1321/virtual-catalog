@@ -1,4 +1,4 @@
-<%# locals: (business:, product:) %>
+<%# locals: (catalog:, product:) %>
 
 <dl class="description-list">
   <div class="description-list__item">
@@ -64,7 +64,7 @@
     <dd class="description-list__definition">
       <%= safe_join(
         product.categories.map do |category|
-          link_to category.name, [business, category]
+          link_to category.name, [catalog, category]
         end,
         ", ",
       ) %>

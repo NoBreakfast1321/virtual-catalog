@@ -1,9 +1,9 @@
-<% content_for :title, "Businesses" %>
+<% content_for :title, "Catalogs" %>
 
 <details class="card">
   <summary class="card__header">
-    <h2 class="card__heading">Businesses Filters</h2>
-    <p class="card__description">Filter your businesses by attributes below.</p>
+    <h2 class="card__heading">Catalogs Filters</h2>
+    <p class="card__description">Filter your catalogs by attributes below.</p>
   </summary>
 
   <div class="card__body">
@@ -24,7 +24,7 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset", businesses_path, class: "button" %>
+        <%= link_to "Reset", catalogs_path, class: "button" %>
         <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
@@ -34,12 +34,12 @@
 <section class="card">
   <header class="card__header card__header--with-actions">
     <div>
-      <h2 class="card__heading">Businesses</h2>
-      <p class="card__description">Here is a list of all your businesses.</p>
+      <h2 class="card__heading">Catalogs</h2>
+      <p class="card__description">Here is a list of all your catalogs.</p>
     </div>
 
     <div class="card__actions">
-      <%= link_to "New", new_business_path, class: "button button--action" %>
+      <%= link_to "New", new_catalog_path, class: "button button--action" %>
     </div>
   </header>
 
@@ -71,21 +71,21 @@
           </tr>
         </thead>
         <tbody class="table__body">
-          <% @businesses.each do |business| %>
+          <% @catalogs.each do |catalog| %>
             <tr class="table__body-row">
               <td class="table__body-cell table__body-cell--numeric">
-                <%= business.id %>
+                <%= catalog.id %>
               </td>
-              <td class="table__body-cell"><%= business.description %></td>
-              <td class="table__body-cell"><%= business.name %></td>
-              <td class="table__body-cell"><%= business.slug %></td>
+              <td class="table__body-cell"><%= catalog.description %></td>
+              <td class="table__body-cell"><%= catalog.name %></td>
+              <td class="table__body-cell"><%= catalog.slug %></td>
               <td class="table__body-cell">
-                <%= business.visible? ? "Yes" : "No" %>
+                <%= catalog.visible? ? "Yes" : "No" %>
               </td>
-              <td class="table__body-cell"><%= business.created_at %></td>
-              <td class="table__body-cell"><%= business.updated_at %></td>
+              <td class="table__body-cell"><%= catalog.created_at %></td>
+              <td class="table__body-cell"><%= catalog.updated_at %></td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show", business %>
+                <%= link_to "Show", catalog %>
               </td>
             </tr>
           <% end %>

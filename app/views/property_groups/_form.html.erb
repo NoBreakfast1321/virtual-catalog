@@ -1,6 +1,6 @@
-<%# locals: (business:, property_group:) %>
+<%# locals: (catalog:, property_group:) %>
 
-<%= errable_form_with model: [business, property_group], class: "form" do |form| %>
+<%= errable_form_with model: [catalog, property_group], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :name, class: "form__label" %>
     <%= form.text_field :name, class: "form__input" %>
@@ -11,9 +11,9 @@
     <%= link_to "Cancel",
             (
               if property_group.persisted?
-                [business, property_group]
+                [catalog, property_group]
               else
-                business_property_groups_path(business)
+                catalog_property_groups_path(catalog)
               end
             ),
             class: "button" %>

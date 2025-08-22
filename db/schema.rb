@@ -61,7 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "businesses", force: :cascade do |t|
+  create_table "catalogs", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name", limit: 30, null: false
     t.string "slug", limit: 30, null: false
@@ -69,32 +69,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_businesses_on_slug", unique: true
-    t.index ["user_id", "name"], name: "index_businesses_on_user_id_and_name", unique: true
-    t.index ["user_id"], name: "index_businesses_on_user_id"
+    t.index ["slug"], name: "index_catalogs_on_slug", unique: true
+    t.index ["user_id", "name"], name: "index_catalogs_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_catalogs_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
-    t.integer "business_id", null: false
+    t.integer "catalog_id", null: false
     t.string "name", limit: 30, null: false
     t.text "description", limit: 150
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id", "name"], name: "index_categories_on_business_id_and_name", unique: true
-    t.index ["business_id"], name: "index_categories_on_business_id"
+    t.index ["catalog_id", "name"], name: "index_categories_on_catalog_id_and_name", unique: true
+    t.index ["catalog_id"], name: "index_categories_on_catalog_id"
   end
 
   create_table "option_groups", force: :cascade do |t|
-    t.integer "business_id", null: false
+    t.integer "catalog_id", null: false
     t.string "name", limit: 30, null: false
     t.integer "minimum_selections", default: 1, null: false
     t.integer "maximum_selections"
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id", "name"], name: "index_option_groups_on_business_id_and_name", unique: true
-    t.index ["business_id"], name: "index_option_groups_on_business_id"
+    t.index ["catalog_id", "name"], name: "index_option_groups_on_catalog_id_and_name", unique: true
+    t.index ["catalog_id"], name: "index_option_groups_on_catalog_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -143,7 +143,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.integer "business_id", null: false
+    t.integer "catalog_id", null: false
     t.string "name", limit: 150, null: false
     t.string "slug", limit: 150, null: false
     t.string "code", limit: 50
@@ -155,10 +155,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.datetime "available_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id", "code"], name: "index_products_on_business_id_and_code", unique: true
-    t.index ["business_id", "name"], name: "index_products_on_business_id_and_name", unique: true
-    t.index ["business_id", "slug"], name: "index_products_on_business_id_and_slug", unique: true
-    t.index ["business_id"], name: "index_products_on_business_id"
+    t.index ["catalog_id", "code"], name: "index_products_on_catalog_id_and_code", unique: true
+    t.index ["catalog_id", "name"], name: "index_products_on_catalog_id_and_name", unique: true
+    t.index ["catalog_id", "slug"], name: "index_products_on_catalog_id_and_slug", unique: true
+    t.index ["catalog_id"], name: "index_products_on_catalog_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -171,12 +171,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   end
 
   create_table "property_groups", force: :cascade do |t|
-    t.integer "business_id", null: false
+    t.integer "catalog_id", null: false
     t.string "name", limit: 30, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_id", "name"], name: "index_property_groups_on_business_id_and_name", unique: true
-    t.index ["business_id"], name: "index_property_groups_on_business_id"
+    t.index ["catalog_id", "name"], name: "index_property_groups_on_catalog_id_and_name", unique: true
+    t.index ["catalog_id"], name: "index_property_groups_on_catalog_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -221,9 +221,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "businesses", "users", on_delete: :cascade
-  add_foreign_key "categories", "businesses", on_delete: :cascade
-  add_foreign_key "option_groups", "businesses", on_delete: :cascade
+  add_foreign_key "catalogs", "users", on_delete: :cascade
+  add_foreign_key "categories", "catalogs", on_delete: :cascade
+  add_foreign_key "option_groups", "catalogs", on_delete: :cascade
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict
   add_foreign_key "product_categories", "products", on_delete: :cascade
@@ -231,9 +231,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
   add_foreign_key "product_option_groups", "products", on_delete: :cascade
   add_foreign_key "product_property_groups", "products", on_delete: :cascade
   add_foreign_key "product_property_groups", "property_groups", on_delete: :restrict
-  add_foreign_key "products", "businesses", on_delete: :cascade
+  add_foreign_key "products", "catalogs", on_delete: :cascade
   add_foreign_key "properties", "property_groups", on_delete: :cascade
-  add_foreign_key "property_groups", "businesses", on_delete: :cascade
+  add_foreign_key "property_groups", "catalogs", on_delete: :cascade
   add_foreign_key "variant_properties", "properties", on_delete: :cascade
   add_foreign_key "variant_properties", "variants", on_delete: :cascade
   add_foreign_key "variants", "products", on_delete: :cascade

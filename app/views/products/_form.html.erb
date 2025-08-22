@@ -1,6 +1,6 @@
-<%# locals: (business:, product:) %>
+<%# locals: (catalog:, product:) %>
 
-<%= errable_form_with model: [business, product], multipart: true, class: "form" do |form| %>
+<%= errable_form_with model: [catalog, product], multipart: true, class: "form" do |form| %>
   <div class="form__group form__group--inline">
     <%= form.checkbox :adult_only, class: "form__checkbox" %>
     <%= form.label :adult_only, class: "form__label" %>
@@ -77,7 +77,7 @@
   <div class="form__group">
     <%= form.label :category_ids, "Categories", class: "form__label" %>
     <%= form.collection_select :category_ids,
-                           business.categories,
+                           catalog.categories,
                            :id,
                            :name,
                            {},
@@ -91,9 +91,9 @@
     <%= link_to "Cancel",
             (
               if product.persisted?
-                [business, product]
+                [catalog, product]
               else
-                business_products_path(business)
+                catalog_products_path(catalog)
               end
             ),
             class: "button" %>

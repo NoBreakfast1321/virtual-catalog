@@ -1,13 +1,13 @@
 class CategoriesController < ApplicationController
   include Pagy::Backend
 
-  before_action :set_business
+  before_action :set_catalog
   before_action :set_category, only: %i[show edit update destroy]
   before_action :build_category_with_params, only: %i[create]
   before_action :build_category_without_params, only: %i[new]
 
   def index
-    @q = @business.categories.ransack(params[:q])
+    @q = @catalog.categories.ransack(params[:q])
     @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
@@ -25,7 +25,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @business, @category ],
+        redirect_to [ @catalog, @category ],
                     notice: t_controller("create.success")
       end
     end
@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @business, @category ],
+        redirect_to [ @catalog, @category ],
                     notice: t_controller("update.success")
       end
     end
@@ -47,7 +47,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to business_categories_path(@business),
+        redirect_to catalog_categories_path(@catalog),
                     notice: t_controller("destroy.success"),
                     status: :see_other
       end
@@ -57,20 +57,20 @@ class CategoriesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_business
-    @business = current_user.businesses.find(params.expect(:business_id))
+  def set_catalog
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_category
-    @category = @business.categories.find(params.expect(:id))
+    @category = @catalog.categories.find(params.expect(:id))
   end
 
   def build_category_with_params
-    @category = @business.categories.build(category_params)
+    @category = @catalog.categories.build(category_params)
   end
 
   def build_category_without_params
-    @category = @business.categories.build
+    @category = @catalog.categories.build
   end
 
   # Only allow a list of trusted parameters through.

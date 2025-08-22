@@ -1,25 +1,25 @@
-<%# locals: (business:) %>
+<%# locals: (catalog:) %>
 
 <dl class="description-list">
   <div class="description-list__item">
     <dt class="description-list__term">Description</dt>
-    <dd class="description-list__definition"><%= business.description %></dd>
+    <dd class="description-list__definition"><%= catalog.description %></dd>
   </div>
 
   <div class="description-list__item">
     <dt class="description-list__term">Name</dt>
-    <dd class="description-list__definition"><%= business.name %></dd>
+    <dd class="description-list__definition"><%= catalog.name %></dd>
   </div>
 
   <div class="description-list__item">
     <dt class="description-list__term">Slug</dt>
-    <dd class="description-list__definition"><%= business.slug %></dd>
+    <dd class="description-list__definition"><%= catalog.slug %></dd>
   </div>
 
   <div class="description-list__item">
     <dt class="description-list__term">Visible</dt>
     <dd class="description-list__definition">
-      <%= business.visible? ? "Yes" : "No" %>
+      <%= catalog.visible? ? "Yes" : "No" %>
     </dd>
   </div>
 </dl>

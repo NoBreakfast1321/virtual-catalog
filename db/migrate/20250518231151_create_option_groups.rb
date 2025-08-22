@@ -2,7 +2,7 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
   def change
     create_table :option_groups do |t|
       # 1) Associations (FKs)
-      t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :catalog, null: false, foreign_key: { on_delete: :cascade }
 
       # 2) Identifiers / business keys
       t.string :name, null: false, limit: 30
@@ -20,6 +20,6 @@ class CreateOptionGroups < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :option_groups, %i[business_id name], unique: true
+    add_index :option_groups, %i[catalog_id name], unique: true
   end
 end

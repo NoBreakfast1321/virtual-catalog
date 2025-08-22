@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  before_action :set_business
+  before_action :set_catalog
   before_action :set_property_group
   before_action :set_property, only: %i[edit update destroy]
   before_action :build_property_with_params, only: %i[create]
@@ -49,13 +49,13 @@ class PropertiesController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_business
-    @business = current_user.businesses.find(params.expect(:business_id))
+  def set_catalog
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_property_group
     @property_group =
-      @business.property_groups.find(params.expect(:property_group_id))
+      @catalog.property_groups.find(params.expect(:property_group_id))
   end
 
   def set_property

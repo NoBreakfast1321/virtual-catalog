@@ -2,7 +2,7 @@
 
 <%= turbo_stream.prepend turbo_frame_id(:variants) do %>
   <%= render "variants/variant",
-         business: @business,
+         catalog: @catalog,
          product: @product,
          variant: @variant %>
 <% end %>

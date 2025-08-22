@@ -11,7 +11,7 @@
 fixtures_path = Rails.root.join("test/fixtures")
 
 ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "users")
-ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "businesses")
+ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "catalogs")
 ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "categories")
 ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "products")
 ActiveRecord::FixtureSet.create_fixtures(fixtures_path, "option_groups")

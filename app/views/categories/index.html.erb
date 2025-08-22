@@ -7,7 +7,7 @@
   </summary>
 
   <div class="card__body">
-    <%= search_form_for [@business, @q], html: { class: "form" } do |form| %>
+    <%= search_form_for [@catalog, @q], html: { class: "form" } do |form| %>
       <div class="form__group">
         <%= form.label :description_start, class: "form__label" %>
         <%= form.search_field :description_start, class: "form__input" %>
@@ -29,7 +29,7 @@
       </div>
 
       <footer class="form__footer">
-        <%= link_to "Reset", business_categories_path(@business), class: "button" %>
+        <%= link_to "Reset", catalog_categories_path(@catalog), class: "button" %>
         <%= form.submit "Filter", class: "button button--action" %>
       </footer>
     <% end %>
@@ -45,7 +45,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_category_path(@business),
+              new_catalog_category_path(@catalog),
               class: "button button--action" %>
     </div>
   </header>
@@ -92,7 +92,7 @@
                 <%= category.products.count %>
               </td>
               <td class="table__body-cell table__body-cell--actions">
-                <%= link_to "Show", [@business, category] %>
+                <%= link_to "Show", [@catalog, category] %>
               </td>
             </tr>
           <% end %>

@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   include Pagy::Backend
 
-  before_action :set_business
+  before_action :set_catalog
   before_action :set_product, only: %i[show edit update destroy]
   before_action :build_product_with_params, only: %i[create]
   before_action :build_product_without_params, only: %i[new]
@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
   before_action :restrict_product_creation, only: %i[new create]
 
   def index
-    @q = @business.products.ransack(params[:q])
+    @q = @catalog.products.ransack(params[:q])
     @pagy, @products = pagy(@q.result(distinct: true))
   end
 
@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @business, @product ],
+        redirect_to [ @catalog, @product ],
                     notice: t_controller("create.success")
       end
     end
@@ -55,7 +55,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @business, @product ],
+        redirect_to [ @catalog, @product ],
                     notice: t_controller("update.success")
       end
     end
@@ -66,7 +66,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to business_products_path(@business),
+        redirect_to catalog_products_path(@catalog),
                     notice: t_controller("destroy.success"),
                     status: :see_other
       end
@@ -76,20 +76,20 @@ class ProductsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_business
-    @business = current_user.businesses.find(params.expect(:business_id))
+  def set_catalog
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_product
-    @product = @business.products.find(params.expect(:id))
+    @product = @catalog.products.find(params.expect(:id))
   end
 
   def build_product_with_params
-    @product = @business.products.build(product_params)
+    @product = @catalog.products.build(product_params)
   end
 
   def build_product_without_params
-    @product = @business.products.build
+    @product = @catalog.products.build
   end
 
   # Only allow a list of trusted parameters through.
@@ -110,8 +110,8 @@ class ProductsController < ApplicationController
   end
 
   def restrict_product_creation
-    unless @business.categories.any?
-      redirect_to new_business_category_path(@business),
+    unless @catalog.categories.any?
+      redirect_to new_catalog_category_path(@catalog),
                   alert: t_controller("callbacks.restrict_product_creation")
     end
   end

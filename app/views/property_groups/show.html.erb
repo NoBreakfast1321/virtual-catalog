@@ -11,22 +11,22 @@
 
     <div class="card__actions">
       <%= link_to "Edit",
-              edit_business_property_group_path(@business, @property_group),
+              edit_catalog_property_group_path(@catalog, @property_group),
               class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
     <%= render "property_groups/property_group",
-           business: @business,
+           catalog: @catalog,
            property_group: @property_group %>
   </div>
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to "Return", business_property_groups_path(@business), class: "button" %>
+      <%= link_to "Return", catalog_property_groups_path(@catalog), class: "button" %>
       <%= button_to "Destroy",
-                [@business, @property_group],
+                [@catalog, @property_group],
                 method: :delete,
                 data: {
                   turbo_confirm:
@@ -48,7 +48,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_property_group_property_path(@business, @property_group),
+              new_catalog_property_group_property_path(@catalog, @property_group),
               data: {
                 turbo_frame: turbo_frame_id(Property.new),
                 action: "click->details#open",
@@ -65,7 +65,7 @@
     <%= turbo_frame_tag turbo_frame_id(:properties) do %>
       <% @property_group.properties.each do |property| %>
         <%= render "properties/property",
-               business: @business,
+               catalog: @catalog,
                property_group: @property_group,
                property: property %>
       <% end %>

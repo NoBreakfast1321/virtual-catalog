@@ -1,5 +1,5 @@
 class OptionsController < ApplicationController
-  before_action :set_business
+  before_action :set_catalog
   before_action :set_option_group
   before_action :set_option, only: %i[edit update destroy]
   before_action :build_option_with_params, only: %i[create]
@@ -44,13 +44,13 @@ class OptionsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_business
-    @business = current_user.businesses.find(params.expect(:business_id))
+  def set_catalog
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_option_group
     @option_group =
-      @business.option_groups.find(params.expect(:option_group_id))
+      @catalog.option_groups.find(params.expect(:option_group_id))
   end
 
   def set_option

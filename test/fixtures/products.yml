@@ -14,18 +14,18 @@
 #  visible         :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  business_id     :integer          not null
+#  catalog_id      :integer          not null
 #
 # Indexes
 #
-#  index_products_on_business_id           (business_id)
-#  index_products_on_business_id_and_code  (business_id,code) UNIQUE
-#  index_products_on_business_id_and_name  (business_id,name) UNIQUE
-#  index_products_on_business_id_and_slug  (business_id,slug) UNIQUE
+#  index_products_on_catalog_id           (catalog_id)
+#  index_products_on_catalog_id_and_code  (catalog_id,code) UNIQUE
+#  index_products_on_catalog_id_and_name  (catalog_id,name) UNIQUE
+#  index_products_on_catalog_id_and_slug  (catalog_id,slug) UNIQUE
 #
 # Foreign Keys
 #
-#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 <% count = 30 %>
 
@@ -40,7 +40,7 @@
     name: <%= name %>
     slug: <%= slug %>
     code: <%= code %>
-    business: business_1
+    catalog: catalog_1
     categories:
       - category_1
 <% end %>
@@ -56,7 +56,7 @@
     name: <%= name %>
     slug: <%= slug %>
     code: <%= code %>
-    business: business_2
+    catalog: catalog_2
     categories:
       - category_1
       - category_2

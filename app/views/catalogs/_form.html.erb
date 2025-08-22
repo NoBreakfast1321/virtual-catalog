@@ -1,6 +1,6 @@
-<%# locals: (business:) %>
+<%# locals: (catalog:) %>
 
-<%= errable_form_with model: business, class: "form" do |form| %>
+<%= errable_form_with model: catalog, class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :description, class: "form__label" %>
     <%= form.text_area :description, class: "form__input" %>
@@ -27,7 +27,7 @@
 
   <footer class="form__footer">
     <%= link_to "Cancel",
-            business.persisted? ? business : businesses_path,
+            catalog.persisted? ? catalog : catalogs_path,
             class: "button" %>
 
     <%= form.submit "Save", class: "button button--action" %>

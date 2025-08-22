@@ -1,4 +1,4 @@
-<%# locals: (business:, property_group:, property:) %>
+<%# locals: (catalog:, property_group:, property:) %>
 
 <%= turbo_frame_tag turbo_frame_id(property) do %>
   <dl class="description-list">
@@ -8,8 +8,8 @@
         class="description-list__definition flex items-center justify-end gap-2"
       >
         <%= link_to "Edit",
-                edit_business_property_group_property_path(
-                  business,
+                edit_catalog_property_group_property_path(
+                  catalog,
                   property_group,
                   property,
                 ),
@@ -19,7 +19,7 @@
                 class: "button" %>
 
         <%= button_to "Destroy",
-                  [business, property_group, property],
+                  [catalog, property_group, property],
                   method: :delete,
                   data: {
                     turbo_confirm: "Are you sure you want to destroy this property?",

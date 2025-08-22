@@ -2,7 +2,7 @@
 
 <%= turbo_stream.append turbo_frame_id(:properties) do %>
   <%= render "properties/property",
-         business: @business,
+         catalog: @catalog,
          property_group: @property_group,
          property: @property %>
 <% end %>

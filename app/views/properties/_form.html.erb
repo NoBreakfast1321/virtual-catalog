@@ -1,6 +1,6 @@
-<%# locals: (business:, property_group:, property:) %>
+<%# locals: (catalog:, property_group:, property:) %>
 
-<%= errable_form_with model: [business, property_group, property], class: "form" do |form| %>
+<%= errable_form_with model: [catalog, property_group, property], class: "form" do |form| %>
   <div class="form__group">
     <%= form.label :name, class: "form__label" %>
     <%= form.text_field :name, autofocus: true, class: "form__input" %>
@@ -8,7 +8,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel", [business, property_group], class: "button" %>
+    <%= link_to "Cancel", [catalog, property_group], class: "button" %>
     <%= form.submit "Save", class: "button button--action" %>
   </footer>
 <% end %>

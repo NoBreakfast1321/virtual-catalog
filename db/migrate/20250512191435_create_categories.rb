@@ -2,7 +2,7 @@ class CreateCategories < ActiveRecord::Migration[8.0]
   def change
     create_table :categories do |t|
       # 1) Associations (FKs)
-      t.belongs_to :business, null: false, foreign_key: { on_delete: :cascade }
+      t.belongs_to :catalog, null: false, foreign_key: { on_delete: :cascade }
 
       # 2) Identifiers / business keys
       t.string :name, null: false, limit: 30
@@ -19,6 +19,6 @@ class CreateCategories < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :categories, %i[business_id name], unique: true
+    add_index :categories, %i[catalog_id name], unique: true
   end
 end

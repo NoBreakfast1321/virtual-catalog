@@ -9,20 +9,20 @@
 
     <div class="card__actions">
       <%= link_to "Edit",
-              edit_business_category_path(@business, @category),
+              edit_catalog_category_path(@catalog, @category),
               class: "button button--action" %>
     </div>
   </header>
 
   <div class="card__body">
-    <%= render "categories/category", business: @business, category: @category %>
+    <%= render "categories/category", catalog: @catalog, category: @category %>
   </div>
 
   <footer class="card__footer">
     <div class="card__footer--end">
-      <%= link_to "Return", business_categories_path(@business), class: "button" %>
+      <%= link_to "Return", catalog_categories_path(@catalog), class: "button" %>
       <%= button_to "Destroy",
-                [@business, @category],
+                [@catalog, @category],
                 method: :delete,
                 data: {
                   turbo_confirm: "Are you sure you want to destroy this category?",
@@ -43,7 +43,7 @@
 
     <div class="card__actions">
       <%= link_to "New",
-              new_business_product_path(@business),
+              new_catalog_product_path(@catalog),
               class: "button button--action" %>
     </div>
   </summary>
@@ -51,7 +51,7 @@
   <div class="card__body">
     <%= safe_join(
       @category.products.map do |product|
-        link_to product.name, [@business, product]
+        link_to product.name, [@catalog, product]
       end,
       ", ",
     ) %>

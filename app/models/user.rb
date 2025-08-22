@@ -27,5 +27,5 @@ class User < ApplicationRecord
          :rememberable,
          :validatable
 
-  has_many :businesses, dependent: :destroy
+  has_many :catalogs, dependent: :destroy
 end

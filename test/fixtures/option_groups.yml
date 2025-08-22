@@ -9,37 +9,37 @@
 #  visible            :boolean          default(TRUE), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  business_id        :integer          not null
+#  catalog_id         :integer          not null
 #
 # Indexes
 #
-#  index_option_groups_on_business_id           (business_id)
-#  index_option_groups_on_business_id_and_name  (business_id,name) UNIQUE
+#  index_option_groups_on_catalog_id           (catalog_id)
+#  index_option_groups_on_catalog_id_and_name  (catalog_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 option_group_1:
   name: "Ingredient"
-  business: business_1
+  catalog: catalog_1
 
 option_group_2:
   name: "Ingredient"
-  business: business_2
+  catalog: catalog_2
 
 option_group_3:
   name: "Spice"
-  business: business_1
+  catalog: catalog_1
 
 option_group_4:
   name: "Spice"
-  business: business_2
+  catalog: catalog_2
 
 option_group_5:
   name: "Vegetables"
-  business: business_1
+  catalog: catalog_1
 
 option_group_6:
   name: "Vegetables"
-  business: business_2
+  catalog: catalog_2

@@ -2,20 +2,20 @@
 #
 # Table name: property_groups
 #
-#  id          :integer          not null, primary key
-#  name        :string(30)       not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  business_id :integer          not null
+#  id         :integer          not null, primary key
+#  name       :string(30)       not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  catalog_id :integer          not null
 #
 # Indexes
 #
-#  index_property_groups_on_business_id           (business_id)
-#  index_property_groups_on_business_id_and_name  (business_id,name) UNIQUE
+#  index_property_groups_on_catalog_id           (catalog_id)
+#  index_property_groups_on_catalog_id_and_name  (catalog_id,name) UNIQUE
 #
 # Foreign Keys
 #
-#  business_id  (business_id => businesses.id) ON DELETE => cascade
+#  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 class PropertyGroup < ApplicationRecord
   audited
@@ -23,7 +23,7 @@ class PropertyGroup < ApplicationRecord
   include NameNormalizer
 
   # 1) Associations (FKs)
-  belongs_to :business
+  belongs_to :catalog
 
   has_many :product_property_groups, dependent: :destroy
   has_many :products, through: :product_property_groups
@@ -37,7 +37,7 @@ class PropertyGroup < ApplicationRecord
               maximum: 30
             },
             uniqueness: {
-              scope: %i[business_id]
+              scope: %i[catalog_id]
             }
 
   # 3) Domain fields

@@ -1,14 +1,31 @@
-<h1><%= @business.name %></h1>
+<% content_for :title, @catalog.name %>
 
-<% @categories.each do |category| %>
-  <h2><%= category.name %></h2>
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Catalog Details</h2>
+      <p class="card__description">See the details of your catalog below.</p>
+    </div>
 
-  <ul>
-    <% category.products.each do |product| %>
-      <li>
-        <%= link_to product.name,
-                public_product_path(business_slug: @business.slug, slug: product.slug) %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+    <div class="card__actions">
+      <%= link_to "Edit", edit_catalog_path(@catalog), class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= render "catalogs/catalog", catalog: @catalog %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Return", catalogs_path, class: "button" %>
+      <%= button_to "Destroy",
+                @catalog,
+                method: :delete,
+                data: {
+                  turbo_confirm: "Are you sure you want to destroy this catalog?",
+                },
+                class: "button button--danger" %>
+    </div>
+  </footer>
+</section>

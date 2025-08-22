@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: businesses
+# Table name: catalogs
 #
 #  id          :integer          not null, primary key
 #  description :text(150)
@@ -13,9 +13,9 @@
 #
 # Indexes
 #
-#  index_businesses_on_slug              (slug) UNIQUE
-#  index_businesses_on_user_id           (user_id)
-#  index_businesses_on_user_id_and_name  (user_id,name) UNIQUE
+#  index_catalogs_on_slug              (slug) UNIQUE
+#  index_catalogs_on_user_id           (user_id)
+#  index_catalogs_on_user_id_and_name  (user_id,name) UNIQUE
 #
 # Foreign Keys
 #
@@ -29,7 +29,7 @@
   <% name = Faker::Company.unique.name[0..29] %>
   <% slug = name.parameterize[0..29] %>
 
-  business_<%= i + 1 %>:
+  catalog_<%= i + 1 %>:
     name: <%= name %>
     slug: <%= slug %>
     user: admin_user

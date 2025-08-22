@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: businesses
+# Table name: catalogs
 #
 #  id          :integer          not null, primary key
 #  description :text(150)
@@ -13,15 +13,15 @@
 #
 # Indexes
 #
-#  index_businesses_on_slug              (slug) UNIQUE
-#  index_businesses_on_user_id           (user_id)
-#  index_businesses_on_user_id_and_name  (user_id,name) UNIQUE
+#  index_catalogs_on_slug              (slug) UNIQUE
+#  index_catalogs_on_user_id           (user_id)
+#  index_catalogs_on_user_id_and_name  (user_id,name) UNIQUE
 #
 # Foreign Keys
 #
 #  user_id  (user_id => users.id) ON DELETE => cascade
 #
-class Business < ApplicationRecord
+class Catalog < ApplicationRecord
   audited
 
   include NameNormalizer
