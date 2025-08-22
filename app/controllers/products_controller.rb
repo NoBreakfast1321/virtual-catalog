@@ -36,8 +36,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @catalog, @product ],
-                    notice: t_controller("create.success")
+        redirect_to [ @catalog, @product ], notice: t_controller("create.success")
       end
     end
   end
@@ -55,8 +54,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to [ @catalog, @product ],
-                    notice: t_controller("update.success")
+        redirect_to [ @catalog, @product ], notice: t_controller("update.success")
       end
     end
   end

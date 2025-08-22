@@ -49,8 +49,7 @@ class OptionsController < ApplicationController
   end
 
   def set_option_group
-    @option_group =
-      @catalog.option_groups.find(params.expect(:option_group_id))
+    @option_group = @catalog.option_groups.find(params.expect(:option_group_id))
   end
 
   def set_option

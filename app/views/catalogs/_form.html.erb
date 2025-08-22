@@ -26,10 +26,7 @@
   </div>
 
   <footer class="form__footer">
-    <%= link_to "Cancel",
-            catalog.persisted? ? catalog : catalogs_path,
-            class: "button" %>
-
+    <%= link_to "Cancel", catalog.persisted? ? catalog : catalogs_path, class: "button" %>
     <%= form.submit "Save", class: "button button--action" %>
   </footer>
 <% end %>

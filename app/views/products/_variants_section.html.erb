@@ -38,10 +38,7 @@
 
         <%= turbo_frame_tag turbo_frame_id(:variants) do %>
           <% product.variants.not_base.by_recently_created.each do |variant| %>
-            <%= render "variants/variant",
-                   catalog: catalog,
-                   product: product,
-                   variant: variant %>
+            <%= render "variants/variant", catalog: catalog, product: product, variant: variant %>
           <% end %>
         <% end %>
       </div>
