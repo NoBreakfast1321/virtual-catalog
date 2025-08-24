@@ -3,10 +3,10 @@
 # Table name: variants
 #
 #  id                   :integer          not null, primary key
-#  base                 :boolean          default(FALSE), not null
 #  code                 :string(50)
 #  price_cents          :integer          default(0), not null
 #  price_currency       :string           default("USD"), not null
+#  primary              :boolean          default(FALSE), not null
 #  property_combination :string
 #  stock_quantity       :integer
 #  visible              :boolean          default(TRUE), not null
@@ -17,9 +17,9 @@
 # Indexes
 #
 #  index_variants_on_product_id                           (product_id)
-#  index_variants_on_product_id_and_base                  (product_id) UNIQUE WHERE base = 1
 #  index_variants_on_product_id_and_code                  (product_id,code) UNIQUE
-#  index_variants_on_product_id_and_property_combination  (product_id,property_combination) UNIQUE WHERE base = 0 AND property_combination IS NOT NULL
+#  index_variants_on_product_id_and_primary               (product_id) UNIQUE WHERE "primary" = 1
+#  index_variants_on_product_id_and_property_combination  (product_id,property_combination) UNIQUE WHERE "primary" = 0 AND property_combination IS NOT NULL
 #
 # Foreign Keys
 #
@@ -28,12 +28,12 @@
 <% count = 60 %>
 
 <% count.times do |i| %>
-  <% code = "product-#{i + 1}-BASE" %>
+  <% code = "product-#{i + 1}-PRIMARY" %>
   <% price_cents = rand(1000..5000) %>
 
   variant_<%= i + 1 %>:
     code: <%= code %>
     price_cents: <%= price_cents %>
-    base: true
+    primary: true
     product: product_<%= i + 1 %>
 <% end %>

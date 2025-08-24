@@ -55,7 +55,7 @@
                       data: {
                         "currency-target": "hidden",
                       },
-                      value: (product.base_variant&.price_cents || 0) / 100.0 %>
+                      value: (product.primary_variant&.price_cents || 0) / 100.0 %>
 
     <input
       id="product_price"

@@ -4,14 +4,14 @@ class ProductPropertyGroupsController < ApplicationController
   before_action :set_product_property_group, only: %i[destroy]
   before_action :build_product_property_group_with_params, only: %i[create]
   before_action :build_product_property_group_without_params, only: %i[new]
-  before_action :set_not_base_variants, only: %i[create destroy]
+  before_action :set_secondary_variants, only: %i[create destroy]
 
   def new
   end
 
   def create
     ActiveRecord::Base.transaction do
-      @not_base_variants.each(&:destroy!)
+      @secondary_variants.each(&:destroy!)
 
       @product_property_group.save!
     end
@@ -25,7 +25,7 @@ class ProductPropertyGroupsController < ApplicationController
 
   def destroy
     ActiveRecord::Base.transaction do
-      @not_base_variants.each(&:destroy!)
+      @secondary_variants.each(&:destroy!)
 
       @product_property_group.destroy!
     end
@@ -62,8 +62,8 @@ class ProductPropertyGroupsController < ApplicationController
     @product_property_group = @product.product_property_groups.build
   end
 
-  def set_not_base_variants
-    @not_base_variants = @product.variants.not_base
+  def set_secondary_variants
+    @secondary_variants = @product.variants.secondary
   end
 
   # Only allow a list of trusted parameters through.

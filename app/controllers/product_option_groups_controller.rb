@@ -4,7 +4,7 @@ class ProductOptionGroupsController < ApplicationController
   before_action :set_product_option_group, only: %i[destroy]
   before_action :build_product_option_group_with_params, only: %i[create]
   before_action :build_product_option_group_without_params, only: %i[new]
-  before_action :set_not_base_variants, only: %i[create destroy]
+  before_action :set_secondary_variants, only: %i[create destroy]
 
   def new
   end
@@ -54,8 +54,8 @@ class ProductOptionGroupsController < ApplicationController
     @product_option_group = @product.product_option_groups.build
   end
 
-  def set_not_base_variants
-    @not_base_variants = @product.variants.not_base
+  def set_secondary_variants
+    @secondary_variants = @product.variants.secondary
   end
 
   # Only allow a list of trusted parameters through.

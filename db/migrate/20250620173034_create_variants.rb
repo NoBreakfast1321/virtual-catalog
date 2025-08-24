@@ -22,7 +22,7 @@ class CreateVariants < ActiveRecord::Migration[8.0]
       t.integer :stock_quantity
 
       # 4) State flags
-      t.boolean :base, null: false, default: false
+      t.boolean :primary, null: false, default: false
       t.boolean :visible, null: false, default: true
 
       # 5) Domain temporal attributes
@@ -34,14 +34,14 @@ class CreateVariants < ActiveRecord::Migration[8.0]
     add_index :variants,
               [ :product_id ],
               unique: true,
-              where: "base = 1",
-              name: "index_variants_on_product_id_and_base"
+              where: '"primary" = 1',
+              name: "index_variants_on_product_id_and_primary"
 
     add_index :variants, %i[product_id code], unique: true
 
     add_index :variants,
               %i[product_id property_combination],
               unique: true,
-              where: "base = 0 AND property_combination IS NOT NULL"
+              where: '"primary" = 0 AND property_combination IS NOT NULL'
   end
 end

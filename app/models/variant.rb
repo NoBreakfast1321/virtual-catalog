@@ -3,10 +3,10 @@
 # Table name: variants
 #
 #  id                   :integer          not null, primary key
-#  base                 :boolean          default(FALSE), not null
 #  code                 :string(50)
 #  price_cents          :integer          default(0), not null
 #  price_currency       :string           default("USD"), not null
+#  primary              :boolean          default(FALSE), not null
 #  property_combination :string
 #  stock_quantity       :integer
 #  visible              :boolean          default(TRUE), not null
@@ -17,9 +17,9 @@
 # Indexes
 #
 #  index_variants_on_product_id                           (product_id)
-#  index_variants_on_product_id_and_base                  (product_id) UNIQUE WHERE base = 1
 #  index_variants_on_product_id_and_code                  (product_id,code) UNIQUE
-#  index_variants_on_product_id_and_property_combination  (product_id,property_combination) UNIQUE WHERE base = 0 AND property_combination IS NOT NULL
+#  index_variants_on_product_id_and_primary               (product_id) UNIQUE WHERE "primary" = 1
+#  index_variants_on_product_id_and_property_combination  (product_id,property_combination) UNIQUE WHERE "primary" = 0 AND property_combination IS NOT NULL
 #
 # Foreign Keys
 #
@@ -51,9 +51,9 @@ class Variant < ApplicationRecord
             presence: true,
             uniqueness: {
               scope: %i[product_id],
-              conditions: -> { where(base: false) }
+              conditions: -> { where(primary: false) }
             },
-            unless: :base?
+            unless: :primary?
 
   # 3) Domain fields
   monetize :price_cents
@@ -72,16 +72,16 @@ class Variant < ApplicationRecord
             allow_blank: true
 
   # 4) State flags
-  validates :base,
+  validates :primary,
             inclusion: {
               in: [ true, false ]
             },
             uniqueness: {
               scope: %i[product_id],
-              conditions: -> { where(base: true) },
-              message: :only_one_base_variant_can_be_created
+              conditions: -> { where(primary: true) },
+              message: :only_one_primary_variant_can_be_created
             },
-            if: :base?
+            if: :primary?
 
   validates :visible, inclusion: { in: [ true, false ] }
 
@@ -89,14 +89,14 @@ class Variant < ApplicationRecord
   # (none)
 
   validate :ensure_one_selection_per_group
-  validate :product_must_have_property_group, on: :create, unless: :base?
+  validate :product_must_have_property_group, on: :create, unless: :primary?
 
   before_validation :generate_property_combination,
                     on: %i[create update],
-                    unless: :base?
+                    unless: :primary?
 
-  scope :base, -> { where(base: true) }
-  scope :not_base, -> { where(base: false) }
+  scope :primary, -> { where(primary: true) }
+  scope :secondary, -> { where(primary: false) }
 
   def label
     properties.pluck(:name).join(" / ")

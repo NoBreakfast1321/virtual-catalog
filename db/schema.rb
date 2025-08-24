@@ -209,14 +209,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_123834) do
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "USD", null: false
     t.integer "stock_quantity"
-    t.boolean "base", default: false, null: false
+    t.boolean "primary", default: false, null: false
     t.boolean "visible", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id", "code"], name: "index_variants_on_product_id_and_code", unique: true
-    t.index ["product_id", "property_combination"], name: "index_variants_on_product_id_and_property_combination", unique: true, where: "base = 0 AND property_combination IS NOT NULL"
+    t.index ["product_id", "property_combination"], name: "index_variants_on_product_id_and_property_combination", unique: true, where: "\"primary\" = 0 AND property_combination IS NOT NULL"
     t.index ["product_id"], name: "index_variants_on_product_id"
-    t.index ["product_id"], name: "index_variants_on_product_id_and_base", unique: true, where: "base = 1"
+    t.index ["product_id"], name: "index_variants_on_product_id_and_primary", unique: true, where: "\"primary\" = 1"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -173,8 +173,8 @@ class Product < ApplicationRecord
     %w[categories]
   end
 
-  def base_variant
-    variants.find_by(base: true)
+  def primary_variant
+    variants.find_by(primary: true)
   end
 
   def active?

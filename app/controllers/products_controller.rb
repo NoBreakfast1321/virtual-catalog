@@ -27,9 +27,9 @@ class ProductsController < ApplicationController
       @product.save!
 
       @product.variants.create!(
-        code: "#{params[:product][:code]}-BASE",
+        code: "#{params[:product][:code]}-PRIMARY",
         price: params[:product][:price],
-        base: true,
+        primary: true,
         visible: params[:product][:visible],
       )
     end
@@ -45,7 +45,7 @@ class ProductsController < ApplicationController
     ActiveRecord::Base.transaction do
       @product.update!(product_params)
 
-      @product.base_variant.update!(
+      @product.primary_variant.update!(
         code: params[:product][:code],
         price: params[:product][:price],
         visible: params[:product][:visible],
