@@ -58,6 +58,6 @@
     code: <%= code %>
     catalog: catalog_2
     categories:
-      - category_1
-      - category_2
+      - category_21
+      - category_22
 <% end %>
