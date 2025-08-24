@@ -1,12 +1,12 @@
 <h1><%= @catalog.name %></h1>
 
-<% @categories.each do |category| %>
+<% @categories.populated.each do |category| %>
   <h2><%= category.name %></h2>
 
   <ul>
-    <% category.products.each do |product| %>
+    <% category.products.active.each do |product| %>
       <li>
-        <%= link_to product.name,
+        <%= link_to "#{product.name} - #{product.primary_variant.price.format}",
                 public_product_path(catalog_slug: @catalog.slug, slug: product.slug) %>
       </li>
     <% end %>

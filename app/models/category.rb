@@ -50,8 +50,7 @@ class Category < ApplicationRecord
   # 5) Domain temporal attributes
   # (none here)
 
-  scope :with_products, -> { where.associated(:products) }
-  scope :without_products, -> { where.missing(:products) }
+  scope :populated, -> { joins(:product_categories).distinct }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name description visible created_at updated_at]

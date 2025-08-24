@@ -3,6 +3,6 @@ class PublicCatalogsController < ApplicationController
 
   def show
     @catalog = Catalog.find_by!(slug: params[:slug])
-    @categories = @catalog.categories.includes(:products)
+    @categories = @catalog.categories.populated
   end
 end
