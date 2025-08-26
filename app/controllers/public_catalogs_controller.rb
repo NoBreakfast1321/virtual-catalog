@@ -1,4 +1,6 @@
 class PublicCatalogsController < ApplicationController
+  layout "public_application"
+
   skip_before_action :authenticate_user!
 
   def show
