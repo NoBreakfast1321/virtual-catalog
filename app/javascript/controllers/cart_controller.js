@@ -22,6 +22,6 @@ export default class extends Controller {
       this.cart.push({ ...variant, quantity: 1 });
     }
 
-    console.log(this.cart);
+    localStorage.setItem("cart", JSON.stringify(this.cart));
   }
 }
