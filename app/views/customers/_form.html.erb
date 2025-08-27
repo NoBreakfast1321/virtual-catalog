@@ -1,0 +1,35 @@
+<%# locals: (catalog:, customer:) %>
+
+<%= errable_form_with model: [catalog, customer], class: "form" do |form| %>
+  <div class="form__group">
+    <%= form.label :email, class: "form__label" %>
+    <%= form.text_field :email, class: "form__input" %>
+    <%= form.error :email, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= form.label :phone, class: "form__label" %>
+    <%= form.text_field :phone, class: "form__input" %>
+    <%= form.error :phone, "form__error" %>
+  </div>
+
+  <div class="form__group">
+    <%= form.label :name, class: "form__label" %>
+    <%= form.text_field :name, class: "form__input" %>
+    <%= form.error :name, "form__error" %>
+  </div>
+
+  <footer class="form__footer">
+    <%= link_to "Cancel",
+            (
+              if customer.persisted?
+                [catalog, customer]
+              else
+                catalog_customers_path(catalog)
+              end
+            ),
+            class: "button" %>
+
+    <%= form.submit "Save", class: "button button--action" %>
+  </footer>
+<% end %>

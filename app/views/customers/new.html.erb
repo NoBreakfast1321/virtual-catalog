@@ -1,0 +1,14 @@
+<% content_for :title, "New Customer" %>
+
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">New Customer</h2>
+    <p class="card__description">
+      Fill in the fields below to create a new customer.
+    </p>
+  </header>
+
+  <div class="card__body">
+    <%= render "customers/form", catalog: @catalog, customer: @customer %>
+  </div>
+</section>

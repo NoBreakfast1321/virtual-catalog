@@ -1,0 +1,22 @@
+<%# locals: (catalog:, customer:) %>
+
+<dl class="description-list">
+  <div class="description-list__item">
+    <dt class="description-list__term">Email</dt>
+    <dd class="description-list__definition"><%= customer.email || "--" %></dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Phone</dt>
+    <dd class="description-list__definition">
+      <% phone = Phonelib.parse(customer.phone) %>
+
+      <%= phone.valid? ? phone.to_s : "--" %>
+    </dd>
+  </div>
+
+  <div class="description-list__item">
+    <dt class="description-list__term">Name</dt>
+    <dd class="description-list__definition"><%= customer.name || "--" %></dd>
+  </div>
+</dl>

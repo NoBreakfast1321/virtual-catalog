@@ -1,0 +1,9 @@
+en:
+  controllers:
+    customers:
+      create:
+        success: "Customer was successfully created."
+      update:
+        success: "Customer was successfully updated."
+      destroy:
+        success: "Customer was successfully destroyed."

@@ -27,6 +27,14 @@
 #                                            PATCH  /catalogs/:catalog_id/categories/:id(.:format)                                                    categories#update
 #                                            PUT    /catalogs/:catalog_id/categories/:id(.:format)                                                    categories#update
 #                                            DELETE /catalogs/:catalog_id/categories/:id(.:format)                                                    categories#destroy
+#                          catalog_customers GET    /catalogs/:catalog_id/customers(.:format)                                                         customers#index
+#                                            POST   /catalogs/:catalog_id/customers(.:format)                                                         customers#create
+#                       new_catalog_customer GET    /catalogs/:catalog_id/customers/new(.:format)                                                     customers#new
+#                      edit_catalog_customer GET    /catalogs/:catalog_id/customers/:id/edit(.:format)                                                customers#edit
+#                           catalog_customer GET    /catalogs/:catalog_id/customers/:id(.:format)                                                     customers#show
+#                                            PATCH  /catalogs/:catalog_id/customers/:id(.:format)                                                     customers#update
+#                                            PUT    /catalogs/:catalog_id/customers/:id(.:format)                                                     customers#update
+#                                            DELETE /catalogs/:catalog_id/customers/:id(.:format)                                                     customers#destroy
 #               catalog_option_group_options POST   /catalogs/:catalog_id/option_groups/:option_group_id/options(.:format)                            options#create
 #            new_catalog_option_group_option GET    /catalogs/:catalog_id/option_groups/:option_group_id/options/new(.:format)                        options#new
 #           edit_catalog_option_group_option GET    /catalogs/:catalog_id/option_groups/:option_group_id/options/:id/edit(.:format)                   options#edit
@@ -132,6 +140,7 @@ Rails.application.routes.draw do
 
   resources :catalogs do
     resources :categories
+    resources :customers
 
     resources :option_groups do
       resources :options, except: %i[index show]

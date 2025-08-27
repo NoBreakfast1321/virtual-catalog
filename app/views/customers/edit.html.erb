@@ -1,0 +1,12 @@
+<% content_for :title, "Editing Customer" %>
+
+<section class="card">
+  <header class="card__header">
+    <h2 class="card__heading">Editing Customer</h2>
+    <p class="card__description">Update your customer details below.</p>
+  </header>
+
+  <div class="card__body">
+    <%= render "customers/form", catalog: @catalog, customer: @customer %>
+  </div>
+</section>

@@ -242,6 +242,7 @@ GEM
     parser (3.3.8.0)
       ast (~> 2.4.1)
       racc
+    phonelib (0.10.11)
     pp (0.6.2)
       prettyprint
     prettier_print (1.2.1)
@@ -422,6 +423,9 @@ GEM
     unicode-emoji (4.0.4)
     uri (1.0.3)
     useragent (0.16.11)
+    valid_email2 (7.0.13)
+      activemodel (>= 6.0)
+      mail (~> 2.5)
     w_syntax_tree-erb (0.12.0)
       prettier_print (~> 1.2, >= 1.2.0)
       syntax_tree (~> 6.1, >= 6.1.1)
@@ -469,6 +473,7 @@ DEPENDENCIES
   kamal
   money-rails (~> 1.12)
   pagy (~> 9.4)
+  phonelib
   propshaft
   pry (~> 0.15.0)
   puma (>= 5.0)
@@ -488,6 +493,7 @@ DEPENDENCIES
   thruster
   turbo-rails
   tzinfo-data
+  valid_email2
   w_syntax_tree-erb (~> 0.12)
   web-console
 

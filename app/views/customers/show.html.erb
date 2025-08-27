@@ -1,0 +1,44 @@
+<% content_for :title, @customer.email %>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Customer Details</h2>
+      <p class="card__description">See the details of your customer below.</p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "Edit",
+              edit_catalog_customer_path(@catalog, @customer),
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <%= render "customers/customer", catalog: @catalog, customer: @customer %>
+  </div>
+
+  <footer class="card__footer">
+    <div class="card__footer--end">
+      <%= link_to "Return", catalog_customers_path(@catalog), class: "button" %>
+      <%= button_to "Destroy",
+                [@catalog, @customer],
+                method: :delete,
+                data: {
+                  turbo_confirm: "Are you sure you want to destroy this customer?",
+                },
+                class: "button button--danger" %>
+    </div>
+  </footer>
+</section>
+
+<details class="card">
+  <summary class="card__header">
+    <div>
+      <h2 class="card__heading">Orders</h2>
+      <p class="card__description">Here is a list of all associated orders.</p>
+    </div>
+  </summary>
+
+  <div class="card__body">No orders associated yet</div>
+</details>

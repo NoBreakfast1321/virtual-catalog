@@ -1,0 +1,110 @@
+<% content_for :title, "Customers" %>
+
+<details class="card">
+  <summary class="card__header">
+    <h2 class="card__heading">Customer Filters</h2>
+    <p class="card__description">Filter your customers by attributes below.</p>
+  </summary>
+
+  <div class="card__body">
+    <%= search_form_for [@catalog, @q], html: { class: "form" } do |form| %>
+      <div class="form__group">
+        <%= form.label :email_start, class: "form__label" %>
+        <%= form.search_field :email_start, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :phone_start, class: "form__label" %>
+        <%= form.search_field :phone_start, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :name_start, class: "form__label" %>
+        <%= form.search_field :name_start, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :created_at_gteq, class: "form__label" %>
+        <%= form.date_field :created_at_gteq, class: "form__input" %>
+      </div>
+
+      <div class="form__group">
+        <%= form.label :updated_at_gteq, class: "form__label" %>
+        <%= form.date_field :updated_at_gteq, class: "form__input" %>
+      </div>
+
+      <footer class="form__footer">
+        <%= link_to "Reset", catalog_customers_path(@catalog), class: "button" %>
+        <%= form.submit "Filter", class: "button button--action" %>
+      </footer>
+    <% end %>
+  </div>
+</details>
+
+<section class="card">
+  <header class="card__header card__header--with-actions">
+    <div>
+      <h2 class="card__heading">Customers</h2>
+      <p class="card__description">Here is a list of all your customers.</p>
+    </div>
+
+    <div class="card__actions">
+      <%= link_to "New",
+              new_catalog_customer_path(@catalog),
+              class: "button button--action" %>
+    </div>
+  </header>
+
+  <div class="card__body">
+    <div class="table__wrapper">
+      <table class="table">
+        <thead>
+          <tr class="table__head-row">
+            <th class="table__head-cell">ID</th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :email, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :phone, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :name, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :created_at, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell">
+              <%= sort_link(@q, :updated_at, class: "table__head-cell-link group") %>
+            </th>
+            <th class="table__head-cell"></th>
+          </tr>
+        </thead>
+        <tbody class="table__body">
+          <% @customers.each do |customer| %>
+            <tr class="table__body-row">
+              <td class="table__body-cell table__body-cell--numeric">
+                <%= customer.id %>
+              </td>
+              <td class="table__body-cell"><%= customer.email || "--" %></td>
+              <td class="table__body-cell table__body-cell--numeric">
+                <% phone = Phonelib.parse(customer.phone) %>
+
+                <%= phone.valid? ? phone.to_s : "--" %>
+              </td>
+              <td class="table__body-cell"><%= customer.name || "--" %></td>
+              <td class="table__body-cell"><%= customer.created_at %></td>
+              <td class="table__body-cell"><%= customer.updated_at %></td>
+              <td class="table__body-cell table__body-cell--actions">
+                <%= link_to "Show", [@catalog, customer] %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="card__footer card__footer--end">
+    <%== pagy_nav(@pagy) %>
+  </footer>
+</section>
