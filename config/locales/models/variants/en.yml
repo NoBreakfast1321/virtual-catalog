@@ -9,4 +9,3 @@ en:
               product_without_property_group: "product must have at least one property group"
             property_ids:
               must_select_property: "You must select a property."
-              property_combination_already_used: "property combination already used"
