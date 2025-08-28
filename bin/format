@@ -14,6 +14,10 @@ echo "🔧 Formatting models..."
 bundle exec stree write "app/models/**/*.rb"
 bundle exec rubocop -A "app/models/**/*.rb"
 
+echo "🔧 Formatting routes.rb..."
+bundle exec stree write "config/routes.rb"
+bundle exec rubocop -A "config/routes.rb"
+
 echo "🔧 Formatting views (ERB)..."
 bundle exec stree write --plugins=erb "app/views/**/*.erb"
 
