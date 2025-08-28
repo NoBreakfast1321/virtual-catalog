@@ -3,9 +3,10 @@ class CreateCustomers < ActiveRecord::Migration[8.0]
     create_table :customers do |t|
       # 1) Associations (FKs)
       t.belongs_to :catalog, null: false, foreign_key: { on_delete: :cascade }
-      t.belongs_to :user, foreign_key: { on_delete: :cascade }
+      t.belongs_to :user, foreign_key: { on_delete: :nullify }
 
       # 2) Identifiers / business keys
+      t.string :token, null: false, limit: 36 # UUIDv7
       t.string :email
       t.string :phone, limit: 16 # E.164 format
 
@@ -22,6 +23,7 @@ class CreateCustomers < ActiveRecord::Migration[8.0]
     end
 
     add_index :customers, %i[catalog_id user_id], unique: true
+    add_index :customers, %i[catalog_id token], unique: true
     add_index :customers, %i[catalog_id email], unique: true
     add_index :customers, %i[catalog_id phone], unique: true
   end

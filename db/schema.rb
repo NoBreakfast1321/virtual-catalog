@@ -88,6 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
   create_table "customers", force: :cascade do |t|
     t.integer "catalog_id", null: false
     t.integer "user_id"
+    t.string "token", limit: 36, null: false
     t.string "email"
     t.string "phone", limit: 16
     t.string "name", limit: 150
@@ -95,6 +96,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
     t.datetime "updated_at", null: false
     t.index ["catalog_id", "email"], name: "index_customers_on_catalog_id_and_email", unique: true
     t.index ["catalog_id", "phone"], name: "index_customers_on_catalog_id_and_phone", unique: true
+    t.index ["catalog_id", "token"], name: "index_customers_on_catalog_id_and_token", unique: true
     t.index ["catalog_id", "user_id"], name: "index_customers_on_catalog_id_and_user_id", unique: true
     t.index ["catalog_id"], name: "index_customers_on_catalog_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
@@ -239,7 +241,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
   add_foreign_key "catalogs", "users", on_delete: :cascade
   add_foreign_key "categories", "catalogs", on_delete: :cascade
   add_foreign_key "customers", "catalogs", on_delete: :cascade
-  add_foreign_key "customers", "users", on_delete: :cascade
+  add_foreign_key "customers", "users", on_delete: :nullify
   add_foreign_key "option_groups", "catalogs", on_delete: :cascade
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict

@@ -6,6 +6,7 @@
 #  email      :string
 #  name       :string(150)
 #  phone      :string(16)
+#  token      :string(36)       not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  catalog_id :integer          not null
@@ -16,13 +17,14 @@
 #  index_customers_on_catalog_id              (catalog_id)
 #  index_customers_on_catalog_id_and_email    (catalog_id,email) UNIQUE
 #  index_customers_on_catalog_id_and_phone    (catalog_id,phone) UNIQUE
+#  index_customers_on_catalog_id_and_token    (catalog_id,token) UNIQUE
 #  index_customers_on_catalog_id_and_user_id  (catalog_id,user_id) UNIQUE
 #  index_customers_on_user_id                 (user_id)
 #
 # Foreign Keys
 #
 #  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
-#  user_id     (user_id => users.id) ON DELETE => cascade
+#  user_id     (user_id => users.id) ON DELETE => nullify
 #
 class Customer < ApplicationRecord
   audited
@@ -34,6 +36,15 @@ class Customer < ApplicationRecord
   belongs_to :user, optional: true
 
   # 2) Identifiers / business keys
+  validates :token,
+            length: {
+              is: 36
+            },
+            uniqueness: {
+              scope: %i[catalog_id]
+            },
+            allow_blank: true
+
   validates :email,
             "valid_email_2/email": true,
             uniqueness: {
