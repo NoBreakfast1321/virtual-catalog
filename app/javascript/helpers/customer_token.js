@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { uuidv7 } from "uuidv7";
 
-const COOKIE_NAME = "cart_token";
+const COOKIE_NAME = "customer_token";
 const COOKIE_EXPIRATION_DAYS = 30;
 
 function currentCatalogPath() {
@@ -24,26 +24,28 @@ function cookieOptions() {
   return options;
 }
 
-function getCartToken() {
+function getCustomerToken() {
   return Cookies.get(COOKIE_NAME);
 }
 
-function setCartToken(cartToken) {
-  Cookies.set(COOKIE_NAME, cartToken, cookieOptions());
+function setCustomerToken(customerToken) {
+  Cookies.set(COOKIE_NAME, customerToken, cookieOptions());
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Cart token helper loaded");
+  console.log("Customer token helper loaded");
 
-  let cartToken = getCartToken();
+  let customerToken = getCustomerToken();
 
-  if (!cartToken) {
-    cartToken = uuidv7();
+  if (!customerToken) {
+    customerToken = uuidv7();
 
-    setCartToken(cartToken);
+    setCustomerToken(customerToken);
 
-    console.log(`New cart token generated and stored in cookie: ${cartToken}`);
+    console.log(
+      `New customer token generated and stored in cookie: ${customerToken}`,
+    );
   } else {
-    console.log(`Existing cart token found in cookie: ${cartToken}`);
+    console.log(`Existing customer token found in cookie: ${customerToken}`);
   }
 });
