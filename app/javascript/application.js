@@ -5,4 +5,4 @@ import "controllers";
 import "chartkick";
 import "Chart.bundle";
 
-import "helpers/cart-token";
+import "helpers/customer_token";
