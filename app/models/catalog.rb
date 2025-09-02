@@ -22,10 +22,13 @@
 #  user_id  (user_id => users.id) ON DELETE => cascade
 #
 class Catalog < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :slug, use: :finders
+
   audited
 
   include NameNormalizer
-  include SlugRestricter
   include VisibilityFilterer
 
   # 1) Associations (FKs)

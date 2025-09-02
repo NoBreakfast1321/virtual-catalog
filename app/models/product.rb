@@ -28,11 +28,14 @@
 #  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :slug, use: :finders
+
   audited
 
   include CodeNormalizer
   include NameNormalizer
-  include SlugRestricter
   include VisibilityFilterer
 
   # 1) Associations (FKs)
