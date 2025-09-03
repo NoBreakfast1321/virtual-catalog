@@ -26,7 +26,7 @@ class ProductOptionGroup < ApplicationRecord
   belongs_to :option_group
 
   # 2) Identifiers / business keys
-  validates :product_id, uniqueness: { scope: %i[option_group_id] }
+  validates :option_group_id, uniqueness: { scope: %i[product_id] }
 
   # 3) Domain fields
   # (none here)

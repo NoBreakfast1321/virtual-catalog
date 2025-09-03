@@ -29,8 +29,18 @@
   <body>
     <div id="toaster" class="toaster"><%= render "layouts/toast" %></div>
 
-    <main>
-      <%= yield %>
-    </main>
+    <div data-controller="dialog">
+      <%= link_to "View line items",
+              public_line_items_path(@catalog),
+              data: {
+                turbo_frame: turbo_frame_id(:line_items),
+                action: "click->details#open",
+              },
+              class: "button button--action" %>
+
+      <%= turbo_frame_tag turbo_frame_id(:line_items) %>
+    </div>
+
+    <main><%= yield %></main>
   </body>
 </html>

@@ -2,17 +2,4 @@
 
 <div class="divider"></div>
 
-<div data-controller="cart" class="flex items-center gap-4">
-  <select data-cart-target="select" class="form__input">
-    <% @product.variants.secondary.each do |variant| %>
-      <option value="<%= variant.to_json %>"><%= variant.label %></option>
-    <% end %>
-  </select>
-
-  <button
-    data-action="cart#add"
-    class="button button--primary shrink-0"
-  >
-    Add to cart
-  </button>
-</div>
+<%= turbo_frame_tag turbo_frame_id(LineItem.new), src: new_public_line_item_path(@catalog) %>

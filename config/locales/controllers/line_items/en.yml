@@ -1,0 +1,9 @@
+en:
+  controllers:
+    line_items:
+      create:
+        success: "Line item was successfully created."
+      update:
+        success: "Line item was successfully updated."
+      destroy:
+        success: "Line item was successfully destroyed."

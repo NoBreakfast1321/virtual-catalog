@@ -28,7 +28,5 @@ class CreateProductPropertyGroups < ActiveRecord::Migration[8.0]
     add_index :product_property_groups,
               %i[product_id property_group_id],
               unique: true
-
-    add_index :product_property_groups, %i[property_group_id product_id]
   end
 end

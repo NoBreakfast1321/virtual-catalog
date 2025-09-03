@@ -93,8 +93,16 @@
 #                                            PATCH  /catalogs/:id(.:format)                                                                           catalogs#update
 #                                            PUT    /catalogs/:id(.:format)                                                                           catalogs#update
 #                                            DELETE /catalogs/:id(.:format)                                                                           catalogs#destroy
-#                             public_catalog GET    /:slug(.:format)                                                                                  public_catalogs#show
-#                             public_product GET    /:catalog_slug/:slug(.:format)                                                                    public_products#show
+#                          public_line_items GET    /:catalog_slug/line_items(.:format)                                                               line_items#index
+#                                            POST   /:catalog_slug/line_items(.:format)                                                               line_items#create
+#                       new_public_line_item GET    /:catalog_slug/line_items/new(.:format)                                                           line_items#new
+#                      edit_public_line_item GET    /:catalog_slug/line_items/:id/edit(.:format)                                                      line_items#edit
+#                           public_line_item GET    /:catalog_slug/line_items/:id(.:format)                                                           line_items#show
+#                                            PATCH  /:catalog_slug/line_items/:id(.:format)                                                           line_items#update
+#                                            PUT    /:catalog_slug/line_items/:id(.:format)                                                           line_items#update
+#                                            DELETE /:catalog_slug/line_items/:id(.:format)                                                           line_items#destroy
+#                             public_catalog GET    /:catalog_slug(.:format)                                                                          public_catalogs#show
+#                             public_product GET    /:catalog_slug/:product_slug(.:format)                                                            public_products#show
 #           turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #           turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #          turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
@@ -159,6 +167,10 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/:slug", to: "public_catalogs#show", as: :public_catalog
-  get "/:catalog_slug/:slug", to: "public_products#show", as: :public_product
+  scope "/:catalog_slug", as: :public do
+    resources :line_items
+
+    get "/", to: "public_catalogs#show", as: :catalog
+    get "/:product_slug", to: "public_products#show", as: :product
+  end
 end

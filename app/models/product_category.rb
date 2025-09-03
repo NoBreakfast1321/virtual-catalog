@@ -26,7 +26,7 @@ class ProductCategory < ApplicationRecord
   belongs_to :category
 
   # 2) Identifiers / business keys
-  validates :product_id, uniqueness: { scope: %i[category_id] }
+  validates :category_id, uniqueness: { scope: %i[product_id] }
 
   # 3) Domain fields
   # (none here)

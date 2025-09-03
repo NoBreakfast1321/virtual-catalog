@@ -26,7 +26,7 @@ class VariantProperty < ApplicationRecord
   belongs_to :property
 
   # 2) Identifiers / business keys
-  validates :variant_id, uniqueness: { scope: %i[property_id] }
+  validates :property_id, uniqueness: { scope: %i[variant_id] }
 
   # 3) Domain fields
   # (none here)

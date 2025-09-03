@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_28_154352) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -100,6 +100,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
     t.index ["catalog_id", "user_id"], name: "index_customers_on_catalog_id_and_user_id", unique: true
     t.index ["catalog_id"], name: "index_customers_on_catalog_id"
     t.index ["user_id"], name: "index_customers_on_user_id"
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer "variant_id", null: false
+    t.integer "customer_id"
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id", "variant_id"], name: "index_line_items_on_customer_id_and_variant_id", unique: true
+    t.index ["customer_id"], name: "index_line_items_on_customer_id"
+    t.index ["variant_id", "customer_id"], name: "index_line_items_on_variant_id_and_customer_id"
+    t.index ["variant_id"], name: "index_line_items_on_variant_id"
   end
 
   create_table "option_groups", force: :cascade do |t|
@@ -242,6 +254,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_27_141254) do
   add_foreign_key "categories", "catalogs", on_delete: :cascade
   add_foreign_key "customers", "catalogs", on_delete: :cascade
   add_foreign_key "customers", "users", on_delete: :nullify
+  add_foreign_key "line_items", "customers", on_delete: :cascade
+  add_foreign_key "line_items", "variants", on_delete: :cascade
   add_foreign_key "option_groups", "catalogs", on_delete: :cascade
   add_foreign_key "options", "option_groups", on_delete: :cascade
   add_foreign_key "product_categories", "categories", on_delete: :restrict

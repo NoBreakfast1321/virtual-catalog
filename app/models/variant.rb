@@ -102,6 +102,10 @@ class Variant < ApplicationRecord
     properties.pluck(:name).join(" / ")
   end
 
+  def secondary?
+    !primary?
+  end
+
   private
 
   def ensure_one_selection_per_group

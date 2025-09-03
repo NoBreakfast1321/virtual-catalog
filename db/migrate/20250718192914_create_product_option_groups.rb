@@ -28,7 +28,5 @@ class CreateProductOptionGroups < ActiveRecord::Migration[8.0]
     add_index :product_option_groups,
               %i[product_id option_group_id],
               unique: true
-
-    add_index :product_option_groups, %i[option_group_id product_id]
   end
 end

@@ -7,7 +7,10 @@
     <% category.products.active.each do |product| %>
       <li>
         <%= link_to "#{product.name} - #{product.primary_variant.price.format}",
-                public_product_path(catalog_slug: @catalog.slug, slug: product.slug) %>
+                public_product_path(
+                  catalog_slug: @catalog.slug,
+                  product_slug: product.slug,
+                ) %>
       </li>
     <% end %>
   </ul>

@@ -35,6 +35,8 @@ class Customer < ApplicationRecord
   belongs_to :catalog
   belongs_to :user, optional: true
 
+  has_many :line_items, dependent: :destroy
+
   # 2) Identifiers / business keys
   validates :token,
             length: {

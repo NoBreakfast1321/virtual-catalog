@@ -26,7 +26,7 @@ class ProductPropertyGroup < ApplicationRecord
   belongs_to :property_group
 
   # 2) Identifiers / business keys
-  validates :product_id, uniqueness: { scope: %i[property_group_id] }
+  validates :property_group_id, uniqueness: { scope: %i[product_id] }
 
   # 3) Domain fields
   # (none here)

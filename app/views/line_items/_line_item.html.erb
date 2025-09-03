@@ -1,0 +1,17 @@
+<%# locals: (catalog:, line_item:) %>
+
+<%= turbo_frame_tag turbo_frame_id(line_item) do %>
+  <div class="my-4">
+    <p>
+      <%= line_item.variant.product.name %> (<%= line_item.variant.label %>) - <%= line_item.quantity %>x
+    </p>
+
+    <%= button_to "Destroy",
+              public_line_item_path(catalog, line_item),
+              method: :delete,
+              data: {
+                turbo_confirm: "Are you sure you want to destroy this line item?",
+              },
+              class: "button button--danger" %>
+  </div>
+<% end %>

@@ -21,6 +21,5 @@ class CreateProductCategories < ActiveRecord::Migration[8.0]
     end
 
     add_index :product_categories, %i[product_id category_id], unique: true
-    add_index :product_categories, %i[category_id product_id]
   end
 end
