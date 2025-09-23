@@ -31,3 +31,6 @@ en:
   pagy:
     prev: '<i class="ri-arrow-left-double-fill size-5"></i>'
     next: '<i class="ri-arrow-right-double-fill size-5"></i>'
+  errors:
+    messages:
+      internal_server_error: "An unexpected error occurred. Try again."

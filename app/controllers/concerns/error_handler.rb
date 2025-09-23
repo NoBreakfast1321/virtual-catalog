@@ -21,15 +21,17 @@ module ErrorHandler
   end
 
   def render_general_error(exception)
+    error_message = exception.message.presence || generic_error_message
+
     respond_to do |format|
       format.html do
-        flash.now[:alert] = exception.message
+        flash.now[:alert] = error_message
 
         render template, status: :unprocessable_content
       end
 
       format.turbo_stream do
-        flash.now[:alert] = exception.message
+        flash.now[:alert] = error_message
 
         render turbo_stream: render_toast, status: :unprocessable_content
       end
@@ -45,5 +47,9 @@ module ErrorHandler
     else
       action_name.to_sym
     end
+  end
+
+  def generic_error_message
+    I18n.t("errors.messages.internal_server_error")
   end
 end
