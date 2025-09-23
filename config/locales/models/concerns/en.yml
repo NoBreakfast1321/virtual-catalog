@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        reserved_slug: "is reserved and cannot be used"

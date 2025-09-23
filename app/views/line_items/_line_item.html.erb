@@ -1,4 +1,4 @@
-<%# locals: (catalog:, line_item:) %>
+<%# locals: (catalog:, customer:, line_item:) %>
 
 <%= turbo_frame_tag turbo_frame_id(line_item) do %>
   <div class="my-4">
@@ -6,8 +6,15 @@
       <%= line_item.variant.product.name %> (<%= line_item.variant.label %>) - <%= line_item.quantity %>x
     </p>
 
+    <%= link_to "Edit",
+            edit_public_line_item_path(id: line_item, catalog_slug: @catalog.slug),
+            class: "button button--action",
+            data: {
+              turbo_frame: turbo_frame_id("edit_line_item"),
+            } %>
+
     <%= button_to "Destroy",
-              public_line_item_path(catalog, line_item),
+              public_line_item_path(line_item, catalog_slug: catalog.slug),
               method: :delete,
               data: {
                 turbo_confirm: "Are you sure you want to destroy this line item?",

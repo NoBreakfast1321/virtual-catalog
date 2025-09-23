@@ -1,0 +1,14 @@
+<div>
+  <%= turbo_frame_tag turbo_frame_id(:line_items) do %>
+    <h2>Cart</h2>
+
+    <% @line_items.each do |line_item| %>
+      <%= render "line_items/line_item",
+             catalog: @catalog,
+             customer: @customer,
+             line_item: line_item %>
+    <% end %>
+
+    <%= turbo_frame_tag turbo_frame_id("edit_line_item") %>
+  <% end %>
+</div>

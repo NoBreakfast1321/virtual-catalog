@@ -20,6 +20,7 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= javascript_importmap_tags "helpers/customer_token" %>
 
     <%# https://rsms.me/inter/#usage %>
     <link rel="preconnect" href="https://rsms.me/" />
@@ -29,17 +30,21 @@
   <body>
     <div id="toaster" class="toaster"><%= render "layouts/toast" %></div>
 
-    <div data-controller="dialog">
-      <%= link_to "View line items",
-              public_line_items_path(@catalog),
-              data: {
-                turbo_frame: turbo_frame_id(:line_items),
-                action: "click->details#open",
-              },
-              class: "button button--action" %>
+    <h1><%= @customer.present? ? "TEM CUSTOMER" : "NÃO TEM CUSTOMER" %></h1>
 
-      <%= turbo_frame_tag turbo_frame_id(:line_items) %>
-    </div>
+    <% if @customer.present? %>
+      <div data-controller="dialog">
+        <%= link_to "View cart",
+                public_line_items_path(@customer, catalog_slug: @catalog.slug),
+                data: {
+                  turbo_frame: turbo_frame_id(:line_items),
+                  action: "click->details#open",
+                },
+                class: "button button--action" %>
+
+        <%= turbo_frame_tag turbo_frame_id(:line_items) %>
+      </div>
+    <% end %>
 
     <main><%= yield %></main>
   </body>

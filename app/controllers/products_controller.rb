@@ -6,7 +6,9 @@ class ProductsController < ApplicationController
   before_action :build_product_with_params, only: %i[create]
   before_action :build_product_without_params, only: %i[new]
 
-  before_action :restrict_product_creation, only: %i[new create]
+  before_action :restrict_product_creation,
+                only: %i[new create],
+                unless: -> { @catalog.categories.any? }
 
   def index
     @q = @catalog.products.ransack(params[:q])
@@ -26,12 +28,7 @@ class ProductsController < ApplicationController
     ActiveRecord::Base.transaction do
       @product.save!
 
-      @product.variants.create!(
-        code: "#{params[:product][:code]}-PRIMARY",
-        price: params[:product][:price],
-        primary: true,
-        visible: params[:product][:visible],
-      )
+      @product.variants.create!(**variant_params, primary: true)
     end
 
     respond_to do |format|
@@ -45,11 +42,7 @@ class ProductsController < ApplicationController
     ActiveRecord::Base.transaction do
       @product.update!(product_params)
 
-      @product.primary_variant.update!(
-        code: params[:product][:code],
-        price: params[:product][:price],
-        visible: params[:product][:visible],
-      )
+      @product.primary_variant.update!(variant_params)
     end
 
     respond_to do |format|
@@ -107,10 +100,12 @@ class ProductsController < ApplicationController
     )
   end
 
+  def variant_params
+    params.expect(:product).slice(:code, :price, :visible)
+  end
+
   def restrict_product_creation
-    unless @catalog.categories.any?
-      redirect_to new_catalog_category_path(@catalog),
-                  alert: t_controller("callbacks.restrict_product_creation")
-    end
+    redirect_to new_catalog_category_path(@catalog),
+                alert: t_controller("callbacks.restrict_product_creation")
   end
 end

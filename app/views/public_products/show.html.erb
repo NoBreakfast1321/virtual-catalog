@@ -2,4 +2,9 @@
 
 <div class="divider"></div>
 
-<%= turbo_frame_tag turbo_frame_id(LineItem.new), src: new_public_line_item_path(@catalog) %>
+<%= turbo_frame_tag turbo_frame_id(LineItem.new),
+                src:
+                  new_public_line_item_path(
+                    catalog_slug: @catalog.slug,
+                    product_slug: @product.slug,
+                  ) %>

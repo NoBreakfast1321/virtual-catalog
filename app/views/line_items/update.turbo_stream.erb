@@ -1,5 +1,10 @@
 <%= render_toast %>
 
 <%= turbo_stream.replace turbo_frame_id(@line_item) do %>
-  <%= render "line_items/line_item", catalog: @catalog, line_item: @line_item %>
+  <%= render "line_items/line_item",
+         catalog: @catalog,
+         customer: @customer,
+         line_item: @line_item %>
+
+  <%= turbo_stream.update turbo_frame_id("edit_line_item"), "" %>
 <% end %>

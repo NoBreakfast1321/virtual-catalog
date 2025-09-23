@@ -1,0 +1,16 @@
+<%# locals: (catalog:, customer:, line_item:) %>
+
+<%= render "layouts/validation_errors", object: line_item %>
+
+<%= form_with scope: :line_item,
+          method: :patch,
+          url: public_line_item_path(line_item, catalog_slug: catalog.slug),
+          class: "form form--grid" do |form| %>
+  <div class="form__group">
+    <%= form.number_field :quantity, class: "form__input" %>
+  </div>
+
+  <footer class="form__footer">
+    <%= form.submit "Update", class: "button button--action" %>
+  </footer>
+<% end %>

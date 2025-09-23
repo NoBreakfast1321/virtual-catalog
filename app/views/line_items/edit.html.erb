@@ -1,0 +1,7 @@
+<div>MODAL AQUI</div>
+<%= turbo_frame_tag turbo_frame_id("edit_line_item") do %>
+  <%= render "line_items/form_edit",
+         catalog: @catalog,
+         customer: @customer,
+         line_item: @line_item %>
+<% end %>

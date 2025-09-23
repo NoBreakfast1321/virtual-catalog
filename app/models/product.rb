@@ -28,14 +28,11 @@
 #  catalog_id  (catalog_id => catalogs.id) ON DELETE => cascade
 #
 class Product < ApplicationRecord
-  extend FriendlyId
-
-  friendly_id :slug, use: :finders
-
   audited
 
   include CodeNormalizer
   include NameNormalizer
+  include SlugRestricter
   include VisibilityFilterer
 
   # 1) Associations (FKs)
@@ -177,7 +174,7 @@ class Product < ApplicationRecord
   end
 
   def primary_variant
-    variants.find_by(primary: true)
+    variants.find_by!(primary: true)
   end
 
   def active?
@@ -199,7 +196,7 @@ class Product < ApplicationRecord
   private
 
   def generate_slug
-    self.slug = name.parameterize[0..49]
+    self.slug = name.parameterize[0..149]
 
     unless slug.present?
       errors.add(:name, :cannot_be_used_to_generate_valid_slug)

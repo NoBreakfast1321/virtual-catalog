@@ -2,4 +2,9 @@ en:
   controllers:
     product_images:
       update:
-        success: "Images were successfully uploaded."
+        success: "Product images were successfully updated."
+
+        logger:
+          not_found: "Product image not found for purge: %{id}"
+        toaster:
+          not_found: "One or more product images were not found for removal."

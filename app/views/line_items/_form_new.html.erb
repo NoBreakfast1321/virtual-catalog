@@ -1,0 +1,32 @@
+<%# locals: (catalog:, customer:, line_item:, product:) %>
+
+<%= render "layouts/validation_errors", object: line_item %>
+
+<%= form_with scope: :line_item,
+          url: public_line_items_path(catalog_slug: catalog.slug),
+          method: :post,
+          class: "form form--grid" do |form| %>
+  <%= hidden_field_tag :product_slug, product.slug %>
+
+  <% if product.variants.secondary.any? %>
+    <div class="form__group">
+      <%= form.collection_select :variant_id,
+                             product.variants.secondary,
+                             :id,
+                             :label,
+                             {},
+                             autofocus: true,
+                             class: "form__input" %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :variant_id, value: product.primary_variant.id %>
+  <% end %>
+
+  <div class="form__group">
+    <%= form.number_field :quantity, class: "form__input" %>
+  </div>
+
+  <footer class="form__footer">
+    <%= form.submit "Add to cart", class: "button button--action" %>
+  </footer>
+<% end %>

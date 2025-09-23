@@ -49,20 +49,6 @@
 #                                            PATCH  /catalogs/:catalog_id/option_groups/:id(.:format)                                                 option_groups#update
 #                                            PUT    /catalogs/:catalog_id/option_groups/:id(.:format)                                                 option_groups#update
 #                                            DELETE /catalogs/:catalog_id/option_groups/:id(.:format)                                                 option_groups#destroy
-#          catalog_property_group_properties POST   /catalogs/:catalog_id/property_groups/:property_group_id/properties(.:format)                     properties#create
-#        new_catalog_property_group_property GET    /catalogs/:catalog_id/property_groups/:property_group_id/properties/new(.:format)                 properties#new
-#       edit_catalog_property_group_property GET    /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id/edit(.:format)            properties#edit
-#            catalog_property_group_property PATCH  /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
-#                                            PUT    /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
-#                                            DELETE /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#destroy
-#                    catalog_property_groups GET    /catalogs/:catalog_id/property_groups(.:format)                                                   property_groups#index
-#                                            POST   /catalogs/:catalog_id/property_groups(.:format)                                                   property_groups#create
-#                 new_catalog_property_group GET    /catalogs/:catalog_id/property_groups/new(.:format)                                               property_groups#new
-#                edit_catalog_property_group GET    /catalogs/:catalog_id/property_groups/:id/edit(.:format)                                          property_groups#edit
-#                     catalog_property_group GET    /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#show
-#                                            PATCH  /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#update
-#                                            PUT    /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#update
-#                                            DELETE /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#destroy
 #             catalog_product_product_images PATCH  /catalogs/:catalog_id/products/:product_id/product_images(.:format)                               product_images#update
 #                                            PUT    /catalogs/:catalog_id/products/:product_id/product_images(.:format)                               product_images#update
 #      catalog_product_product_option_groups POST   /catalogs/:catalog_id/products/:product_id/product_option_groups(.:format)                        product_option_groups#create
@@ -85,6 +71,20 @@
 #                                            PATCH  /catalogs/:catalog_id/products/:id(.:format)                                                      products#update
 #                                            PUT    /catalogs/:catalog_id/products/:id(.:format)                                                      products#update
 #                                            DELETE /catalogs/:catalog_id/products/:id(.:format)                                                      products#destroy
+#          catalog_property_group_properties POST   /catalogs/:catalog_id/property_groups/:property_group_id/properties(.:format)                     properties#create
+#        new_catalog_property_group_property GET    /catalogs/:catalog_id/property_groups/:property_group_id/properties/new(.:format)                 properties#new
+#       edit_catalog_property_group_property GET    /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id/edit(.:format)            properties#edit
+#            catalog_property_group_property PATCH  /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
+#                                            PUT    /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#update
+#                                            DELETE /catalogs/:catalog_id/property_groups/:property_group_id/properties/:id(.:format)                 properties#destroy
+#                    catalog_property_groups GET    /catalogs/:catalog_id/property_groups(.:format)                                                   property_groups#index
+#                                            POST   /catalogs/:catalog_id/property_groups(.:format)                                                   property_groups#create
+#                 new_catalog_property_group GET    /catalogs/:catalog_id/property_groups/new(.:format)                                               property_groups#new
+#                edit_catalog_property_group GET    /catalogs/:catalog_id/property_groups/:id/edit(.:format)                                          property_groups#edit
+#                     catalog_property_group GET    /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#show
+#                                            PATCH  /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#update
+#                                            PUT    /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#update
+#                                            DELETE /catalogs/:catalog_id/property_groups/:id(.:format)                                               property_groups#destroy
 #                                   catalogs GET    /catalogs(.:format)                                                                               catalogs#index
 #                                            POST   /catalogs(.:format)                                                                               catalogs#create
 #                                new_catalog GET    /catalogs/new(.:format)                                                                           catalogs#new
@@ -154,16 +154,16 @@ Rails.application.routes.draw do
       resources :options, except: %i[index show]
     end
 
-    resources :property_groups do
-      resources :properties, except: %i[index show]
-    end
-
     resources :products do
       resource :product_images, only: %i[update]
 
       resources :product_option_groups, only: %i[new create destroy]
       resources :product_property_groups, only: %i[new create destroy]
       resources :variants, except: %i[index show]
+    end
+
+    resources :property_groups do
+      resources :properties, except: %i[index show]
     end
   end
 

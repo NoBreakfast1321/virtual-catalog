@@ -1,1 +1,7 @@
-<%= render "line_items/form", catalog: @catalog, product: @product, line_item: @line_item %>
+<%= turbo_frame_tag turbo_frame_id(LineItem.new) do %>
+  <%= render "line_items/form_new",
+         catalog: @catalog,
+         customer: @customer,
+         line_item: @line_item,
+         product: @product %>
+<% end %>
