@@ -3,8 +3,7 @@ en:
     product_images:
       update:
         success: "Product images were successfully updated."
-
-        logger:
-          not_found: "Product image not found for purge: %{id}"
-        toaster:
-          not_found: "One or more product images were not found for removal."
+      logger:
+        not_found: "Product image not found for purge: %{id}"
+      toaster:
+        not_found: "One or more product images were not found for removal."

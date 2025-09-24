@@ -37,10 +37,10 @@ class ProductImagesController < ApplicationController
 
       unless image
         Rails.logger.warn(
-          t_controller("update.logger.not_found", id: purge_image_id),
+          t_controller("logger.not_found", id: purge_image_id),
         )
 
-        flash.now[:alert] = t_controller("update.toaster.not_found")
+        flash.now[:alert] = t_controller("toaster.not_found")
 
         next
       end
