@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: %i[show edit update destroy]
 
   def index
-    @q = @catalog.categories.ransack(params[:q])
+    @q = @catalog.categories.includes(:products).ransack(params[:q])
     @pagy, @categories = pagy(@q.result(distinct: true))
   end
 
@@ -49,7 +49,7 @@ class CategoriesController < ApplicationController
   end
 
   def set_category
-    @category = @catalog.categories.find(params.expect(:id))
+    @category = @catalog.categories.includes(:products).find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

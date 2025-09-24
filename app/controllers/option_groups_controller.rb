@@ -5,7 +5,7 @@ class OptionGroupsController < ApplicationController
   before_action :set_option_group, only: %i[show edit update destroy]
 
   def index
-    @q = @catalog.option_groups.ransack(params[:q])
+    @q = @catalog.option_groups.includes(:options).ransack(params[:q])
     @pagy, @option_groups = pagy(@q.result(distinct: true))
   end
 
@@ -51,7 +51,8 @@ class OptionGroupsController < ApplicationController
   end
 
   def set_option_group
-    @option_group = @catalog.option_groups.find(params.expect(:id))
+    @option_group =
+      @catalog.option_groups.includes(:options).find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

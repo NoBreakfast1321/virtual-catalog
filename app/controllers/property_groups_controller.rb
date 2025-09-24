@@ -6,7 +6,7 @@ class PropertyGroupsController < ApplicationController
   before_action :set_secondary_variants, only: %i[create destroy]
 
   def index
-    @q = @catalog.property_groups.ransack(params[:q])
+    @q = @catalog.property_groups.includes(:properties).ransack(params[:q])
     @pagy, @property_groups = pagy(@q.result(distinct: true))
   end
 
@@ -60,7 +60,8 @@ class PropertyGroupsController < ApplicationController
   end
 
   def set_property_group
-    @property_group = @catalog.property_groups.find(params.expect(:id))
+    @property_group =
+      @catalog.property_groups.includes(:properties).find(params.expect(:id))
   end
 
   def set_secondary_variants

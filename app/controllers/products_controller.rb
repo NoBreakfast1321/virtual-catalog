@@ -9,7 +9,7 @@ class ProductsController < ApplicationController
                 if: -> { @catalog.categories.empty? }
 
   def index
-    @q = @catalog.products.ransack(params[:q])
+    @q = @catalog.products.includes(:categories).ransack(params[:q])
     @pagy, @products = pagy(@q.result(distinct: true))
   end
 
@@ -61,7 +61,16 @@ class ProductsController < ApplicationController
   end
 
   def set_product
-    @product = @catalog.products.find(params.expect(:id))
+    @product =
+      @catalog
+        .products
+        .includes(
+          :categories,
+          product_option_groups: :option_group,
+          product_property_groups: :property_group,
+          variants: :property_groups,
+        )
+        .find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.

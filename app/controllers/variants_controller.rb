@@ -42,7 +42,7 @@ class VariantsController < ApplicationController
   end
 
   def set_variant
-    @variant = @product.variants.find(params.expect(:id))
+    @variant = @product.variants.includes(:properties).find(params.expect(:id))
   end
 
   # Only allow a list of trusted parameters through.
