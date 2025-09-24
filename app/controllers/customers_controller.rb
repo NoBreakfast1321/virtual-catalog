@@ -3,8 +3,6 @@ class CustomersController < ApplicationController
 
   before_action :set_catalog
   before_action :set_customer, only: %i[show edit update destroy]
-  before_action :build_customer_with_params, only: %i[create]
-  before_action :build_customer_without_params, only: %i[new]
 
   def index
     @q = @catalog.customers.ransack(params[:q])
@@ -15,43 +13,31 @@ class CustomersController < ApplicationController
   end
 
   def new
+    @customer = @catalog.customers.build
   end
 
   def edit
   end
 
   def create
+    @customer = @catalog.customers.build(customer_params)
+
     @customer.save!
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @customer ],
-                    notice: t_controller("create.success")
-      end
-    end
+    redirect_to [ @catalog, @customer ], notice: t_controller("create.success")
   end
 
   def update
     @customer.update!(customer_params)
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @customer ],
-                    notice: t_controller("update.success")
-      end
-    end
+    redirect_to [ @catalog, @customer ], notice: t_controller("update.success")
   end
 
   def destroy
     @customer.destroy!
-
-    respond_to do |format|
-      format.html do
-        redirect_to catalog_customers_path(@catalog),
-                    notice: t_controller("destroy.success"),
-                    status: :see_other
-      end
-    end
+    redirect_to catalog_customers_path(@catalog),
+                notice: t_controller("destroy.success"),
+                status: :see_other
   end
 
   private
@@ -63,14 +49,6 @@ class CustomersController < ApplicationController
 
   def set_customer
     @customer = @catalog.customers.find(params.expect(:id))
-  end
-
-  def build_customer_with_params
-    @customer = @catalog.customers.build(customer_params)
-  end
-
-  def build_customer_without_params
-    @customer = @catalog.customers.build
   end
 
   # Only allow a list of trusted parameters through.

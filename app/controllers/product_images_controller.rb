@@ -11,11 +11,7 @@ class ProductImagesController < ApplicationController
       purge_images
     end
 
-    respond_to do |format|
-      format.turbo_stream do
-        flash.now[:notice] = t_controller("update.success")
-      end
-    end
+    flash.now[:notice] = t_controller("update.success")
   end
 
   private
@@ -23,7 +19,7 @@ class ProductImagesController < ApplicationController
   def attach_images
     images = product_images_params[:images]
 
-    return unless images.present?
+    return if images.blank?
 
     images.each { |image| @product.images.attach(image) }
   end
@@ -31,7 +27,7 @@ class ProductImagesController < ApplicationController
   def purge_images
     purge_image_ids = product_images_params[:purge_image_ids]
 
-    return unless purge_image_ids.present?
+    return if purge_image_ids.blank?
 
     purge_image_ids.each do |purge_image_id|
       image =
@@ -55,15 +51,15 @@ class ProductImagesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_catalog
-    @catalog = current_user.catalogs.find(params[:catalog_id])
+    @catalog = current_user.catalogs.find(params.expect(:catalog_id))
   end
 
   def set_product
-    @product = @catalog.products.find(params[:product_id])
+    @product = @catalog.products.find(params.expect(:product_id))
   end
 
   # Only allow a list of trusted parameters through.
   def product_images_params
-    params.require(:product).permit(images: [], purge_image_ids: [])
+    params.expect(product: [ images: [], purge_image_ids: [] ])
   end
 end

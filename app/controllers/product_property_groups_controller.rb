@@ -2,25 +2,23 @@ class ProductPropertyGroupsController < ApplicationController
   before_action :set_catalog
   before_action :set_product
   before_action :set_product_property_group, only: %i[destroy]
-  before_action :build_product_property_group_with_params, only: %i[create]
-  before_action :build_product_property_group_without_params, only: %i[new]
   before_action :set_secondary_variants, only: %i[create destroy]
 
   def new
+    @product_property_group = @product.product_property_groups.build
   end
 
   def create
+    @product_property_group =
+      @product.product_property_groups.build(product_property_group_params)
+
     ActiveRecord::Base.transaction do
       @secondary_variants.each(&:destroy!)
 
       @product_property_group.save!
     end
 
-    respond_to do |format|
-      format.turbo_stream do
-        flash.now[:notice] = t_controller("create.success")
-      end
-    end
+    flash.now[:notice] = t_controller("create.success")
   end
 
   def destroy
@@ -30,11 +28,7 @@ class ProductPropertyGroupsController < ApplicationController
       @product_property_group.destroy!
     end
 
-    respond_to do |format|
-      format.turbo_stream do
-        flash.now[:notice] = t_controller("destroy.success")
-      end
-    end
+    flash.now[:notice] = t_controller("destroy.success")
   end
 
   private
@@ -51,15 +45,6 @@ class ProductPropertyGroupsController < ApplicationController
   def set_product_property_group
     @product_property_group =
       @product.product_property_groups.find(params.expect(:id))
-  end
-
-  def build_product_property_group_with_params
-    @product_property_group =
-      @product.product_property_groups.build(product_property_group_params)
-  end
-
-  def build_product_property_group_without_params
-    @product_property_group = @product.product_property_groups.build
   end
 
   def set_secondary_variants

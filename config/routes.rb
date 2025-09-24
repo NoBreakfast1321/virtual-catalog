@@ -155,11 +155,11 @@ Rails.application.routes.draw do
     end
 
     resources :products do
-      resource :product_images, only: %i[update]
-
       resources :product_option_groups, only: %i[new create destroy]
       resources :product_property_groups, only: %i[new create destroy]
       resources :variants, except: %i[index show]
+
+      resource :product_images, only: %i[update]
     end
 
     resources :property_groups do

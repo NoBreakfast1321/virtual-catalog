@@ -3,8 +3,6 @@ class PropertyGroupsController < ApplicationController
 
   before_action :set_catalog
   before_action :set_property_group, only: %i[show edit update destroy]
-  before_action :build_property_group_with_params, only: %i[create]
-  before_action :build_property_group_without_params, only: %i[new]
   before_action :set_secondary_variants, only: %i[create destroy]
 
   def index
@@ -16,35 +14,30 @@ class PropertyGroupsController < ApplicationController
   end
 
   def new
+    @property_group = @catalog.property_groups.build
   end
 
   def edit
   end
 
   def create
+    @property_group = @catalog.property_groups.build(property_group_params)
+
     ActiveRecord::Base.transaction do
       @property_group.save!
 
       @secondary_variants.each(&:destroy!)
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @property_group ],
-                    notice: t_controller("create.success")
-      end
-    end
+    redirect_to [ @catalog, @property_group ],
+                notice: t_controller("create.success")
   end
 
   def update
     @property_group.update!(property_group_params)
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @property_group ],
-                    notice: t_controller("update.success")
-      end
-    end
+    redirect_to [ @catalog, @property_group ],
+                notice: t_controller("update.success")
   end
 
   def destroy
@@ -54,13 +47,9 @@ class PropertyGroupsController < ApplicationController
       @property_group.destroy!
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to catalog_property_groups_path(@catalog),
-                    notice: t_controller("destroy.success"),
-                    status: :see_other
-      end
-    end
+    redirect_to catalog_property_groups_path(@catalog),
+                notice: t_controller("destroy.success"),
+                status: :see_other
   end
 
   private
@@ -74,21 +63,17 @@ class PropertyGroupsController < ApplicationController
     @property_group = @catalog.property_groups.find(params.expect(:id))
   end
 
-  def build_property_group_with_params
-    @property_group = @catalog.property_groups.build(property_group_params)
-  end
-
-  def build_property_group_without_params
-    @property_group = @catalog.property_groups.build
-  end
-
   def set_secondary_variants
     @secondary_variants =
-      Variant.where(product: @property_group.products).secondary
+      if @property_group.products.any?
+        Variant.where(product: @property_group.products).secondary
+      else
+        Variant.none
+      end
   end
 
   # Only allow a list of trusted parameters through.
   def property_group_params
-    params.expect(property_group: [ :name ])
+    params.expect(property_group: %i[name])
   end
 end

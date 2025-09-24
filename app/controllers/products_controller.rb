@@ -3,12 +3,10 @@ class ProductsController < ApplicationController
 
   before_action :set_catalog
   before_action :set_product, only: %i[show edit update destroy]
-  before_action :build_product_with_params, only: %i[create]
-  before_action :build_product_without_params, only: %i[new]
 
   before_action :restrict_product_creation,
                 only: %i[new create],
-                unless: -> { @catalog.categories.any? }
+                if: -> { @catalog.categories.empty? }
 
   def index
     @q = @catalog.products.ransack(params[:q])
@@ -19,23 +17,22 @@ class ProductsController < ApplicationController
   end
 
   def new
+    @product = @catalog.products.build
   end
 
   def edit
   end
 
   def create
+    @product = @catalog.products.build(product_params)
+
     ActiveRecord::Base.transaction do
       @product.save!
 
       @product.variants.create!(**variant_params, primary: true)
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @product ], notice: t_controller("create.success")
-      end
-    end
+    redirect_to [ @catalog, @product ], notice: t_controller("create.success")
   end
 
   def update
@@ -45,23 +42,15 @@ class ProductsController < ApplicationController
       @product.primary_variant.update!(variant_params)
     end
 
-    respond_to do |format|
-      format.html do
-        redirect_to [ @catalog, @product ], notice: t_controller("update.success")
-      end
-    end
+    redirect_to [ @catalog, @product ], notice: t_controller("update.success")
   end
 
   def destroy
     @product.destroy!
 
-    respond_to do |format|
-      format.html do
-        redirect_to catalog_products_path(@catalog),
-                    notice: t_controller("destroy.success"),
-                    status: :see_other
-      end
-    end
+    redirect_to catalog_products_path(@catalog),
+                notice: t_controller("destroy.success"),
+                status: :see_other
   end
 
   private
@@ -73,14 +62,6 @@ class ProductsController < ApplicationController
 
   def set_product
     @product = @catalog.products.find(params.expect(:id))
-  end
-
-  def build_product_with_params
-    @product = @catalog.products.build(product_params)
-  end
-
-  def build_product_without_params
-    @product = @catalog.products.build
   end
 
   # Only allow a list of trusted parameters through.
@@ -104,6 +85,7 @@ class ProductsController < ApplicationController
     params.expect(:product).slice(:code, :price, :visible)
   end
 
+  # Use callbacks for constraints and restrictions.
   def restrict_product_creation
     redirect_to new_catalog_category_path(@catalog),
                 alert: t_controller("callbacks.restrict_product_creation")
