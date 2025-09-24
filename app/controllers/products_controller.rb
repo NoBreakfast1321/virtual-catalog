@@ -68,7 +68,9 @@ class ProductsController < ApplicationController
           :categories,
           product_option_groups: :option_group,
           product_property_groups: :property_group,
-          variants: :property_groups,
+          variants: {
+            properties: :property_group
+          },
         )
         .find(params.expect(:id))
   end
