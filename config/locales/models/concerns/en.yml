@@ -2,4 +2,4 @@ en:
   activerecord:
     errors:
       messages:
-        reserved_slug: "is reserved and cannot be used"
+        cannot_generate_slug: "is reserved and cannot be used"

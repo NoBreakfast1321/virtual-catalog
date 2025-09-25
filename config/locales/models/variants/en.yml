@@ -5,7 +5,7 @@ en:
         variant:
           attributes:
             primary:
-              only_one_primary_variant_can_be_created: "only one primary variant can be created"
-              product_without_property_group: "product must have at least one property group"
+              no_property_group: "product must have at least one property group"
+              single_primary_variant: "only one primary variant can be created"
             property_ids:
               must_select_property: "You must select a property."

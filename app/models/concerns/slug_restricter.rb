@@ -18,14 +18,14 @@ module SlugRestricter
     users
   ]
 
-  included { validate :restrict_slug_creation, if: -> { slug.present? } }
+  included { validate :validate_slug_not_reserved, if: -> { slug.present? } }
 
   private
 
-  def restrict_slug_creation
+  def validate_slug_not_reserved
     if RESERVED_SLUGS.include?(slug)
-      errors.add(:name, :reserved_slug)
-      errors.add(:slug, :reserved_slug)
+      errors.add(:name, :cannot_generate_slug)
+      errors.add(:slug, :cannot_generate_slug)
 
       throw(:abort)
     end

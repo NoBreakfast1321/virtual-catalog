@@ -53,7 +53,7 @@ class Variant < ApplicationRecord
               scope: %i[product_id],
               conditions: -> { where(primary: false) }
             },
-            unless: :primary?
+            if: :secondary?
 
   # 3) Domain fields
   monetize :price_cents
@@ -79,7 +79,7 @@ class Variant < ApplicationRecord
             uniqueness: {
               scope: %i[product_id],
               conditions: -> { where(primary: true) },
-              message: :only_one_primary_variant_can_be_created
+              message: :single_primary_variant
             },
             if: :primary?
 
@@ -88,12 +88,15 @@ class Variant < ApplicationRecord
   # 5) Domain temporal attributes
   # (none)
 
-  validate :ensure_one_selection_per_group
-  validate :product_must_have_property_group, on: :create, unless: :primary?
+  validate :validate_property_group_presence,
+           on: %i[create update],
+           if: :secondary?
+
+  validate :validate_property_selection, on: %i[create update], if: :secondary?
 
   before_validation :generate_property_combination,
                     on: %i[create update],
-                    unless: :primary?
+                    if: :secondary?
 
   scope :primary, -> { where(primary: true) }
   scope :secondary, -> { where(primary: false) }
@@ -108,41 +111,39 @@ class Variant < ApplicationRecord
 
   private
 
-  def ensure_one_selection_per_group
-    return unless product.present?
+  def validate_property_group_presence
+    return if product&.property_groups&.any?
 
-    expected_group_ids = product.property_groups.ids
+    errors.add(:base, :no_property_group)
+  end
 
-    return unless expected_group_ids.any?
+  def validate_property_selection
+    property_group_ids = product.property_groups.ids
+    selected_group_ids = properties.map(&:property_group_id)
+    expected_group_ids = selected_group_ids.tally
 
-    provided_group_ids = properties.map(&:property_group_id).uniq.compact
+    each_provided_once =
+      property_group_ids.all? { |id| expected_group_ids[id] == 1 }
 
-    excluded_group_ids = expected_group_ids - provided_group_ids
+    no_extra_selection =
+      selected_group_ids.all? { |id| property_group_ids.include?(id) }
 
-    return unless excluded_group_ids.any?
+    each_provided_once && no_extra_selection
 
     errors.add(:property_ids, :must_select_property)
   end
 
   def generate_property_combination
-    self.property_combination = ordered_properties.map(&:id).join("-")
-  end
-
-  def ordered_properties
-    properties.to_a.sort_by do |property|
-      property_group = property.property_group
-
-      [
-        property_group&.created_at || Time.at(0),
-        property_group&.id || 0,
-        property.id || 0
-      ]
-    end
-  end
-
-  def product_must_have_property_group
-    return if product&.property_groups&.any?
-
-    errors.add(:base, :product_without_property_group)
+    self.property_combination =
+      properties
+        .sort_by do |property|
+          [
+            property.property_group.created_at,
+            property.property_group.id,
+            property.id
+          ]
+        end
+        .map(&:id)
+        .join("-")
   end
 end

@@ -5,4 +5,4 @@ en:
         product:
           attributes:
             name:
-              cannot_be_used_to_generate_valid_slug: "cannot be used to generate valid slug"
+              cannot_generate_slug: "cannot be used to generate valid slug"

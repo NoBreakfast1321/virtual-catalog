@@ -35,7 +35,7 @@ class Property < ApplicationRecord
               maximum: 50
             },
             uniqueness: {
-              scope: %i[property_group]
+              scope: %i[property_group_id]
             }
 
   # 3) Domain fields

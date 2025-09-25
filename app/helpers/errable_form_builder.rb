@@ -1,6 +1,6 @@
 class ErrableFormBuilder < ActionView::Helpers::FormBuilder
   def error(field, klass = "")
-    return unless object.errors[field].any?
+    return if object.errors[field].empty?
 
     @template.content_tag(
       :div,

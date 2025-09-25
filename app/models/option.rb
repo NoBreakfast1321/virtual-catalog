@@ -36,7 +36,7 @@ class Option < ApplicationRecord
               maximum: 50
             },
             uniqueness: {
-              scope: %i[option_group]
+              scope: %i[option_group_id]
             }
 
   # 3) Domain fields

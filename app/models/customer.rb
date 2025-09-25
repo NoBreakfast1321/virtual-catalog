@@ -39,13 +39,13 @@ class Customer < ApplicationRecord
 
   # 2) Identifiers / business keys
   validates :token,
+            presence: true,
             length: {
               is: 36
             },
             uniqueness: {
               scope: %i[catalog_id]
-            },
-            allow_blank: true
+            }
 
   validates :email,
             "valid_email_2/email": true,
@@ -77,8 +77,11 @@ class Customer < ApplicationRecord
   # 5) Domain temporal attributes
   # (none here)
 
-  before_validation :normalize_email
-  before_validation :normalize_phone
+  before_validation :normalize_email,
+                    if: -> { email_changed? && email.present? }
+
+  before_validation :normalize_phone,
+                    if: -> { phone_changed? && phone.present? }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[email phone name created_at updated_at]
@@ -87,10 +90,16 @@ class Customer < ApplicationRecord
   private
 
   def normalize_email
-    self.email = email.to_s.downcase.strip.presence
+    normalized = email.to_s.downcase.strip.presence
+
+    return if email == normalized
+
+    self.email = normalized
   end
 
   def normalize_phone
-    self.phone = Phonelib.parse(phone).sanitized.presence
+    parsed = Phonelib.parse(phone)
+
+    self.phone = parsed.valid? ? parsed.sanitized.presence : nil
   end
 end

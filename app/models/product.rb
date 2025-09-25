@@ -173,24 +173,24 @@ class Product < ApplicationRecord
     %w[categories]
   end
 
-  def primary_variant
-    variants.find_by!(primary: true)
+  def available?
+    return true if available_from.blank?
+
+    available_from <= Time.current
+  end
+
+  def expired?
+    return false if available_until.blank?
+
+    available_until < Time.current
   end
 
   def active?
     visible? && available? && !expired?
   end
 
-  def available?
-    return true unless available_from.present?
-
-    available_from <= Time.current
-  end
-
-  def expired?
-    return false unless available_until.present?
-
-    available_until < Time.current
+  def primary_variant
+    variants.find_by!(primary: true)
   end
 
   private
@@ -198,8 +198,8 @@ class Product < ApplicationRecord
   def generate_slug
     self.slug = name.parameterize[0..149]
 
-    unless slug.present?
-      errors.add(:name, :cannot_be_used_to_generate_valid_slug)
+    if slug.blank?
+      errors.add(:name, :cannot_generate_slug)
 
       throw(:abort)
     end
