@@ -1,0 +1,82 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - Simple with dismiss button: https://tailwindcss.com/plus/ui-blocks/application-ui/overlays/modal-dialogs#component-f89a7babb527a1909590ce2fa868a45d
+ * - Simple with gray footer: https://tailwindcss.com/plus/ui-blocks/application-ui/overlays/modal-dialogs#component-b6812b6c13fff16861f2645c4100ae5b
+ *
+ * Usage:
+ *
+ * <div data-controller="disclosure">
+ *   <button data-action="click->disclosure#show">Deactivate account</button>
+ *
+ *   <dialog data-disclosure-target="dialog" class="modal">
+ *     <button data-action="click->disclosure#close" class="modal__close-button">
+ *       <i class="ri-close-line size-6"></i>
+ *     </button>
+ *
+ *     <div class="modal__body">
+ *       <div class="modal__icon-container modal__icon-container--alert">
+ *         <i class="ri-error-warning-line"></i>
+ *       </div>
+ *
+ *       <div class="modal__content">
+ *         <h3 class="modal__title">Deactivate account</h3>
+ *         <p class="modal__description">
+ *           Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.
+ *         </p>
+ *       </div>
+ *     </div>
+ *
+ *     <footer class="modal__footer">
+ *       <button class="button" data-action="click->disclosure#close">
+ *         Cancel
+ *       </button>
+ *       <button
+ *         class="button button--danger"
+ *         data-action="click->disclosure#close"
+ *       >
+ *         Deactivate
+ *       </button>
+ *     </footer>
+ *   </dialog>
+ * </div>
+ *
+ */
+
+@layer components {
+  .modal {
+    @apply sm:min-w-auto sm:w-128 fixed bottom-4 mx-4 mt-auto min-w-[calc(100%_-_--spacing(8))] rounded-lg bg-white backdrop:bg-gray-500/75 sm:m-auto;
+  }
+
+  .modal__close-button {
+    @apply text-2xl/1 absolute right-4 top-4 size-6 rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600;
+  }
+
+  .modal__body {
+    @apply flex flex-col p-6 pb-4 text-center sm:flex-row sm:gap-4 sm:text-left;
+  }
+
+  .modal__icon-container {
+    @apply text-2xl/1 mx-auto flex size-12 shrink-0 items-center justify-center self-start rounded-full bg-green-100 p-2 text-green-600 sm:size-10;
+  }
+
+  .modal__icon-container--alert {
+    @apply bg-red-100 text-red-600;
+  }
+
+  .modal__content {
+    @apply mt-3 sm:mt-0;
+  }
+
+  .modal__title {
+    @apply text-base font-semibold text-gray-900;
+  }
+
+  .modal__description {
+    @apply mt-2 text-sm text-gray-500;
+  }
+
+  .modal__footer {
+    @apply flex flex-col-reverse gap-3 bg-gray-50 px-6 py-3 sm:flex-row sm:justify-end;
+  }
+}
