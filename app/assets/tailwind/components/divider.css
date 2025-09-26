@@ -6,6 +6,8 @@
  *
  */
 
-.divider {
-  @apply my-4 border-t border-gray-200;
+@layer components {
+  .divider {
+    @apply my-4 border-t border-gray-200;
+  }
 }
