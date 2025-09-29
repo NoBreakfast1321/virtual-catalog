@@ -45,7 +45,7 @@
 
 @layer components {
   .modal {
-    @apply sm:min-w-auto sm:w-128 fixed bottom-4 mx-4 mt-auto min-w-[calc(100%_-_--spacing(8))] rounded-lg bg-white backdrop:bg-gray-500/75 sm:m-auto;
+    @apply sm:w-128 fixed bottom-4 mx-4 mt-auto max-w-none rounded-lg bg-white backdrop:bg-gray-500/75 sm:m-auto;
   }
 
   .modal__close-button {
