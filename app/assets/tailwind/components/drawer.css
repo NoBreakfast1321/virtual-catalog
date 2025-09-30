@@ -1,0 +1,61 @@
+/*
+ *
+ * This component is a combination of the following examples:
+ * - With background overlay: https://tailwindcss.com/plus/ui-blocks/application-ui/overlays/drawers#component-05a1aec573d7b5cd3909323c6db6723f
+ * - With sticky footer: https://tailwindcss.com/plus/ui-blocks/application-ui/overlays/drawers#component-bd24b64e64a3f09b44de0dde1b76e28f
+ * - Contact list example: https://tailwindcss.com/plus/ui-blocks/application-ui/overlays/drawers#component-25da9793d85eab488fced233a57c92ac
+ *
+ * Usage:
+ *
+ * <div data-controller="disclosure">
+ *   <button class="button" data-action="click->disclosure#show">
+ *     <i class="ri-menu-line"></i>
+ *   </button>
+ *
+ *   <dialog data-disclosure-target="dialog" class="drawer">
+ *     <header class="drawer__header">
+ *       <h2 class="drawer__title">Panel title title title title title title title title title title title title title title title title </h2>
+ *
+ *       <button data-action="click->disclosure#close" class="drawer__close-button">
+ *         <i class="ri-close-line"></i>
+ *       </button>
+ *     </header>
+ *
+ *     <div class="drawer__body">
+ *       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+ *     </div>
+ *
+ *     <footer class="drawer__footer">
+ *       <button data-action="click->disclosure#close" class="button">Cancel</button>
+ *       <button class="button button--action">Save</button>
+ *     </footer>
+ *   </dialog>
+ * </div>
+ *
+ */
+
+@layer components {
+  .drawer {
+    @apply sm:w-128 fixed right-0 ml-auto flex h-full max-h-none w-[calc(100%_-_--spacing(10))] max-w-none flex-col bg-white shadow-xl backdrop:bg-gray-500/75;
+  }
+
+  .drawer__header {
+    @apply flex items-center justify-between gap-6 p-6;
+  }
+
+  .drawer__close-button {
+    @apply text-2xl/1 size-6 self-start rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600;
+  }
+
+  .drawer__title {
+    @apply text-base font-semibold text-gray-900;
+  }
+
+  .drawer__body {
+    @apply flex-1 overflow-y-auto px-6 pb-6;
+  }
+
+  .drawer__footer {
+    @apply flex justify-end gap-4 border-t border-gray-200 p-4;
+  }
+}

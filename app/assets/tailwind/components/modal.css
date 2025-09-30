@@ -11,7 +11,7 @@
  *
  *   <dialog data-disclosure-target="dialog" class="modal">
  *     <button data-action="click->disclosure#close" class="modal__close-button">
- *       <i class="ri-close-line size-6"></i>
+ *       <i class="ri-close-line"></i>
  *     </button>
  *
  *     <div class="modal__body">
@@ -45,7 +45,7 @@
 
 @layer components {
   .modal {
-    @apply sm:w-128 fixed bottom-4 mx-4 mt-auto max-w-none rounded-lg bg-white backdrop:bg-gray-500/75 sm:m-auto;
+    @apply sm:w-128 fixed bottom-4 mx-4 mt-auto max-w-none rounded-lg bg-white shadow-xl backdrop:bg-gray-500/75 sm:m-auto;
   }
 
   .modal__close-button {

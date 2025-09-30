@@ -1,5 +1,30 @@
 <% content_for :title, "Catalogs" %>
 
+<div data-controller="disclosure">
+  <button class="button" data-action="click->disclosure#show">
+    <i class="ri-menu-line"></i>
+  </button>
+
+  <dialog data-disclosure-target="dialog" class="drawer">
+    <header class="drawer__header">
+      <h2 class="drawer__title">Panel title title title title title title title title title title title title title title title title </h2>
+
+      <button data-action="click->disclosure#close" class="drawer__close-button">
+        <i class="ri-close-line"></i>
+      </button>
+    </header>
+
+    <div class="drawer__body">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
+
+    <footer class="drawer__footer">
+      <button data-action="click->disclosure#close" class="button">Cancel</button>
+      <button class="button button--action">Save</button>
+    </footer>
+  </dialog>
+</div>
+
 <details class="card">
   <summary class="card__header">
     <h2 class="card__heading">Catalogs Filters</h2>
