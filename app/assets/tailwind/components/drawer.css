@@ -39,6 +39,10 @@
     @apply sm:w-128 fixed right-0 ml-auto flex h-full max-h-none w-[calc(100%_-_--spacing(10))] max-w-none flex-col bg-white shadow-xl backdrop:bg-gray-500/75;
   }
 
+  .drawer--left {
+    @apply left-0 right-auto mr-auto;
+  }
+
   .drawer__header {
     @apply flex items-center justify-between gap-6 p-6;
   }
